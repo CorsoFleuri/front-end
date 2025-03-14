@@ -1,0 +1,248 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Calibri, sans-serif;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #FFFFFF;
+    overflow: hidden;
+}
+
+.header {
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    padding: 20px;
+    background-color: #4060AD;
+}
+
+.header img {
+    height: 100px;
+}
+
+.main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 50px;
+    flex-wrap: wrap;
+    flex-grow: 1;
+    padding: 20px;
+}
+
+.menu {
+    background-color: #FFF;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 300px;
+    max-width: 90%;
+}
+
+.menu img {
+    max-width: 100%;
+    border-radius: 10px;
+    margin-bottom: 15px;
+}
+
+.menu h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+    color: #2ABECC;
+}
+
+.menu p {
+    font-size: 16px;
+    margin-bottom: 15px;
+    color: #159CD6;
+}
+
+.menu .price {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    color: #EE6F5C;
+}
+
+.menu button {
+    background-color: #943A20;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: background 0.3s, transform 0.3s;
+}
+
+.menu button:hover {
+    background-color: #943A20;
+    transform: scale(1.05);
+}
+
+.footer {
+    width: 100%;
+    padding: 20px;
+    background-color: #4060AD;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.footer img {
+    height: 50px;
+    cursor: pointer;
+}
+
+.cart {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    width: 300px;
+    max-width: 90%;
+    background-color: #FFFFFF;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    display: none;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.cart .cart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 18px;
+    font-weight: bold;
+    color: #4060AD;
+}
+
+.cart .cart-header button {
+    background-color: #EE6F5C;
+    color: white;
+    padding: 5px 10px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 14px;
+    transition: background 0.3s, transform 0.3s;
+}
+
+.cart .cart-header button:hover {
+    background-color: #943A20;
+    transform: scale(1.05);
+}
+
+.cart .cart-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #F0F0F0;
+    padding: 10px 0;
+}
+
+.cart .cart-item span {
+    flex: 1;
+    text-align: center;
+}
+
+.cart .cart-total {
+    font-size: 20px;
+    font-weight: bold;
+    color: #EE6F5C;
+    text-align: right;
+    margin-top: 10px;
+}
+
+.cart .cart-checkout {
+    background-color: #943A20;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: background 0.3s, transform 0.3s;
+    margin-top: 10px;
+    align-self: flex-end;
+}
+
+.cart .cart-checkout:hover {
+    background-color: #943A20;
+    transform: scale(1.05);
+}
+
+@media (max-width: 768px) {
+    .main {
+        gap: 30px;
+    }
+
+    .header img {
+        height: 80px;
+    }
+
+    .footer img {
+        height: 40px;
+    }
+
+    .menu h2 {
+        font-size: 20px;
+    }
+
+    .menu p {
+        font-size: 14px;
+    }
+
+    .menu .price {
+        font-size: 18px;
+    }
+
+    .menu button {
+        font-size: 14px;
+        padding: 8px 12px;
+    }
+}
+
+@media (max-width: 480px) {
+    .main {
+        padding: 10px;
+    }
+
+    .header img {
+        height: 60px;
+    }
+
+    .footer img {
+        height: 30px;
+    }
+
+    .menu {
+        width: 100%;
+    }
+
+    .menu h2 {
+        font-size: 18px;
+    }
+
+    .menu p {
+        font-size: 12px;
+    }
+
+    .menu .price {
+        font-size: 16px;
+    }
+
+    .menu button {
+        font-size: 12px;
+        padding: 6px 10px;
+    }
+}

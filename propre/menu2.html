@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu Gourmand</title>
+    <link rel="stylesheet" href="menu2.css">
+</head>
+<body>
+    <script src="menu2.js"></script>
+
+
+    <div class="header">
+        <img src="logo.png" alt="Logo">
+    </div>
+
+    <div class="back-button-container">
+        <a href="#" class="back-button">Retour</a>
+    </div>
+
+    <div class="main">
+        <div class="choices">
+            <h2>Choisissez vos options</h2>
+            <ul>
+                <li><button onclick="showOptions('Dessert')">Dessert</button></li>
+                <li><button onclick="showOptions('Plat')">Plat</button></li>
+                <li><button onclick="showOptions('Frite')">Frite</button></li>
+                <li><button onclick="showOptions('Soft')">Soft</button></li>
+                <li><button onclick="showOptions('Boisson')">Boisson</button></li>
+                <li><button onclick="showOptions('Salade')">Salade</button></li>
+                <!-- Ajoutez plus de choix ici si nécessaire -->
+            </ul>
+        </div>
+
+        <div class="content">
+            <div class="section" id="options-section">
+                <h2 id="options-title">Choisissez un Dessert</h2>
+                <ul id="options-list">
+                    <!-- Les options apparaîtront ici -->
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="section fixed-section" id="selected-items-section">
+        <h2>Éléments ajoutés</h2>
+        <ul id="selected-items-list">
+            <!-- Les éléments ajoutés apparaîtront ici -->
+        </ul>
+        <button class="validate-button">Valider le panier</button>
+    </div>
+
+    <div class="footer">
+        <img src="panier.png" alt="Panier">
+    </div>
+</body>
+</html>

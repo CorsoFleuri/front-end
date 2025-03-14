@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Produits</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="produit.css">
+</head>
+<body>
+    <div class="sidebar">
+        <div class="menu">
+            <a href="#"><i class="fas fa-home icon"></i>Menu</a>
+            <a href="#"><i class="fas fa-box-open icon"></i>Produit</a>
+            <a href="#"><i class="fas fa-users icon"></i>Utilisateurs</a>
+            <a href="#"><i class="fas fa-cogs icon"></i>Paramètres</a>
+            <a href="#"><i class="fas fa-cash-register icon"></i>Caisse</a>
+            <a href="#"><i class="fas fa-utensils icon"></i>Vue Cuisine</a>
+            <a href="#"><i class="fas fa-file-alt icon"></i>Log</a>
+        </div>
+    </div>
+
+    <div class="main-container">
+        <div class="header">
+            <div>
+                <input type="text" placeholder="Chercher un produit...">
+                <button class="btn-ajouter">Ajouter un produit</button>
+            </div>
+        </div>
+
+        <div class="content">
+            <!-- Exemple de produit -->
+            <div class="produit-card">
+                <img src="produit1.png" alt="Produit 1">
+                <h2>Produit 1</h2>
+                <div class="details">
+                    <p>Stock: 10</p>
+                    <p>Prix: 15.00€</p>
+                </div>
+                <button class="btn-activation">Activer</button>
+                <!-- Ou -->
+                <!-- <button class="btn-desactivation">Désactiver</button> -->
+            </div>
+            <!-- Vous pouvez dupliquer cette section pour chaque produit -->
+        </div>
+    </div>
+</body>
+</html>
