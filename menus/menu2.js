@@ -52,7 +52,6 @@ function addItem(item, listId) {
     listItem.innerHTML = `${item} <button class="remove-button" onclick="removeItem(this)">Supprimer</button>`;
     document.getElementById(listId).appendChild(listItem);
 
-    // Clear the options section
     const optionsList = document.getElementById('options-list');
     optionsList.innerHTML = '';
     const optionsTitle = document.getElementById('options-title');
