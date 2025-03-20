@@ -22,6 +22,13 @@ class PasswordToggle {
             .then(response => response.json())
             .then(data => {
                 const table = document.querySelector('.table');
+                table.innerHTML = `
+                    <tr>
+                        <th>Nom</th>
+                        <th>Password</th>
+                        <th>Actions</th>
+                    </tr>
+                `; 
                 data.forEach(user => {
                     const row = document.createElement('tr');
                     row.innerHTML = `
@@ -33,8 +40,8 @@ class PasswordToggle {
                             </div>
                         </td>
                         <td>
-                            <button class="btn">Modifier</button>
-                            <button class="btn btn-danger">Supprimer</button>
+                            <button class="btn modifier-btn" data-id="${user.id}">Modifier</button>
+                            <button class="btn btn-danger supprimer-btn" data-id="${user.id}">Supprimer</button>
                         </td>
                     `;
                     table.appendChild(row);
@@ -49,12 +56,13 @@ class PasswordToggle {
             new PasswordToggle(icon);
         });
 
-        // Modal logic
         const modal = document.getElementById("modal");
         const btn = document.getElementById("btn-ajouter");
         const span = document.getElementsByClassName("close")[0];
 
         btn.onclick = function() {
+            document.querySelector('.modal h2').textContent = "Ajouter un Utilisateur";
+            document.getElementById('user-form').removeAttribute('data-id');
             modal.style.display = "block";
         }
 
@@ -68,16 +76,52 @@ class PasswordToggle {
             }
         }
 
+        document.querySelector('.table').addEventListener('click', (event) => {
+            if (event.target.classList.contains('modifier-btn')) {
+                const userId = event.target.getAttribute('data-id');
+                fetch(`http://api-corso-fleuri.local/users/${userId}`)
+                    .then(response => response.json())
+                    .then(user => {
+                        document.getElementById('name').value = user.name;
+                        document.getElementById('password').value = user.password;
+                        document.getElementById('is_admin').checked = user.is_admin;
+                        document.getElementById('user-form').setAttribute('data-id', userId);
+                        document.querySelector('.modal h2').textContent = "Modifier un Utilisateur";
+                        modal.style.display = "block";
+                    })
+                    .catch(error => console.error('Error fetching user data:', error));
+            }
+
+            if (event.target.classList.contains('supprimer-btn')) {
+                const userId = event.target.getAttribute('data-id');
+                if (confirm("Êtes-vous sûr de vouloir supprimer cet utilisateur ?")) {
+                    fetch(`http://api-corso-fleuri.local/users/delete/${userId}`, {
+                        method: 'DELETE'
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log('Success:', data);
+                        PasswordToggle.fetchUserData(); 
+                    })
+                    .catch(error => console.error('Error:', error));
+                }
+            }
+        });
+
         const buttonSubmit = document.querySelector('.btn222222');
 
         buttonSubmit.addEventListener('click', event => {
             event.preventDefault();
             const form = document.querySelector('#user-form');
             const formData = new FormData(form);
+            const userId = form.getAttribute('data-id');
             const check = document.querySelector('#is_admin');
 
-            fetch('http://api-corso-fleuri.local/users/add', {
-                method: 'POST',
+            const method = userId ? 'PUT' : 'POST';
+            const url = userId ? `http://api-corso-fleuri.local/users/update/${userId}` : 'http://api-corso-fleuri.local/users/add';
+
+            fetch(url, {
+                method: method,
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
                 },
@@ -87,24 +131,21 @@ class PasswordToggle {
             .then(data => {
                 console.log('Success:', data);
                 modal.style.display = "none";
-                PasswordToggle.fetchUserData(); // Refresh the user list
+                PasswordToggle.fetchUserData(); 
             })
             .catch(error => console.error('Error:', error));
-        })
-       
+        });
     }
 }
 
-// Example data to test the functionality
 const exampleData = [
-    { name: "Jean Dupont", password: "password123" },
-    { name: "Marie Curie", password: "password456" },
-    { name: "Albert Einstein", password: "password789" },
-    { name: "Isaac Newton", password: "gravity123" },
-    { name: "Niels Bohr", password: "quantum456" }
+    { id: 1, name: "Jean Dupont", password: "password123", is_admin: false },
+    { id: 2, name: "Marie Curie", password: "password456", is_admin: true },
+    { id: 3, name: "Albert Einstein", password: "password789", is_admin: false },
+    { id: 4, name: "Isaac Newton", password: "gravity123", is_admin: true },
+    { id: 5, name: "Niels Bohr", password: "quantum456", is_admin: false }
 ];
 
-// Function to simulate fetching data from the backend
 function simulateFetchUserData() {
     return new Promise((resolve) => {
         setTimeout(() => {
@@ -113,11 +154,17 @@ function simulateFetchUserData() {
     });
 }
 
-// Use the simulated fetch function instead of the real one for testing
 PasswordToggle.fetchUserData = function() {
     simulateFetchUserData()
         .then(data => {
             const table = document.querySelector('.table');
+            table.innerHTML = `
+                <tr>
+                    <th>Nom</th>
+                    <th>Password</th>
+                    <th>Actions</th>
+                </tr>
+            `; 
             data.forEach(user => {
                 const row = document.createElement('tr');
                 row.innerHTML = `
@@ -129,8 +176,8 @@ PasswordToggle.fetchUserData = function() {
                         </div>
                     </td>
                     <td>
-                        <button class="btn">Modifier</button>
-                        <button class="btn btn-danger">Supprimer</button>
+                        <button class="btn modifier-btn" data-id="${user.id}">Modifier</button>
+                        <button class="btn btn-danger supprimer-btn" data-id="${user.id}">Supprimer</button>
                     </td>
                 `;
                 table.appendChild(row);
@@ -140,5 +187,4 @@ PasswordToggle.fetchUserData = function() {
         .catch(error => console.error('Error fetching user data:', error));
 };
 
-// Run the fetch user data function to populate the table
 PasswordToggle.fetchUserData();
