@@ -49,6 +49,7 @@ class PasswordToggle {
             new PasswordToggle(icon);
         });
 
+        // Modal logic
         const modal = document.getElementById("modal");
         const btn = document.getElementById("btn-ajouter");
         const span = document.getElementsByClassName("close")[0];
@@ -86,7 +87,7 @@ class PasswordToggle {
             .then(data => {
                 console.log('Success:', data);
                 modal.style.display = "none";
-                PasswordToggle.fetchUserData(); 
+                PasswordToggle.fetchUserData(); // Refresh the user list
             })
             .catch(error => console.error('Error:', error));
         })
@@ -94,6 +95,25 @@ class PasswordToggle {
     }
 }
 
+// Example data to test the functionality
+const exampleData = [
+    { name: "Jean Dupont", password: "password123" },
+    { name: "Marie Curie", password: "password456" },
+    { name: "Albert Einstein", password: "password789" },
+    { name: "Isaac Newton", password: "gravity123" },
+    { name: "Niels Bohr", password: "quantum456" }
+];
+
+// Function to simulate fetching data from the backend
+function simulateFetchUserData() {
+    return new Promise((resolve) => {
+        setTimeout(() => {
+            resolve(exampleData);
+        }, 1000);
+    });
+}
+
+// Use the simulated fetch function instead of the real one for testing
 PasswordToggle.fetchUserData = function() {
     simulateFetchUserData()
         .then(data => {
@@ -120,4 +140,5 @@ PasswordToggle.fetchUserData = function() {
         .catch(error => console.error('Error fetching user data:', error));
 };
 
+// Run the fetch user data function to populate the table
 PasswordToggle.fetchUserData();
