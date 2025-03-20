@@ -57,8 +57,9 @@ class PasswordToggle {
         });
 
         const modal = document.getElementById("modal");
+        const confirmModal = document.getElementById("confirm-modal");
         const btn = document.getElementById("btn-ajouter");
-        const span = document.getElementsByClassName("close")[0];
+        const span = document.getElementsByClassName("close");
 
         btn.onclick = function() {
             document.querySelector('.modal h2').textContent = "Ajouter un Utilisateur";
@@ -66,13 +67,17 @@ class PasswordToggle {
             modal.style.display = "block";
         }
 
-        span.onclick = function() {
-            modal.style.display = "none";
-        }
+        Array.from(span).forEach(element => {
+            element.onclick = function() {
+                element.closest('.modal').style.display = "none";
+            }
+        });
 
         window.onclick = function(event) {
             if (event.target == modal) {
                 modal.style.display = "none";
+            } else if (event.target == confirmModal) {
+                confirmModal.style.display = "none";
             }
         }
 
@@ -94,16 +99,21 @@ class PasswordToggle {
 
             if (event.target.classList.contains('supprimer-btn')) {
                 const userId = event.target.getAttribute('data-id');
-                if (confirm("Êtes-vous sûr de vouloir supprimer cet utilisateur ?")) {
+                confirmModal.style.display = "block";
+                document.getElementById('confirm-delete').onclick = function() {
                     fetch(`http://api-corso-fleuri.local/users/delete/${userId}`, {
                         method: 'DELETE'
                     })
                     .then(response => response.json())
                     .then(data => {
                         console.log('Success:', data);
+                        confirmModal.style.display = "none";
                         PasswordToggle.fetchUserData(); 
                     })
                     .catch(error => console.error('Error:', error));
+                }
+                document.getElementById('cancel-delete').onclick = function() {
+                    confirmModal.style.display = "none";
                 }
             }
         });

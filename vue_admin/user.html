@@ -55,8 +55,19 @@
                 <input type="password" id="password" name="password" required><br><br>
                 <label for="is_admin">Administrateur:</label>
                 <input type="checkbox" id="is_admin" name="is_admin"><br><br>
-                <button type="button" class="btn btn222222">Valider</button>
+                <button type="button" class="btn btn-primary">Valider</button>
             </form>
+        </div>
+    </div>
+
+    <!-- Confirmation Modal -->
+    <div id="confirm-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Confirmation de Suppression</h2>
+            <p>Êtes-vous sûr de vouloir supprimer cet utilisateur ?</p>
+            <button id="confirm-delete" class="btn btn-danger">Supprimer</button>
+            <button id="cancel-delete" class="btn btn-secondary">Annuler</button>
         </div>
     </div>
 

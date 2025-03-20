@@ -139,6 +139,22 @@ body {
     background-color: #C82333;
 }
 
+.btn-primary {
+    background-color: #007BFF;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+}
+
+.btn-secondary {
+    background-color: #6C757D;
+}
+
+.btn-secondary:hover {
+    background-color: #5A6268;
+}
+
 .password-container {
     display: flex;
     align-items: center;
@@ -155,14 +171,6 @@ body {
     margin-left: 10px;
     cursor: pointer;
 }
-
-
-
-
-
-
-
-
 
 .modal {
     display: none;
@@ -215,10 +223,16 @@ body {
     text-align: center;
 }
 
+.modal p {
+    margin-bottom: 20px;
+    text-align: center;
+    color: #555;
+}
+
 .modal form {
     display: flex;
     flex-direction: column;
-    gap: 10px; /* Reduced gap between elements */
+    gap: 10px;
 }
 
 .modal label {
