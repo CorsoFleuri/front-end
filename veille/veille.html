@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Veille</title>
+    <link rel="stylesheet" href="connexion.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Barlow+Black&family=Calibri&display=swap');
+        
+        body {
+            font-family: 'Calibri', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #EB1553;
+            background-image: url('texture.png'); /* Ajout d'une texture de fond */
+            background-size: cover;
+            margin: 0;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        .veille-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            width: 100%;
+            text-align: center;
+        }
+
+        .logo {
+            width: 100px;
+            margin-bottom: 20px;
+        }
+
+        .welcome-message {
+            color: #FFFFFF;
+            font-size: 30px;
+            font-family: 'Barlow Black', sans-serif;
+            margin-bottom: 20px;
+        }
+
+        .veille-message {
+            background: #FFFFFF;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 350px;
+            color: #4060AD;
+            font-size: 24px;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            font-family: 'Barlow Black', sans-serif;
+            animation: pulse 2s infinite;
+        }
+
+        .veille-message:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .menu-images {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .menu-images img {
+            width: 100px;
+            height: 100px;
+            margin: 10px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .menu-images img:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+    <div class="veille-container">
+        <img src="../assets/logo.png" alt="Logo" class="logo"> <!-- Ajout d'un logo -->
+        <div class="welcome-message">Bienvenue à Corso Fleuri Donnery</div>
+        <div class="veille-message" onclick="location.href='../../connexion/connexion.html'">
+            Touchez l'écran pour continuer
+        </div>
+        <div class="menu-images">
+            <img src="menu1.png" alt="Menu 1"> <!-- Ajout d'image de menu -->
+            <img src="menu2.png" alt="Menu 2"> <!-- Ajout d'image de menu -->
+        </div>
+    </div>
+</body>
+</html>
