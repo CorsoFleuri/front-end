@@ -19,14 +19,8 @@ class PasswordToggle {
 
     static fetchUserData() {
         fetch('http://api-corso-fleuri.local/users')
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok' + response.statusText);
-                }
-                return response.json();
-            })
+            .then(response => response.json())
             .then(data => {
-                console.log('Fetched user data:', data); // Log the fetched data
                 const table = document.querySelector('.table');
                 table.innerHTML = `
                     <tr>
@@ -143,5 +137,54 @@ class PasswordToggle {
         });
     }
 }
+
+const exampleData = [
+    { id: 1, name: "Jean Dupont", password: "password123", is_admin: false },
+    { id: 2, name: "Marie Curie", password: "password456", is_admin: true },
+    { id: 3, name: "Albert Einstein", password: "password789", is_admin: false },
+    { id: 4, name: "Isaac Newton", password: "gravity123", is_admin: true },
+    { id: 5, name: "Niels Bohr", password: "quantum456", is_admin: false }
+];
+
+function simulateFetchUserData() {
+    return new Promise((resolve) => {
+        setTimeout(() => {
+            resolve(exampleData);
+        }, 1000);
+    });
+}
+
+PasswordToggle.fetchUserData = function() {
+    simulateFetchUserData()
+        .then(data => {
+            const table = document.querySelector('.table');
+            table.innerHTML = `
+                <tr>
+                    <th>Nom</th>
+                    <th>Password</th>
+                    <th>Actions</th>
+                </tr>
+            `; 
+            data.forEach(user => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${user.name}</td>
+                    <td>
+                        <div class="password-container">
+                            <input type="password" value="${user.password}" readonly>
+                            <i class="fas fa-eye"></i>
+                        </div>
+                    </td>
+                    <td>
+                        <button class="btn modifier-btn" data-id="${user.id}">Modifier</button>
+                        <button class="btn btn-danger supprimer-btn" data-id="${user.id}">Supprimer</button>
+                    </td>
+                `;
+                table.appendChild(row);
+            });
+            PasswordToggle.initialize();
+        })
+        .catch(error => console.error('Error fetching user data:', error));
+};
 
 PasswordToggle.fetchUserData();
