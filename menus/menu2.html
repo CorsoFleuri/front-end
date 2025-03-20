@@ -9,13 +9,12 @@
 <body>
     <script src="menu2.js"></script>
 
-
     <div class="header">
-        <img src="logo.png" alt="Logo">
+        <img src="../assets/logo.png" alt="Logo">
     </div>
 
     <div class="back-button-container">
-        <a href="#" class="back-button">Retour</a>
+        <a href="/borne/borne_panier.html" class="back-button">Retour</a>
     </div>
 
     <div class="main">
@@ -28,7 +27,6 @@
                 <li><button onclick="showOptions('Soft')">Soft</button></li>
                 <li><button onclick="showOptions('Boisson')">Boisson</button></li>
                 <li><button onclick="showOptions('Salade')">Salade</button></li>
-                <!-- Ajoutez des choix ici-->
             </ul>
         </div>
 
@@ -44,13 +42,24 @@
     <div class="section fixed-section" id="selected-items-section">
         <h2>Éléments ajoutés</h2>
         <ul id="selected-items-list">
-            <!--éléments ajoutés ici -->
         </ul>
-        <button class="validate-button">Valider le panier</button>
+        <button class="validate-button" onclick="validateCart()">Ajouter au panier</button>
     </div>
 
     <div class="footer">
-        <img src="panier.png" alt="Panier">
+        <img src="../assets/panier.png" alt="Panier" onclick="showCart()">
+    </div>
+
+    <div class="cart" id="cart">
+        <div class="cart-header">
+            <span>Panier</span>
+            <button class="close-cart" onclick="toggleCart()">Fermer</button>
+        </div>
+        <div id="cart-items" class="cart-items">
+        </div>
+        <div class="cart-total" id="cart-total">
+        </div>
+        <button class="cart-checkout">Payer</button>
     </div>
 </body>
 </html>

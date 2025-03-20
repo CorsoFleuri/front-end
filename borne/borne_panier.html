@@ -10,7 +10,7 @@
     <script src="borne_panier.js"></script>
 
     <div class="header">
-        <img src="logo.png" alt="Logo">
+        <img src="../assets/logo.png" alt="Logo">
     </div>
 
     <div class="main">
@@ -19,7 +19,7 @@
             <h2>Menu 1</h2>
             <p>Description courte du Menu 1.</p>
             <div class="price">10.00€</div>
-            <button onclick="addToCart('Menu 1', 10.00)">Sélectionner</button>
+            <button onclick="redirectToMenuPage('../../menus/menu1.html')">Sélectionner</button>
         </div>
         
         <div class="menu">
@@ -27,12 +27,12 @@
             <h2>Menu 2</h2>
             <p>Description courte du Menu 2.</p>
             <div class="price">12.00€</div>
-            <button onclick="addToCart('Menu 2', 12.00)">Sélectionner</button>
+            <button onclick="redirectToMenuPage('../../menus/menu2.html')">Sélectionner</button>
         </div>
     </div>
 
     <div class="footer">
-        <img src="panier.png" alt="Panier" onclick="toggleCart()">
+        <img src="../assets/panier.png" alt="Panier" onclick="toggleCart()">
     </div>
 
     <div class="cart" id="cart">

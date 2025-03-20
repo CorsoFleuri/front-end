@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html lang="fr">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Log</title>
+    <title>Gestion des Utilisateurs</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="log.css">
+    <link rel="stylesheet" href="user.css">
 </head>
-
 <body>
+    <script src="user.js"></script>
+
     <div class="sidebar">
         <div class="menu">
             <a href="./create_menu.html"><i class="fas fa-home icon"></i>Menu</a>
@@ -24,31 +24,41 @@
 
     <div class="main-container">
         <div class="header">
-            <h1>Log</h1>
+            <h1>Gestion des Utilisateurs</h1>
+            <button class="btn-ajouter" id="btn-ajouter">Ajouter un utilisateur</button>
         </div>
 
         <div class="content">
-            <div class="stats-section">
-                <h2>Statistiques</h2>
-                <div class="stats">
-                    <div class="stat">
-                        <h3>Produits les plus vendus</h3>
-                        <ul>
-                            <!-- Les produits seront ajoutés ici par le JavaScript -->
-                        </ul>
-                    </div>
-                    <div class="stat">
-                        <h3>Caisses les plus rapides</h3>
-                        <ul>
-                            <!-- Les caisses seront ajoutés ici par le JavaScript -->
-                        </ul>
-                    </div>
-                </div>
+            <div class="liste-utilisateurs">
+                <h2>Liste des Utilisateurs</h2>
+                <table class="table">
+                    <tr>
+                        <th>Nom</th>
+                        <th>Password</th>
+                        <th>Actions</th>
+                    </tr>
+                    <!-- Les utilisateurs seront insérés ici dynamiquement -->
+                </table>
             </div>
         </div>
     </div>
 
-    <script src="log.js"></script>
-</body>
+    <!-- Formulaire Modal -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Ajouter un Utilisateur</h2>
+            <form id="user-form">
+                <label for="name">Nom:</label>
+                <input type="text" id="name" name="name" required><br><br>
+                <label for="password">Mot de passe:</label>
+                <input type="password" id="password" name="password" required><br><br>
+                <label for="is_admin">Administrateur:</label>
+                <input type="checkbox" id="is_admin" name="is_admin"><br><br>
+                <button type="button" class="btn btn222222">Valider</button>
+            </form>
+        </div>
+    </div>
 
+</body>
 </html>
