@@ -28,8 +28,8 @@ class PasswordToggle {
                         <th>Password</th>
                         <th>Actions</th>
                     </tr>
-                `; 
-                data.forEach(user => {
+                `;
+                JSON.parse(data.body).forEach(user => {
                     const row = document.createElement('tr');
                     row.innerHTML = `
                         <td>${user.name}</td>
@@ -87,9 +87,9 @@ class PasswordToggle {
                 fetch(`http://api-corso-fleuri.local/users/${userId}`)
                     .then(response => response.json())
                     .then(user => {
-                        document.getElementById('name').value = user.name;
-                        document.getElementById('password').value = user.password;
-                        document.getElementById('is_admin').checked = user.is_admin;
+                        document.getElementById('name').value = JSON.parse(user.body).name;
+                        document.getElementById('password').value = JSON.parse(user.body).password;
+                        document.getElementById('is_admin').checked = JSON.parse(user.body).is_admin;
                         document.getElementById('user-form').setAttribute('data-id', userId);
                         document.querySelector('.modal h2').textContent = "Modifier un Utilisateur";
                         modal.style.display = "block";
@@ -118,16 +118,14 @@ class PasswordToggle {
             }
         });
 
-        const buttonSubmit = document.querySelector('.btn222222');
-
-        buttonSubmit.addEventListener('click', event => {
+        document.querySelector('#validBtn').addEventListener('click', event => {
             event.preventDefault();
             const form = document.querySelector('#user-form');
             const formData = new FormData(form);
             const userId = form.getAttribute('data-id');
             const check = document.querySelector('#is_admin');
 
-            const method = userId ? 'PUT' : 'POST';
+            const method = 'POST';
             const url = userId ? `http://api-corso-fleuri.local/users/edit/${userId}` : 'http://api-corso-fleuri.local/users/add';
 
             fetch(url, {
@@ -147,54 +145,5 @@ class PasswordToggle {
         });
     }
 }
-
-const exampleData = [
-    { id: 1, name: "Jean Dupont", password: "password123", is_admin: false },
-    { id: 2, name: "Marie Curie", password: "password456", is_admin: true },
-    { id: 3, name: "Albert Einstein", password: "password789", is_admin: false },
-    { id: 4, name: "Isaac Newton", password: "gravity123", is_admin: true },
-    { id: 5, name: "Niels Bohr", password: "quantum456", is_admin: false }
-];
-
-function simulateFetchUserData() {
-    return new Promise((resolve) => {
-        setTimeout(() => {
-            resolve(exampleData);
-        }, 1000);
-    });
-}
-
-PasswordToggle.fetchUserData = function() {
-    simulateFetchUserData()
-        .then(data => {
-            const table = document.querySelector('.table');
-            table.innerHTML = `
-                <tr>
-                    <th>Nom</th>
-                    <th>Password</th>
-                    <th>Actions</th>
-                </tr>
-            `; 
-            data.forEach(user => {
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td>${user.name}</td>
-                    <td>
-                        <div class="password-container">
-                            <input type="password" value="${user.password}" readonly>
-                            <i class="fas fa-eye"></i>
-                        </div>
-                    </td>
-                    <td>
-                        <button class="btn modifier-btn" data-id="${user.id}">Modifier</button>
-                        <button class="btn btn-danger supprimer-btn" data-id="${user.id}">Supprimer</button>
-                    </td>
-                `;
-                table.appendChild(row);
-            });
-            PasswordToggle.initialize();
-        })
-        .catch(error => console.error('Error fetching user data:', error));
-};
 
 PasswordToggle.fetchUserData();
