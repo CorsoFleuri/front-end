@@ -1,9 +1,11 @@
-function openModal() {
-  document.getElementById('ticketModal').style.display = 'block';
+function openModal(modalId) {
+  if (modalId === 'ticket-edit') {
+    document.getElementById('ticketModal').style.display = 'block';
+  }
 }
 
-function closeModal() {
-  document.getElementById('ticketModal').style.display = 'none';
+function closeModal(modalId) {
+  document.getElementById(modalId).style.display = 'none';
 }
 
 function saveChanges() {
@@ -15,5 +17,5 @@ function saveChanges() {
   document.getElementById('current-sous-titre').getElementsByTagName('span')[0].innerText = newSubtitle;
   document.getElementById('current-pied-page').getElementsByTagName('span')[0].innerText = newFooter;
 
-  closeModal();
+  closeModal('ticketModal');
 }
