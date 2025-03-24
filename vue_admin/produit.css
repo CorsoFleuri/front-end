@@ -9,8 +9,10 @@ body {
     display: flex;
     height: 100vh;
     background-color: #FFFFFF;
+    overflow: hidden;
 }
 
+/* Sidebar */
 .sidebar {
     width: 250px;
     background-color: #4060AD;
@@ -19,6 +21,11 @@ body {
     flex-direction: column;
     justify-content: space-between;
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    height: 100vh;
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 100;
 }
 
 .sidebar .menu {
@@ -45,13 +52,19 @@ body {
     margin-right: 15px;
 }
 
+/* Contenu principal */
 .main-container {
+    margin-left: 250px;
     flex-grow: 1;
     display: flex;
     flex-direction: column;
     background-color: white;
+    width: calc(100% - 250px);
+    height: 100vh;
+    overflow-y: auto;
 }
 
+/* Header */
 .header {
     background-color: #EB1553;
     padding: 15px 20px;
@@ -70,7 +83,7 @@ body {
     margin-right: 10px;
 }
 
-.header .btn-ajouter {
+.btn-ajouter {
     background-color: #28A745;
     color: white;
     padding: 10px 15px;
@@ -81,11 +94,12 @@ body {
     transition: background 0.3s, transform 0.3s;
 }
 
-.header .btn-ajouter:hover {
+.btn-ajouter:hover {
     background-color: #218838;
     transform: scale(1.05);
 }
 
+/* Liste des produits */
 .content {
     margin: 20px;
     display: flex;
@@ -112,47 +126,186 @@ body {
 .produit-card h2 {
     font-size: 20px;
     margin-bottom: 10px;
-    color: #2ABECC;
+    color: #159CD6; 
 }
 
 .produit-card .details {
     margin-bottom: 15px;
     text-align: center;
-    color: #159CD6;
+    color: #159CD6; 
 }
 
 .produit-card .details p {
     margin: 5px 0;
 }
 
-.produit-card .btn-activation {
-    background-color: #943A20;
+.btn {
     color: white;
     padding: 10px 15px;
     border: none;
     cursor: pointer;
-    border-radius: 5px;
+    border-radius: 10px;
     font-size: 16px;
     transition: background 0.3s, transform 0.3s;
 }
 
-.produit-card .btn-activation:hover {
-    background-color: #943A20;
+.modification {
+    background-color: #159CD6; 
+}
+
+.modification:hover {
+    background-color: #1075a0;
     transform: scale(1.05);
 }
 
-.produit-card .btn-desactivation {
-    background-color: #EE6F5C;
-    color: white;
-    padding: 10px 15px;
-    border: none;
-    cursor: pointer;
-    border-radius: 5px;
-    font-size: 16px;
-    transition: background 0.3s, transform 0.3s;
+.activation {
+    background-color: #943A20;
 }
 
-.produit-card .btn-desactivation:hover {
+.activation:hover {
+    background-color: #7A2E18;
+    transform: scale(1.05);
+}
+
+.desactivation {
+    background-color: #EE6F5C;
+}
+
+.desactivation:hover {
     background-color: #C82333;
     transform: scale(1.05);
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.6);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    padding: 20px;
+}
+
+.modal-content {
+    background: #ffffff;
+    padding: 30px 25px;
+    border-radius: 20px;
+    width: 100%;
+    max-width: 520px;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    position: relative;
+    animation: fadeInScale 0.3s ease;
+}
+
+@keyframes fadeInScale {
+    0% {
+        transform: scale(0.95);
+        opacity: 0;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.modal-content h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+    font-size: 24px;
+}
+
+.modal-content input[type="text"],
+.modal-content input[type="number"] {
+    width: 100%;
+    padding: 12px 14px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    font-size: 15px;
+    transition: border 0.3s ease;
+}
+
+.modal-content input:focus {
+    border-color: #28a745;
+    outline: none;
+}
+
+.modal-content label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+    margin-top: 10px;
+    color: #444;
+}
+
+.input-group {
+    position: relative;
+    margin-bottom: 20px;
+  }
+  
+  .input-group input {
+    width: 100%;
+    padding: 16px 12px 8px 12px;
+    font-size: 15px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    outline: none;
+  }
+  
+  .input-group label {
+    position: absolute;
+    top: -20%;
+    left: 12px;
+    transform: translateY(-50%);
+    color: #666;
+    font-size: 15px;
+    pointer-events: none;
+    background: white;
+    padding: 0 5px;
+  }
+  
+
+.modal-content .btn {
+    padding: 12px;
+    margin-top: 10px;
+    width: 100%;
+}
+
+.modal-content .btn-ajouter {
+    background-color: #28A745;
+}
+
+.modal-content .btn-ajouter:hover {
+    background-color: #218838;
+    transform: scale(1.02);
+}
+
+.modal-content .btn-modifier {
+    background-color: #159CD6; 
+}
+
+.modal-content .btn-modifier:hover {
+    background-color: #1075a0;
+    transform: scale(1.02);
+}
+
+.modal-content .close {
+    position: absolute;
+    top: 12px;
+    right: 15px;
+    font-size: 26px;
+    color: #888;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.modal-content .close:hover {
+    color: #000;
 }

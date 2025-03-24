@@ -8,41 +8,33 @@
     <link rel="stylesheet" href="produit.css">
 </head>
 <body>
-    <div class="sidebar">
-        <div class="menu">
-            <a href="./create_menu.html"><i class="fas fa-home icon"></i>Menu</a>
-            <a href="./produit.html"><i class="fas fa-box-open icon"></i>Produit</a>
-            <a href="./user.html"><i class="fas fa-users icon"></i>Utilisateurs</a>
-            <a href="./parametre.html"><i class="fas fa-cogs icon"></i>Paramètres</a>
-            <a href="../caisse/caisse.html"><i class="fas fa-cash-register icon"></i>Caisse</a>
-            <a href="../vue_cuisine/vue_cuisine.html"><i class="fas fa-utensils icon"></i>Vue Cuisine</a>
-            <a href="./log.html"><i class="fas fa-file-alt icon"></i>Log</a>
+    <div class="layout">
+        <div class="sidebar">
+            <div class="menu">
+                <a href="./create_menu.html"><i class="fas fa-home icon"></i>Menu</a>
+                <a href="./produit.html"><i class="fas fa-box-open icon"></i>Produit</a>
+                <a href="./user.html"><i class="fas fa-users icon"></i>Utilisateurs</a>
+                <a href="./parametre.html"><i class="fas fa-cogs icon"></i>Paramètres</a>
+                <a href="../caisse/caisse.html"><i class="fas fa-cash-register icon"></i>Caisse</a>
+                <a href="../vue_cuisine/vue_cuisine.html"><i class="fas fa-utensils icon"></i>Vue Cuisine</a>
+                <a href="./log.html"><i class="fas fa-file-alt icon"></i>Log</a>
+            </div>
         </div>
     </div>
 
     <div class="main-container">
         <div class="header">
             <div>
-                <input type="text" placeholder="Chercher un produit...">
-                <button class="btn-ajouter">Ajouter un produit</button>
+                <input type="text" id="research" placeholder="Chercher un produit...">
+                <button type="button" class="btn btn-ajouter">Ajouter un produit</button>
             </div>
         </div>
 
-        <div class="content">
-            <!-- Exemple de produit -->
-            <div class="produit-card">
-                <img src="produit1.png" alt="Produit 1">
-                <h2>Produit 1</h2>
-                <div class="details">
-                    <p>Stock: 10</p>
-                    <p>Prix: 15.00€</p>
-                </div>
-                <button class="btn-activation">Activer</button>
-                <!-- Ou -->
-                <!-- <button class="btn-desactivation">Désactiver</button> -->
-            </div>
-            <!-- Vous pouvez dupliquer cette section pour chaque produit -->
-        </div>
+        <div class="content"> </div>
     </div>
+
+    <div id="myModal" class="modal"> </div>
+    
+    <script src="produit.js"></script>
 </body>
 </html>

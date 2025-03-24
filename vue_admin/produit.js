@@ -1,80 +1,256 @@
-class ModalProduit {
+class Produit {
     constructor() {
-        this.modal = document.createElement("div");
-        this.modal.id = "modal-produit";
-        this.modal.classList.add("modal");
+        this.datas = [];
+
+        this.content = document.querySelector('.content');
+        this.modal = document.querySelector('.modal');
+        this.btnAjouter = document.querySelector('.btn-ajouter');
+
+        this.run();
+    }
+
+    async run() {
+        this.datas = await this.fetchUserData();
+
+        this.content.innerHTML = await this.displayProduit(this.datas);
+        this.createEvents();
+    }
+
+    async fetchUserData() {
+        const url = 'http://api-corso-fleuri.local/articles';
+        const options = {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
+        };
+
+        let result;
+
+        await fetch(url, options)
+        .then((res) => res.json())
+        .then((json) => {
+            result = JSON.parse(json.body);
+        })
+        .catch((err) => {
+            console.error("Erreur lors de la récupération des articles :", err);
+        });
+        return result;
+    }
+
+    async displayProduit(datas) {
+        return datas.map(data => {
+            return `
+            <div class="produit-card" data-id="${data.id}">
+                <img src="http://api-corso-fleuri.local/${data.product_image}" alt="${data.product_name}">
+                <h2>${data.product_name}</h2>
+                <div class="details">
+                    <p>Stocks : ${data.product_quantity} ${data.unit}</p>
+                    <p>Prix : ${data.product_price}€</p>
+                </div>
+                <div>
+                    <button type="button" class="btn modification">Modifier</button>
+                    ${!data.is_active ? `<button type="button" class="btn is_active activation">Activer</button>` : `<button type="button" class="btn is_active desactivation">Désactiver</button>`}
+                </div>
+            </div>`;         
+        }).join('');
+    }
+
+    displayModal(action, produit = {}) {
         this.modal.innerHTML = `
             <div class="modal-content">
                 <span class="close">&times;</span>
-                <h2>Ajouter un produit</h2>
-                <form id="form-produit">
-                    <input type="text" name="product_name" placeholder="Nom du produit" required>
-                    <input type="number" name="product_price" placeholder="Prix" required>
-                    <input type="number" name="product_quantity" placeholder="Quantité" required>
-                    <input type="number" name="product_buy_price" placeholder="Prix d'achat" required>
-                    <input type="text" name="unit" placeholder="Unité" required>
-                    <input type="text" name="product_image" placeholder="URL de l'image" required>
-                    <input type="text" name="importances" placeholder="Importance" required>
-                    <label>
-                        <input type="checkbox" name="is_hot"> Produit chaud
-                    </label>
-                    <label>
-                        <input type="checkbox" name="is_active"> Actif
-                    </label>
-                    <input type="number" name="category_id" placeholder="ID de la catégorie" required>
-                    <button type="submit">Ajouter</button>
+                <h2>${action === 'Ajouter' ? 'Ajouter un produit' : `Modifier le produit '${produit.product_name}'`}</h2>
+                <form id="form-produit" enctype="multipart/form-data data-id="${produit.id}">
+                    <div class="input-group">
+                        <label for="image">Image (${!produit.product_image ? 'fichier à uploader' : 'Optionnelle'})</label>
+                        ${!produit.product_image ? '<input type="file" name="image" id="image" accept="image/*" required>' : '<input type="file" name="image" id="image" accept="image/*">'}
+                    </div>
+                    <div class="input-group">
+                        <label for="product_name">Nom du produit</label>
+                        <input type="text" name="product_name" id="product_name" required value="${produit.product_name || ''}">
+                    </div>
+                    <div class="input-group">
+                        <label for="product_price">Prix</label>
+                        <input type="number" name="product_price" id="product_price" step="0.01" required value="${produit.product_price || ''}">
+                    </div>
+                    <div class="input-group">
+                        <label for="product_quantity">Quantité</label>
+                        <input type="number" name="product_quantity" id="product_quantity" required value="${produit.product_quantity || ''}">
+                    </div>
+                    <div class="input-group">
+                        <label for="product_buy_price">Prix d'achat</label>
+                        <input type="number" name="product_buy_price" id="product_buy_price" step="0.01" required value="${produit.product_buy_price || ''}">
+                    </div>
+                    <div class="input-group">
+                        <label for="unit">Unité</label>
+                        <input type="text" name="unit" id="unit" required value="${produit.unit || ''}">
+                    </div>
+                    <div class="input-group">
+                        <label for="category_id">ID catégorie</label>
+                        <input type="number" name="category_id" id="category_id" required value="${produit.category_id || ''}">
+                    </div>
+                    <label>Produit chaud <input type="checkbox" id="is_hot" name="is_hot" ${produit.is_hot ? 'checked' : ''}></label>
+                    <button type="submit" id="submit-produit" class="btn btn-${action === 'Ajouter' ? 'ajouter' : 'modifier'}">${action}</button>
                 </form>
             </div>
         `;
-        document.body.appendChild(this.modal);
-        this.btnAjouter = document.querySelector(".btn-ajouter");
-        this.spanClose = this.modal.querySelector(".close");
-        this.formProduit = document.getElementById("form-produit");
-        this.initEvents();
+    }    
+
+    createEvents() {
+        this.updateEvents();
+        
+        this.research();
     }
 
-    initEvents() {
-        this.btnAjouter.addEventListener("click", () => this.openModal());
-        this.spanClose.addEventListener("click", () => this.closeModal());
-        window.addEventListener("click", (event) => {
-            if (event.target === this.modal) {
-                this.closeModal();
-            }
+    updateEvents() {
+        this.onClickOpenModal();
+        this.onClickActive(document.querySelectorAll('.is_active'));
+        this.onClickModification(document.querySelectorAll('.modification'));
+    }
+
+    onClickOpenModal() {
+        this.btnAjouter.addEventListener("click", () => {
+            this.displayModal("Ajouter");
+            this.modal.style.display = "flex";
+            this.onClickSubmit();
+            this.onClickCloseModal();
         });
-        this.formProduit.addEventListener("submit", (event) => this.submitForm(event));
     }
 
-    openModal() {
-        this.modal.style.display = "block";
+    onClickCloseModal() {
+        const btnClose = this.modal.querySelector(".close");
+
+        btnClose.addEventListener("click", () => {
+            this.modal.style.display = "none";
+        });
     }
 
-    closeModal() {
-        this.modal.style.display = "none";
+    onClickSubmit(eventTarget = null) {
+        document.getElementById("submit-produit").addEventListener('click', async (event) => {
+            event.preventDefault();
+            const form = document.getElementById("form-produit");
+            if (!form.checkValidity()) return form.reportValidity();
+
+            const articleId = form.getAttribute('data-id');
+
+            const formData = new FormData(form);
+            const product_name = formData.get('product_name');
+            const product_price = parseFloat(formData.get('product_price'));
+            const product_quantity = parseInt(formData.get('product_quantity'));
+            const product_buy_price = parseFloat(formData.get('product_buy_price'));
+            const unit = formData.get('unit');
+            const is_hot = document.querySelector('#is_hot').checked;
+            const category_id = parseInt(formData.get('category_id'));
+
+            if (!articleId) {
+                this.datas.push({
+                    product_name,
+                    product_price,
+                    product_quantity,
+                    product_buy_price,
+                    unit,
+                    is_hot,
+                    is_active: true,
+                    category_id
+                });
+                this.content.insertAdjacentHTML('beforeend', await this.displayProduit([this.datas[this.datas.length - 1]]));
+                this.onClickActive(document.querySelectorAll('.is_active'), this.datas.length - 1);
+            }
+
+            this.modal.style.display = "none";
+
+            const url = articleId ? `http://api-corso-fleuri.local/articles/edit/${articleId}` : 'http://api-corso-fleuri.local/articles/add';
+
+            const options = {
+                method: articleId ? 'PUT' : 'POST',
+                body: formData
+                // headers: {
+                //     'Content-Type': 'application/x-www-form-urlencoded'
+                // },
+                // body: `product_name=${product_name}&&product_price=${product_price}&&product_quantity=${product_quantity}&&product_buy_price=${product_buy_price}&&unit=${unit}&&product_image=${product_image}&&is_hot=${is_hot}&&category_id=${category_id}`
+            }
+
+            // if(!articleId) return fetch(url, options);
+
+            fetch(url, options)
+            .then((res) => {
+                if (!res.ok) {
+                    throw new Error(`Erreur HTTP : ${res.status}`);
+                }
+                return res.json();
+            }).then(async (json) => {
+                console.log(json);
+                // const data = this.datas.find(data => data.id == articleId);
+                // data.product_name = product_name;
+                // data.product_price = product_price;
+                // data.product_quantity = product_quantity;
+                // data.product_buy_price = product_buy_price;
+                // data.unit = unit;
+                // // data.product_image = product_image;
+                // data.is_hot = is_hot;
+                // data.category_id = category_id;
+                // data.id = json.body;
+
+                // eventTarget.outerHTML = await this.displayProduit([data]);
+            }).catch((err) => {
+                console.error("Erreur lors de la modification d'un article :", err);
+            })
+        });
     }
 
-    submitForm(event) {
-        event.preventDefault();
-        const formData = new FormData(this.formProduit);
-        const data = new URLSearchParams();
-        for (const pair of formData) {
-            data.append(pair[0], pair[1]);
+    onClickActive(elsIsActive, indice = false) {
+        for (let i = indice || 0; indice !== false ? i < indice + 1 : i < elsIsActive.length; i += 1) {
+            elsIsActive[i].addEventListener('click', (e) => {
+                e.preventDefault();
+                const target = e.target;
+                console.log(target)
+                const { id } = target.parentElement.parentElement.dataset;
+
+                const is_active = target.classList.contains('activation') ? true : false;
+                target.outerHTML = !is_active ? `<button type="button" class="btn is_active activation">Activer</button>` : `<button type="button" class="btn is_active desactivation">Désactiver</button>`;
+
+                this.onClickActive(document.querySelectorAll('.is_active'), i);
+
+                const url = `http://api-corso-fleuri.local/articles/is_active/${id}`;
+                const options = {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: `is_active=${is_active}`
+                };
+
+                fetch(url, options);
+            });
         }
+    }
 
-        fetch("http://api-corso-fleuri.local/articles/add", {
-            method: "POST",
-            headers: { "Content-Type": "application/x-www-form-urlencoded" },
-            body: data.toString()
-        })
-        .then(response => response.json())
-        .then(result => {
-            console.log("Succès:", result);
-            this.closeModal();
-            this.formProduit.reset();
-        })
-        .catch(error => console.error("Erreur:", error));
+    research() {
+        const input = document.querySelector('#research');
+        input.addEventListener('input', async (e) => {
+            const value = e.target.value;
+            const result = this.datas.filter(data => data.product_name.toLowerCase().includes(value.toLowerCase()));
+            this.content.innerHTML = await this.displayProduit(result);
+            this.updateEvents();
+        });
+    }
+
+    onClickModification(elsModification, indice = false) {
+        for (let i = indice || 0; indice !== false ? i < indice + 1 : i < elsModification.length; i += 1) {
+            elsModification[i].addEventListener('click', (e) => {
+                const targetParent = e.target.parentElement.parentElement;
+                const { id } = targetParent.dataset;
+                console.log(id)
+                console.log(this.datas)
+                console.log(this.datas.find(data => data.id === id));
+                this.displayModal('Modifier', this.datas.find(data => data.id == id));
+                this.modal.style.display = 'flex';
+                this.onClickCloseModal();
+                this.onClickSubmit(targetParent);
+            });
+        }
     }
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-    new ModalProduit();
-});
+new Produit();
