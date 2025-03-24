@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="parametre.css">
 </head>
 <body>
+    <script src="parametre.js"></script>
+
     <div class="sidebar">
         <div class="menu">
             <a href="./create_menu.html"><i class="fas fa-home icon"></i>Menu</a>
@@ -59,65 +61,43 @@
                 </div>
                 <button onclick="openModal('ticket')">Changer de ticket</button>
             </div>
-        </div>
-    </div>
 
-    <!-- Modal -->
-    <div id="myModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeModal()">&times;</span>
-            <div id="modal-body">
-                <!-- Content will be injected here based on the button clicked -->
+            <div class="parametre-section">
+                <div class="parametre-details">
+                    <h2>Modifier le ticket de caisse</h2>
+                    <p id="current-titre"><strong>Titre :</strong> <span>Titre de Ticket</span></p>
+                    <p id="current-sous-titre"><strong>Sous-titre :</strong> <span>Sous-titre de Ticket</span></p>
+                    <p id="current-pied-page"><strong>Pied de page :</strong> <span>Pied de Page de Ticket</span></p>
+                </div>
+                <button onclick="openModal('ticket-edit')">Modifier le ticket</button>
             </div>
         </div>
     </div>
 
-    <script>
-        function openModal(type) {
-            var modal = document.getElementById("myModal");
-            var modalBody = document.getElementById("modal-body");
-            modal.style.display = "block";
-            switch(type) {
-                case 'logo':
-                    modalBody.innerHTML = '<h2>Changer le logo</h2><p>Choisissez un nouveau logo pour l\'application.</p>';
-                    break;
-                case 'main-color':
-                    modalBody.innerHTML = '<h2>Changer la couleur principale</h2><p>Choisissez une nouvelle couleur principale :</p><input type="text" id="mainColorInput" placeholder="#EB1553"><button onclick="changeColor(\'main-color\')">Appliquer</button>';
-                    break;
-                case 'secondary-color':
-                    modalBody.innerHTML = '<h2>Changer la couleur secondaire</h2><p>Choisissez une nouvelle couleur secondaire :</p><input type="text" id="secondaryColorInput" placeholder="#4060AD"><button onclick="changeColor(\'secondary-color\')">Appliquer</button>';
-                    break;
-                case 'ticket':
-                    modalBody.innerHTML = '<h2>Changer le ticket de caisse</h2><p>Choisissez un nouveau format pour le ticket de caisse.</p>';
-                    break;
-            }
-        }
+    <div id="ticketModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('ticketModal')">&times;</span>
+            <h2>Modifier le ticket de caisse</h2>
+            <label for="titre-ticket"><strong>Titre:</strong></label>
+            <input type="text" id="titre-ticket" name="titre-ticket" placeholder="Titre du ticket">
+            <br><br>
+            <label for="sous-titre-ticket"><strong>Sous-titre:</strong></label>
+            <input type="text" id="sous-titre-ticket" name="sous-titre-ticket" placeholder="Sous-titre du ticket">
+            <br><br>
+            <label for="pied-page-ticket"><strong>Pied de page:</strong></label>
+            <input type="text" id="pied-page-ticket" name="pied-page-ticket" placeholder="Pied de page du ticket">
+            <br><br>
+            <button onclick="saveChanges()">Enregistrer les modifications</button>
+        </div>
+    </div>
 
-        function closeModal() {
-            var modal = document.getElementById("myModal");
-            modal.style.display = "none";
-        }
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('myModal')">&times;</span>
+            <div id="modal-body">
+            </div>
+        </div>
+    </div>
 
-        window.onclick = function(event) {
-            var modal = document.getElementById("myModal");
-            if (event.target == modal) {
-                modal.style.display = "none";
-            }
-        }
-
-        function changeColor(type) {
-            var color;
-            if (type === 'main-color') {
-                color = document.getElementById('mainColorInput').value;
-                document.querySelector('.color-box').style.backgroundColor = color;
-                document.querySelector('.color-box').textContent = color;
-            } else if (type === 'secondary-color') {
-                color = document.getElementById('secondaryColorInput').value;
-                document.querySelector('.color-box-secondary').style.backgroundColor = color;
-                document.querySelector('.color-box-secondary').textContent = color;
-            }
-            closeModal();
-        }
-    </script>
 </body>
 </html>
