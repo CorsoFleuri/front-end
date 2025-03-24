@@ -34,7 +34,7 @@
                     <h2>Logo</h2>
                     <p>Logo actuel de l'application.</p>
                 </div>
-                <button>Changer de logo</button>
+                <button onclick="openModal('logo')">Changer de logo</button>
             </div>
 
             <div class="parametre-section">
@@ -42,7 +42,7 @@
                     <h2>Couleur principale</h2>
                     <p>Couleur actuelle : <span class="color-box">#EB1553</span></p>
                 </div>
-                <button>Changer de couleur</button>
+                <button onclick="openModal('main-color')">Changer de couleur</button>
             </div>
 
             <div class="parametre-section">
@@ -50,7 +50,7 @@
                     <h2>Couleur secondaire</h2>
                     <p>Couleur actuelle : <span class="color-box-secondary">#4060AD</span></p>
                 </div>
-                <button>Changer de couleur</button>
+                <button onclick="openModal('secondary-color')">Changer de couleur</button>
             </div>
 
             <div class="parametre-section">
@@ -59,7 +59,7 @@
                     <h2>Ticket de caisse</h2>
                     <p>Ticket de caisse actuel imprimé.</p>
                 </div>
-                <button>Changer de ticket</button>
+                <button onclick="openModal('ticket')">Changer de ticket</button>
             </div>
 
             <div class="parametre-section">
@@ -90,5 +90,63 @@
             <button onclick="saveChanges()">Enregistrer les modifications</button>
         </div>
     </div>
+
+    <!-- Modal -->
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <div id="modal-body">
+                <!-- Content will be injected here based on the button clicked -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openModal(type) {
+            var modal = document.getElementById("myModal");
+            var modalBody = document.getElementById("modal-body");
+            modal.style.display = "block";
+            switch(type) {
+                case 'logo':
+                    modalBody.innerHTML = '<h2>Changer le logo</h2><p>Choisissez un nouveau logo pour l\'application.</p>';
+                    break;
+                case 'main-color':
+                    modalBody.innerHTML = '<h2>Changer la couleur principale</h2><p>Choisissez une nouvelle couleur principale :</p><input type="text" id="mainColorInput" placeholder="#EB1553"><button onclick="changeColor(\'main-color\')">Appliquer</button>';
+                    break;
+                case 'secondary-color':
+                    modalBody.innerHTML = '<h2>Changer la couleur secondaire</h2><p>Choisissez une nouvelle couleur secondaire :</p><input type="text" id="secondaryColorInput" placeholder="#4060AD"><button onclick="changeColor(\'secondary-color\')">Appliquer</button>';
+                    break;
+                case 'ticket':
+                    modalBody.innerHTML = '<h2>Changer le ticket de caisse</h2><p>Choisissez un nouveau format pour le ticket de caisse.</p>';
+                    break;
+            }
+        }
+
+        function closeModal() {
+            var modal = document.getElementById("myModal");
+            modal.style.display = "none";
+        }
+
+        window.onclick = function(event) {
+            var modal = document.getElementById("myModal");
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+
+        function changeColor(type) {
+            var color;
+            if (type === 'main-color') {
+                color = document.getElementById('mainColorInput').value;
+                document.querySelector('.color-box').style.backgroundColor = color;
+                document.querySelector('.color-box').textContent = color;
+            } else if (type === 'secondary-color') {
+                color = document.getElementById('secondaryColorInput').value;
+                document.querySelector('.color-box-secondary').style.backgroundColor = color;
+                document.querySelector('.color-box-secondary').textContent = color;
+            }
+            closeModal();
+        }
+    </script>
 </body>
 </html>
