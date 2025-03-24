@@ -1,47 +1,72 @@
+let articles = [];
+
 function showOptions(category) {
     const optionsTitle = document.getElementById('options-title');
     const optionsList = document.getElementById('options-list');
     optionsTitle.textContent = `Choisissez un ${category}`;
     let optionsHtml = '';
 
-    if (category === 'Dessert') {
-        optionsHtml += `
-            <li><button class="option-button" onclick="addItem('Dessert 1', 'dessert-list')">Dessert 1</button></li>
-            <li><button class="option-button" onclick="addItem('Dessert 2', 'dessert-list')">Dessert 2</button></li>
-            <li><button class="option-button" onclick="addItem('Dessert 3', 'dessert-list')">Dessert 3</button></li>
-        `;
-    } else if (category === 'Plat') {
-        optionsHtml += `
-            <li><button class="option-button" onclick="addItem('Plat 1', 'plat-list')">Plat 1</button></li>
-            <li><button class="option-button" onclick="addItem('Plat 2', 'plat-list')">Plat 2</button></li>
-            <li><button class="option-button" onclick="addItem('Plat 3', 'plat-list')">Plat 3</button></li>
-        `;
-    } else if (category === 'Frite') {
-        optionsHtml += `
-            <li><button class="option-button" onclick="addItem('Frite 1', 'frite-list')">Frite 1</button></li>
-            <li><button class="option-button" onclick="addItem('Frite 2', 'frite-list')">Frite 2</button></li>
-        `;
-    } else if (category === 'Soft') {
-        optionsHtml += `
-            <li><button class="option-button" onclick="addItem('Soft 1', 'soft-list')">Soft 1</button></li>
-            <li><button class="option-button" onclick="addItem('Soft 2', 'soft-list')">Soft 2</button></li>
-        `;
-    } else if (category === 'Boisson') {
-        optionsHtml += `
-            <li><button class="option-button" onclick="addItem('Boisson 1', 'boisson-list')">Boisson 1</button></li>
-            <li><button class="option-button" onclick="addItem('Boisson 2', 'boisson-list')">Boisson 2</button></li>
-        `;
-    } else if (category === 'Salade') {
-        optionsHtml += `
-            <li><button class="option-button" onclick="addItem('Salade 1', 'salade-list')">Salade 1</button></li>
-            <li><button class="option-button" onclick="addItem('Salade 2', 'salade-list')">Salade 2</button></li>
-        `;
-    }
+    // if (category === 'Dessert') {
+    //     optionsHtml += `
+    //         <li><button class="option-button" onclick="addItem('Dessert 1', '1', 'dessert-list')">Dessert 1</button></li>
+    //         <li><button class="option-button" onclick="addItem('Dessert 2', '2', 'dessert-list')">Dessert 2</button></li>
+    //         <li><button class="option-button" onclick="addItem('Dessert 3', '3', 'dessert-list')">Dessert 3</button></li>
+    //     `;
+    // } else if (category === 'Plat') {
+    //     optionsHtml += `
+    //         <li><button class="option-button" onclick="addItem('Plat 1', '5', 'plat-list')">Plat 1</button></li>
+    //         <li><button class="option-button" onclick="addItem('Plat 2', '6', 'plat-list')">Plat 2</button></li>
+    //         <li><button class="option-button" onclick="addItem('Plat 3', '7', 'plat-list')">Plat 3</button></li>
+    //     `;
+    // } else if (category === 'Frite') {
+    //     optionsHtml += `
+    //         <li><button class="option-button" onclick="addItem('Frite 1', '8', 'frite-list')">Frite 1</button></li>
+    //         <li><button class="option-button" onclick="addItem('Frite 2', '9', 'frite-list')">Frite 2</button></li>
+    //     `;
+    // } else if (category === 'Soft') {
+    //     optionsHtml += `
+    //         <li><button class="option-button" onclick="addItem('Soft 1', '10', 'soft-list')">Soft 1</button></li>
+    //         <li><button class="option-button" onclick="addItem('Soft 2', '11', 'soft-list')">Soft 2</button></li>
+    //     `;
+    // } else if (category === 'Boisson') {
+    //     optionsHtml += `
+    //         <li><button class="option-button" onclick="addItem('Boisson 1', '12', 'boisson-list')">Boisson 1</button></li>
+    //         <li><button class="option-button" onclick="addItem('Boisson 2', '13', 'boisson-list')">Boisson 2</button></li>
+    //     `;
+    // } else if (category === 'Salade') {
+    //     optionsHtml += `
+    //         <li><button class="option-button" onclick="addItem('Salade 1', '14', 'salade-list')">Salade 1</button></li>
+    //         <li><button class="option-button" onclick="addItem('Salade 2', '15', 'salade-list')">Salade 2</button></li>
+    //     `;
+    // }
 
-    optionsList.innerHTML = optionsHtml;
+    fetch("http://api-corso-fleuri.local/articles", {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+    })
+    .then(response => response.json())
+    .then(articles => {
+        let html = "";
+        console.log(articles);
+        articles.forEach(article => {
+            if(category == article.category_id){
+                html += `
+                <div class="article">
+                    <img src="${article.product_image}" alt="${article.product_name}" width="100">
+                    <h3>${article.product_name}</h3>
+                    <p>Prix : ${article.product_price} €</p>
+                    <p>Stock : ${article.product_quantity}</p>
+                </div>
+            `;
+            }
+        });
+        optionsList.innerHTML = html;
+    })
+    .catch(error => console.error("Erreur:", error));
 }
 
-function addItem(itemName, listId) {
+function addItem(itemName, itemID, listId) {
+    articles.push(itemID);
     const list = document.getElementById(listId);
     if (!list) {
         const newList = document.createElement('ul');
@@ -49,7 +74,7 @@ function addItem(itemName, listId) {
         document.getElementById('selected-items-list').appendChild(newList);
     }
     const listItem = document.createElement('li');
-    listItem.innerHTML = `${itemName} <button class="remove-button" onclick="removeItem(this)">Supprimer</button>`;
+    listItem.innerHTML = `${itemName} <button class="remove-button" onclick="removeItem(this, itemID)">Supprimer</button>`;
     document.getElementById(listId).appendChild(listItem);
 
     const optionsList = document.getElementById('options-list');
@@ -65,7 +90,9 @@ function addItem(itemName, listId) {
     updateCartDisplay();
 }
 
-function removeItem(button) {
+function removeItem(button, itemID) {
+    articles = articles.filter(item => item !== itemID);
+
     const listItem = button.parentElement;
     const listId = listItem.parentElement.id;
     const itemName = listItem.textContent.replace(' Supprimer', '');
@@ -80,7 +107,21 @@ function removeItem(button) {
 }
 
 function validateCart() {
-    alert('Panier validé !');
+
+    let text = articles.join(",");
+    
+    fetch("http://api-corso-fleuri.local/addCommand", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: `menus=${'1'}&articles=${text}`
+    })
+    .then(response => response.json())
+    .then(result => {
+        console.log("Succès:", result);
+        this.closeModal();
+        this.formProduit.reset();
+    })
+    .catch(error => console.error("Erreur:", error));
 }
 
 function showCart() {
