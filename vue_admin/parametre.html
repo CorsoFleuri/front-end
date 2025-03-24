@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="parametre.css">
 </head>
 <body>
+    <script src="parametre.js"></script>
+
     <div class="sidebar">
         <div class="menu">
             <a href="./create_menu.html"><i class="fas fa-home icon"></i>Menu</a>
@@ -59,6 +61,33 @@
                 </div>
                 <button>Changer de ticket</button>
             </div>
+
+            <div class="parametre-section">
+                <div class="parametre-details">
+                    <h2>Modifier le ticket de caisse</h2>
+                    <p id="current-titre"><strong>Titre :</strong> <span>Titre de Ticket</span></p>
+                    <p id="current-sous-titre"><strong>Sous-titre :</strong> <span>Sous-titre de Ticket</span></p>
+                    <p id="current-pied-page"><strong>Pied de page :</strong> <span>Pied de Page de Ticket</span></p>
+                </div>
+                <button onclick="openModal()">Modifier le ticket</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="ticketModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2>Modifier le ticket de caisse</h2>
+            <label for="titre-ticket"><strong>Titre:</strong></label>
+            <input type="text" id="titre-ticket" name="titre-ticket" placeholder="Titre du ticket">
+            <br><br>
+            <label for="sous-titre-ticket"><strong>Sous-titre:</strong></label>
+            <input type="text" id="sous-titre-ticket" name="sous-titre-ticket" placeholder="Sous-titre du ticket">
+            <br><br>
+            <label for="pied-page-ticket"><strong>Pied de page:</strong></label>
+            <input type="text" id="pied-page-ticket" name="pied-page-ticket" placeholder="Pied de page du ticket">
+            <br><br>
+            <button onclick="saveChanges()">Enregistrer les modifications</button>
         </div>
     </div>
 </body>
