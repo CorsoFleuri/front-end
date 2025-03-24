@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Borne - Produits</title>
+    <link rel="stylesheet" href="borne_produit.css">
+</head>
+<body>
+    <script src="borne_panier.js"></script>
+
+    <div class="header">
+        <img src="../assets/logo.png" alt="Logo">
+    </div>
+
+    <div class="buttons-container">
+        <button id="menu-button" onclick="redirectToMenuPage('borne_panier.html')">Menu</button>
+        <button id="products-button" onclick="redirectToProductsPage()">Produits</button>
+    </div>
+
+    <div class="main" id="main-content">
+        <div class="product">
+            <img src="produit1.png" alt="Produit 1">
+            <h2>Produit 1</h2>
+            <p>Description courte du Produit 1.</p>
+            <div class="price">5.00€</div>
+            <button onclick="addToCart('Produit 1', 5.00)">Ajouter au panier</button>
+        </div>
+        
+        <div class="product">
+            <img src="produit2.png" alt="Produit 2">
+            <h2>Produit 2</h2>
+            <p>Description courte du Produit 2.</p>
+            <div class="price">7.00€</div>
+            <button onclick="addToCart('Produit 2', 7.00)">Ajouter au panier</button>
+        </div>
+    </div>
+
+    <div class="footer">
+        <img src="../assets/panier.png" alt="Panier" onclick="toggleCart()">
+    </div>
+
+    <div class="cart" id="cart">
+        <div class="cart-header">
+            <span>Panier</span>
+            <button onclick="toggleCart()">Fermer</button>
+        </div>
+        <div id="cart-items">
+        </div>
+        <div class="cart-total" id="cart-total">
+            Total: 0.00€
+        </div>
+        <button class="cart-checkout">Payer</button>
+    </div>
+</body>
+</html>
