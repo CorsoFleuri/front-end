@@ -111,7 +111,7 @@ body {
 
 button[type="submit"] {
     padding: 10px 20px;
-    background-color: var(--principale);
+    background-color: var(--principal);
     color: white;
     border: none;
     border-radius: 5px;
