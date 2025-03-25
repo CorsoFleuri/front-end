@@ -73,7 +73,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const rows = categories.map((category, index) => `
             <tr>
                 <td>${category.name}</td>
-                <td>${category.color}</td>
+                <td><div class="color-square" style="background-color: ${category.color};"></div>${category.color}</td>
                 <td>
                     <button class="btn btn-danger" onclick="showDeleteConfirm(${index}, ${category.id})">Supprimer</button>
                 </td>

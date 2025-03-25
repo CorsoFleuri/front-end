@@ -258,3 +258,11 @@ body {
     background-color: #218838;
     transform: scale(1.05);
 }
+
+.color-square {
+  width: 20px;
+  height: 20px;
+  display: inline-block;
+  margin-right: 10px;
+  vertical-align: middle;
+}
