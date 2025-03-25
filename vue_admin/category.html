@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestion des Utilisateurs</title>
+    <title>Gestion des Catégories</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="user.css">
+    <link rel="stylesheet" href="category.css">
 </head>
 <body>
-    <script src="user.js"></script>
+    <script src="category.js"></script>
 
     <div class="sidebar">
         <div class="menu">
@@ -25,48 +25,40 @@
 
     <div class="main-container">
         <div class="header">
-            <h1>Gestion des Utilisateurs</h1>
-            <button class="btn-ajouter" id="btn-ajouter">Ajouter un utilisateur</button>
+            <h1>Gestion des Catégories</h1>
+            <button class="btn-ajouter" id="btn-ajouter">Ajouter une catégorie</button>
         </div>
 
         <div class="content">
-            <div class="liste-utilisateurs">
-                <h2>Liste des Utilisateurs</h2>
+            <div class="liste-categories">
+                <h2>Liste des Catégories</h2>
                 <table class="table">
                     <tr>
                         <th>Nom</th>
-                        <th>Password</th>
                         <th>Actions</th>
                     </tr>
-                    <!-- Les utilisateurs seront insérés ici dynamiquement -->
                 </table>
             </div>
         </div>
     </div>
 
-    <!-- Formulaire Modal -->
     <div id="modal" class="modal">
         <div class="modal-content">
             <span class="close">&times;</span>
-            <h2>Ajouter un Utilisateur</h2>
-            <form id="user-form">
+            <h2>Ajouter une Catégorie</h2>
+            <form id="category-form">
                 <label for="name">Nom:</label>
                 <input type="text" id="name" name="name" required><br><br>
-                <label for="password">Mot de passe:</label>
-                <input type="password" id="password" name="password" required><br><br>
-                <label for="is_admin">Administrateur:</label>
-                <input type="checkbox" id="is_admin" name="is_admin"><br><br>
                 <button type="button" class="btn btn-primary" id="validBtn">Valider</button>
             </form>
         </div>
     </div>
 
-    <!-- Confirmation Modal -->
     <div id="confirm-modal" class="modal">
         <div class="modal-content">
             <span class="close">&times;</span>
             <h2>Confirmation de Suppression</h2>
-            <p>Êtes-vous sûr de vouloir supprimer cet utilisateur ?</p>
+            <p>Êtes-vous sûr de vouloir supprimer cette catégorie ?</p>
             <button id="confirm-delete" class="btn btn-danger">Supprimer</button>
             <button id="cancel-delete" class="btn btn-secondary">Annuler</button>
         </div>
