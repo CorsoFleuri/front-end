@@ -61,7 +61,7 @@ class Produit {
             <div class="modal-content">
                 <span class="close">&times;</span>
                 <h2>${action === 'Ajouter' ? 'Ajouter un produit' : `Modifier le produit '${produit.product_name}'`}</h2>
-                <form id="form-produit" enctype="multipart/form-data data-id="${produit.id}">
+                <form id="form-produit" enctype="multipart/form-data" data-id="${produit.id}">
                     <div class="input-group">
                         <label for="image">Image (${!produit.product_image ? 'fichier à uploader' : 'Optionnelle'})</label>
                         ${!produit.product_image ? '<input type="file" name="image" id="image" accept="image/*" required>' : '<input type="file" name="image" id="image" accept="image/*">'}
@@ -98,15 +98,15 @@ class Produit {
     }    
 
     createEvents() {
+        this.onClickOpenModal();
         this.updateEvents();
         
         this.research();
     }
 
-    updateEvents() {
-        this.onClickOpenModal();
-        this.onClickActive(document.querySelectorAll('.is_active'));
-        this.onClickModification(document.querySelectorAll('.modification'));
+    updateEvents(indice = false) {
+        this.onClickActive(document.querySelectorAll('.is_active'), indice);
+        this.onClickModification(document.querySelectorAll('.modification'), indice);
     }
 
     onClickOpenModal() {
@@ -135,35 +135,25 @@ class Produit {
             const articleId = form.getAttribute('data-id');
 
             const formData = new FormData(form);
-            const product_name = formData.get('product_name');
-            const product_price = parseFloat(formData.get('product_price'));
-            const product_quantity = parseInt(formData.get('product_quantity'));
-            const product_buy_price = parseFloat(formData.get('product_buy_price'));
-            const unit = formData.get('unit');
-            const is_hot = document.querySelector('#is_hot').checked;
-            const category_id = parseInt(formData.get('category_id'));
-
-            if (!articleId) {
-                this.datas.push({
-                    product_name,
-                    product_price,
-                    product_quantity,
-                    product_buy_price,
-                    unit,
-                    is_hot,
-                    is_active: true,
-                    category_id
-                });
-                this.content.insertAdjacentHTML('beforeend', await this.displayProduit([this.datas[this.datas.length - 1]]));
-                this.onClickActive(document.querySelectorAll('.is_active'), this.datas.length - 1);
-            }
+            // const product_name = formData.get('product_name');
+            // const product_price = parseFloat(formData.get('product_price'));
+            // const product_quantity = parseInt(formData.get('product_quantity'));
+            // const product_buy_price = parseFloat(formData.get('product_buy_price'));
+            // const unit = formData.get('unit');
+            // const is_hot = document.querySelector('#is_hot').checked;
+            // const category_id = parseInt(formData.get('category_id'));
 
             this.modal.style.display = "none";
 
-            const url = articleId ? `http://api-corso-fleuri.local/articles/edit/${articleId}` : 'http://api-corso-fleuri.local/articles/add';
+            if(articleId !== 'undefined') {
+                const data = this.datas.find(data => data.id == articleId);
+                formData.append('product_image', data.product_image);
+                formData.append('is_active', data.is_active);
+            }
 
+            const url = articleId !== 'undefined' ? `http://api-corso-fleuri.local/articles/edit/${articleId}` : 'http://api-corso-fleuri.local/articles/add';
             const options = {
-                method: articleId ? 'PUT' : 'POST',
+                method: 'POST',
                 body: formData
                 // headers: {
                 //     'Content-Type': 'application/x-www-form-urlencoded'
@@ -171,28 +161,45 @@ class Produit {
                 // body: `product_name=${product_name}&&product_price=${product_price}&&product_quantity=${product_quantity}&&product_buy_price=${product_buy_price}&&unit=${unit}&&product_image=${product_image}&&is_hot=${is_hot}&&category_id=${category_id}`
             }
 
-            // if(!articleId) return fetch(url, options);
-
             fetch(url, options)
-            .then((res) => {
-                if (!res.ok) {
-                    throw new Error(`Erreur HTTP : ${res.status}`);
-                }
-                return res.json();
-            }).then(async (json) => {
+            .then(response => response.json())
+            .then(async (json) => {
                 console.log(json);
-                // const data = this.datas.find(data => data.id == articleId);
-                // data.product_name = product_name;
-                // data.product_price = product_price;
-                // data.product_quantity = product_quantity;
-                // data.product_buy_price = product_buy_price;
-                // data.unit = unit;
-                // // data.product_image = product_image;
-                // data.is_hot = is_hot;
-                // data.category_id = category_id;
-                // data.id = json.body;
+                const data = JSON.parse(json.body);
+                console.log(data);
 
-                // eventTarget.outerHTML = await this.displayProduit([data]);
+                if (articleId === 'undefined' ) {
+                    this.datas.push({
+                        id: data.id,
+                        product_name: data.product_name,
+                        product_price: data.product_price,
+                        product_quantity: data.product_quantity,
+                        product_buy_price: data.product_buy_price,
+                        unit: data.unit,
+                        product_image: data.product_image,
+                        is_hot: data.is_hot,
+                        is_active: true,
+                        category_id: data.category_id
+                    });
+                    this.content.insertAdjacentHTML('beforeend', await this.displayProduit([this.datas[this.datas.length - 1]]));
+                    this.updateEvents(this.datas.length - 1);
+                } else {
+                    const dataProduit = this.datas.find(data => data.id == articleId);
+                    dataProduit.id = data.id;
+                    dataProduit.product_name = data.product_name;
+                    dataProduit.product_price = data.product_price;
+                    dataProduit.product_quantity = data.product_quantity;
+                    dataProduit.product_buy_price = data.product_buy_price;
+                    dataProduit.unit = data.unit;
+                    dataProduit.product_image = data.product_image;
+                    dataProduit.is_hot = data.is_hot;
+                    dataProduit.is_active = data.is_active;
+                    dataProduit.category_id = data.category_id;
+
+                    eventTarget.outerHTML = await this.displayProduit([data]);
+                    this.updateEvents(this.datas.findIndex(data => data.id == data.id));
+                }
+    
             }).catch((err) => {
                 console.error("Erreur lors de la modification d'un article :", err);
             })
@@ -204,7 +211,7 @@ class Produit {
             elsIsActive[i].addEventListener('click', (e) => {
                 e.preventDefault();
                 const target = e.target;
-                console.log(target)
+
                 const { id } = target.parentElement.parentElement.dataset;
 
                 const is_active = target.classList.contains('activation') ? true : false;
@@ -241,9 +248,7 @@ class Produit {
             elsModification[i].addEventListener('click', (e) => {
                 const targetParent = e.target.parentElement.parentElement;
                 const { id } = targetParent.dataset;
-                console.log(id)
-                console.log(this.datas)
-                console.log(this.datas.find(data => data.id === id));
+
                 this.displayModal('Modifier', this.datas.find(data => data.id == id));
                 this.modal.style.display = 'flex';
                 this.onClickCloseModal();
