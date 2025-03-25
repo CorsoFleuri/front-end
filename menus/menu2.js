@@ -1,62 +1,30 @@
 let articles = [];
 
-function showOptions(category) {
+function showOptions(category, categoryName) {
     const optionsTitle = document.getElementById('options-title');
     const optionsList = document.getElementById('options-list');
-    optionsTitle.textContent = `Choisissez un ${category}`;
-    let optionsHtml = '';
-
-    // if (category === 'Dessert') {
-    //     optionsHtml += `
-    //         <li><button class="option-button" onclick="addItem('Dessert 1', '1', 'dessert-list')">Dessert 1</button></li>
-    //         <li><button class="option-button" onclick="addItem('Dessert 2', '2', 'dessert-list')">Dessert 2</button></li>
-    //         <li><button class="option-button" onclick="addItem('Dessert 3', '3', 'dessert-list')">Dessert 3</button></li>
-    //     `;
-    // } else if (category === 'Plat') {
-    //     optionsHtml += `
-    //         <li><button class="option-button" onclick="addItem('Plat 1', '5', 'plat-list')">Plat 1</button></li>
-    //         <li><button class="option-button" onclick="addItem('Plat 2', '6', 'plat-list')">Plat 2</button></li>
-    //         <li><button class="option-button" onclick="addItem('Plat 3', '7', 'plat-list')">Plat 3</button></li>
-    //     `;
-    // } else if (category === 'Frite') {
-    //     optionsHtml += `
-    //         <li><button class="option-button" onclick="addItem('Frite 1', '8', 'frite-list')">Frite 1</button></li>
-    //         <li><button class="option-button" onclick="addItem('Frite 2', '9', 'frite-list')">Frite 2</button></li>
-    //     `;
-    // } else if (category === 'Soft') {
-    //     optionsHtml += `
-    //         <li><button class="option-button" onclick="addItem('Soft 1', '10', 'soft-list')">Soft 1</button></li>
-    //         <li><button class="option-button" onclick="addItem('Soft 2', '11', 'soft-list')">Soft 2</button></li>
-    //     `;
-    // } else if (category === 'Boisson') {
-    //     optionsHtml += `
-    //         <li><button class="option-button" onclick="addItem('Boisson 1', '12', 'boisson-list')">Boisson 1</button></li>
-    //         <li><button class="option-button" onclick="addItem('Boisson 2', '13', 'boisson-list')">Boisson 2</button></li>
-    //     `;
-    // } else if (category === 'Salade') {
-    //     optionsHtml += `
-    //         <li><button class="option-button" onclick="addItem('Salade 1', '14', 'salade-list')">Salade 1</button></li>
-    //         <li><button class="option-button" onclick="addItem('Salade 2', '15', 'salade-list')">Salade 2</button></li>
-    //     `;
-    // }
+    optionsTitle.textContent = `Choisissez un ${categoryName}`;
 
     fetch("http://api-corso-fleuri.local/articles", {
         method: "GET",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
     })
     .then(response => response.json())
     .then(articles => {
         let html = "";
+        articles = JSON.parse(articles.body);
         console.log(articles);
         articles.forEach(article => {
             if(category == article.category_id){
                 html += `
-                <div class="article">
-                    <img src="${article.product_image}" alt="${article.product_name}" width="100">
+                <button class="article" onclick="addItem('${article.product_name}', ${article.id})">
+                    <img src="http://api-corso-fleuri.local/${article.product_image}" alt="${article.product_name}" width="100">
                     <h3>${article.product_name}</h3>
                     <p>Prix : ${article.product_price} €</p>
                     <p>Stock : ${article.product_quantity}</p>
-                </div>
+                </button>
             `;
             }
         });
@@ -65,17 +33,17 @@ function showOptions(category) {
     .catch(error => console.error("Erreur:", error));
 }
 
-function addItem(itemName, itemID, listId) {
+function addItem(itemName, itemID) {
     articles.push(itemID);
-    const list = document.getElementById(listId);
+    const list = document.getElementById(itemID);
     if (!list) {
         const newList = document.createElement('ul');
-        newList.id = listId;
+        newList.id = itemID;
         document.getElementById('selected-items-list').appendChild(newList);
     }
     const listItem = document.createElement('li');
     listItem.innerHTML = `${itemName} <button class="remove-button" onclick="removeItem(this, itemID)">Supprimer</button>`;
-    document.getElementById(listId).appendChild(listItem);
+    document.getElementById(itemID).appendChild(listItem);
 
     const optionsList = document.getElementById('options-list');
     optionsList.innerHTML = '';
@@ -84,7 +52,7 @@ function addItem(itemName, itemID, listId) {
 
     // Add item to cart in localStorage
     const cart = JSON.parse(localStorage.getItem('cart')) || [];
-    cart.push({ name: itemName, listId: listId });
+    cart.push({ name: itemName, listId: itemID });
     localStorage.setItem('cart', JSON.stringify(cart));
 
     updateCartDisplay();
@@ -113,13 +81,11 @@ function validateCart() {
     fetch("http://api-corso-fleuri.local/addCommand", {
         method: "POST",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: `menus=${'1'}&articles=${text}`
+        body: `articles=3,4`
     })
     .then(response => response.json())
     .then(result => {
         console.log("Succès:", result);
-        this.closeModal();
-        this.formProduit.reset();
     })
     .catch(error => console.error("Erreur:", error));
 }
@@ -167,5 +133,35 @@ function updateCartDisplay() {
     });
 }
 
-// Initialiser l'affichage du panier
-document.addEventListener('DOMContentLoaded', updateCartDisplay);
+function initCategory(){
+    fetch("http://api-corso-fleuri.local/category", {
+        method: "GET",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    })
+    .then(response => response.json())
+    .then(results => {
+        results = JSON.parse(results.body);
+        const listElement = document.getElementById("showOptionsList");
+        if (!listElement) {
+            console.error("L'élément showOptionsList est introuvable.");
+            return;
+        }
+
+        results.forEach(result => {
+            let listItem = document.createElement("li");
+            let button = document.createElement("button");
+            button.textContent = result.name;
+            button.onclick = () => showOptions(result.id, result.name);
+            listItem.appendChild(button);
+            listElement.appendChild(listItem);
+        });
+    })
+    .catch(error => console.error("Erreur:", error));
+}
+
+function init(){
+    initCategory();
+    updateCartDisplay();
+}
+
+document.addEventListener('DOMContentLoaded', init);
