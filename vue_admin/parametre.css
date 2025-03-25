@@ -1,5 +1,4 @@
-/* Importer le fichier colors.css */
-@import url('colors.css');
+@import url('../assets/colors.css');
 
 * {
     margin: 0;

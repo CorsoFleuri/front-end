@@ -1,3 +1,5 @@
+@import url('../assets/../assets/colors.css');
+
 * {
     margin: 0;
     padding: 0;
@@ -21,7 +23,7 @@ body {
     display: flex;
     justify-content: flex-start;
     padding: 20px;
-    background-color: #4060AD;
+    background-color: var(--secondaire);
 }
 
 .header img {
@@ -38,12 +40,12 @@ body {
 
 .back-button {
     color: #FFFFFF;
-    background-color: #EB1553;
+    background-color: var(--principal);
     border: none;
     padding: 10px 20px;
     cursor: pointer;
-    border-radius: 15px; /* Add border-radius for rounded corners */
-    text-decoration: none; /* Remove underline if it's a link */
+    border-radius: 15px;
+    text-decoration: none;
 }
 
 .main {
@@ -82,7 +84,7 @@ h1 {
 .footer {
     width: 100%;
     padding: 20px;
-    background-color: #4060AD;
+    background-color: var(--secondaire);
     display: flex;
     justify-content: flex-end;
     align-items: center;
@@ -103,7 +105,7 @@ h1 {
     font-size: 16px;
     transition: background 0.3s, transform 0.3s;
     position: absolute;
-    bottom: 100px; /* Position the button higher above the footer */
+    bottom: 100px;
     right: 20px;
 }
 
@@ -128,7 +130,7 @@ h1 {
     }
 
     .validate-button {
-        bottom: 110px; /* Adjust for smaller screens */
+        bottom: 110px;
         right: 10px;
     }
 }
@@ -145,7 +147,7 @@ h1 {
     .validate-button {
         font-size: 14px;
         padding: 8px 16px;
-        bottom: 120px; /* Adjust for smaller screens */
+        bottom: 120px;
         right: 5px;
     }
 }
