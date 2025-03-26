@@ -11,7 +11,8 @@ class Produit {
 
     async run() {
         this.datas = await this.fetchUserData();
-
+        this.category = await this.fetchCategoryData();
+        console.log(this.category);
         this.content.innerHTML = await this.displayProduit(this.datas);
         this.createEvents();
     }
@@ -25,7 +26,7 @@ class Produit {
             }
         };
 
-        let result;
+        let result = [];
 
         await fetch(url, options)
         .then((res) => res.json())
@@ -34,6 +35,28 @@ class Produit {
         })
         .catch((err) => {
             console.error("Erreur lors de la récupération des articles :", err);
+        });
+        return result;
+    }
+
+    async fetchCategoryData() {
+        const url = 'http://api-corso-fleuri.local/category';
+        const options = {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
+        };
+
+        let result = [];
+
+        await fetch(url, options)
+        .then((res) => res.json())
+        .then((json) => {
+            result = JSON.parse(json.body);
+        })
+        .catch((err) => {
+            console.error("Erreur lors de la récupération des categories :", err);
         });
         return result;
     }
@@ -86,9 +109,15 @@ class Produit {
                         <label for="unit">Unité</label>
                         <input type="text" name="unit" id="unit" required value="${produit.unit || ''}">
                     </div>
-                    <div class="input-group">
-                        <label for="category_id">ID catégorie</label>
-                        <input type="number" name="category_id" id="category_id" required value="${produit.category_id || ''}">
+                    <div class="input-group" id="category">
+                        <label for="category_id">Catégorie</label>
+                        <select name="category_id" id="category_id" required>
+                        ${this.category.map(category => {
+                            return `
+                                <option value="${category.id}" ${produit.id == category.id ? 'selected' : ''}>${category.name}</option>
+                            `;
+                        })}
+                        </select>
                     </div>
                     <label>Produit chaud <input type="checkbox" id="is_hot" name="is_hot" ${produit.is_hot ? 'checked' : ''}></label>
                     <button type="submit" id="submit-produit" class="btn btn-${action === 'Ajouter' ? 'ajouter' : 'modifier'}">${action}</button>
