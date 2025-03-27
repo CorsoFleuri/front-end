@@ -76,12 +76,16 @@ function removeItem(button, itemID) {
 
 function validateCart() {
 
-    let text = articles.join(",");
+    const menuId = 2;
+
+    const params = new URLSearchParams();
+    params.append("menus", menuId);
+    params.append("articles", articles);
     
     fetch("http://api-corso-fleuri.local/addCommand", {
         method: "POST",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: `articles=3,4`
+        body: params.toString()
     })
     .then(response => response.json())
     .then(result => {
