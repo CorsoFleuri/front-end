@@ -54,7 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     method: 'GET'
                 });
                 if (response.ok) {
-                    categories.push({ name, color });
+                    categories.push({ name, color: `#${color}` });
                     updateCategoryTable();
                     categoryForm.reset();
                     modal.style.display = 'none';
