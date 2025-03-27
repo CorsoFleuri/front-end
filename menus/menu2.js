@@ -7,6 +7,7 @@ function showOptions(category, categoryName) {
 
     fetch("http://api-corso-fleuri.local/articles", {
         method: "GET",
+        credentials: 'include',
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded'
         },
@@ -84,6 +85,7 @@ function validateCart() {
     
     fetch("http://api-corso-fleuri.local/addCommand", {
         method: "POST",
+        credentials: 'include',
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
         body: params.toString()
     })
@@ -140,6 +142,7 @@ function updateCartDisplay() {
 function initCategory(){
     fetch("http://api-corso-fleuri.local/category", {
         method: "GET",
+        credentials: 'include',
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
     })
     .then(response => response.json())

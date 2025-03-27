@@ -15,7 +15,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     async function fetchCategories() {
         try {
-            const response = await fetch('http://api-corso-fleuri.local/category');
+            const response = await fetch('http://api-corso-fleuri.local/category', {
+                credentials: 'include',
+            });
             categories = JSON.parse((await response.json()).body);
             console.log('Categories:', categories);
             updateCategoryTable();
@@ -51,7 +53,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (name !== '' && color !== '') {
             try {
                 const response = await fetch(`http://api-corso-fleuri.local/category/add/${name}/${color}`, {
-                    method: 'GET'
+                    method: 'GET',
+                    credentials: 'include',
                 });
                 if (response.ok) {
                     categories.push({ name, color });
@@ -89,7 +92,8 @@ document.addEventListener('DOMContentLoaded', () => {
         confirmDeleteBtn.onclick = async function() {
             try {
                 const response = await fetch(`http://corso-fleuri.local/category/delete/${categoryIdToDelete}`, {
-                    method: 'DELETE'
+                    method: 'DELETE',
+                    credentials: 'include',
                 });
                 if (response.ok) {
                     categories.splice(index, 1);

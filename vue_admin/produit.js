@@ -21,6 +21,7 @@ class Produit {
         const url = 'http://api-corso-fleuri.local/articles';
         const options = {
             method: 'GET',
+            credentials: 'include',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
             }
@@ -43,6 +44,7 @@ class Produit {
         const url = 'http://api-corso-fleuri.local/category';
         const options = {
             method: 'GET',
+            credentials: 'include',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
             }
@@ -183,6 +185,7 @@ class Produit {
             const url = articleId !== 'undefined' ? `http://api-corso-fleuri.local/articles/edit/${articleId}` : 'http://api-corso-fleuri.local/articles/add';
             const options = {
                 method: 'POST',
+                credentials: 'include',
                 body: formData
                 // headers: {
                 //     'Content-Type': 'application/x-www-form-urlencoded'
@@ -251,6 +254,7 @@ class Produit {
                 const url = `http://api-corso-fleuri.local/articles/is_active/${id}`;
                 const options = {
                     method: 'PUT',
+                    credentials: 'include',
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded'
                     },

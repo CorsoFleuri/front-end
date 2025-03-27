@@ -80,7 +80,10 @@ class PasswordToggle {
         document.querySelector('.table').addEventListener('click', (event) => {
             if (event.target.classList.contains('modifier-btn')) {
                 const userId = event.target.getAttribute('data-id');
-                fetch(`http://api-corso-fleuri.local/users/${userId}`)
+                fetch(`http://api-corso-fleuri.local/users/${userId}`, {
+                    method: 'GET',
+                    credentials: 'include',
+                })
                     .then(response => response.json())
                     .then(user => {
                         document.getElementById('name').value = JSON.parse(user.body).name;
@@ -97,7 +100,8 @@ class PasswordToggle {
                 confirmModal.style.display = "block";
                 document.getElementById('confirm-delete').onclick = function() {
                     fetch(`http://api-corso-fleuri.local/users/delete/${userId}`, {
-                        method: 'DELETE'
+                        method: 'DELETE',
+                        credentials: 'include',
                     })
                     .then(response => response.json())
                     .then(data => {
@@ -125,6 +129,7 @@ class PasswordToggle {
 
             fetch(url, {
                 method: method,
+                credentials: 'include',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
                 },

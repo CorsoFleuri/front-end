@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="07d89167-2601-40ce-84a9-304c6cc8d967" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/assets/js/accesControl.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/borne/borne_panier.html" beforeDir="false" afterPath="$PROJECT_DIR$/borne/borne_panier.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/borne/borne_produit.html" beforeDir="false" afterPath="$PROJECT_DIR$/borne/borne_produit.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/caisse/caisse.html" beforeDir="false" afterPath="$PROJECT_DIR$/caisse/caisse.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/connexion/connexion.js" beforeDir="false" afterPath="$PROJECT_DIR$/connexion/connexion.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/menus/menu1.html" beforeDir="false" afterPath="$PROJECT_DIR$/menus/menu1.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/menus/menu2.html" beforeDir="false" afterPath="$PROJECT_DIR$/menus/menu2.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/menus/menu2.js" beforeDir="false" afterPath="$PROJECT_DIR$/menus/menu2.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue_admin/category.html" beforeDir="false" afterPath="$PROJECT_DIR$/vue_admin/category.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue_admin/category.js" beforeDir="false" afterPath="$PROJECT_DIR$/vue_admin/category.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue_admin/create_menu.html" beforeDir="false" afterPath="$PROJECT_DIR$/vue_admin/create_menu.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue_admin/parametre.html" beforeDir="false" afterPath="$PROJECT_DIR$/vue_admin/parametre.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue_admin/parametre.js" beforeDir="false" afterPath="$PROJECT_DIR$/vue_admin/parametre.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue_admin/produit.html" beforeDir="false" afterPath="$PROJECT_DIR$/vue_admin/produit.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue_admin/produit.js" beforeDir="false" afterPath="$PROJECT_DIR$/vue_admin/produit.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue_admin/produit_detail.html" beforeDir="false" afterPath="$PROJECT_DIR$/vue_admin/produit_detail.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue_admin/user.html" beforeDir="false" afterPath="$PROJECT_DIR$/vue_admin/user.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue_admin/user.js" beforeDir="false" afterPath="$PROJECT_DIR$/vue_admin/user.js" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ComposerSettings">
+    <execution />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="HTML File" />
+        <option value="JavaScript File" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="PhpWorkspaceProjectConfiguration" interpreter_name="php" />
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 3
+}</component>
+  <component name="ProjectId" id="2uWwAJ3inJwSzTKOCjEEVgghXqf" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;login&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Applications/MAMP/htdocs/corsoFleuri&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-js-predefined-d6986cc7102b-1632447f56bf-JavaScript-PS-243.26053.13" />
+        <option value="bundled-php-predefined-a98d8de5180a-1ec7b7818973-com.jetbrains.php.sharedIndexes-PS-243.26053.13" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="07d89167-2601-40ce-84a9-304c6cc8d967" name="Changes" comment="" />
+      <created>1742377492674</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1742377492674</updated>
+      <workItem from="1742377493722" duration="29000" />
+      <workItem from="1742377603259" duration="40000" />
+      <workItem from="1742487254731" duration="498000" />
+      <workItem from="1742488410745" duration="6691000" />
+      <workItem from="1742551506503" duration="3562000" />
+      <workItem from="1742724672771" duration="1061000" />
+      <workItem from="1742748596671" duration="1029000" />
+      <workItem from="1742810686888" duration="265000" />
+      <workItem from="1742823469646" duration="6488000" />
+      <workItem from="1742890717273" duration="264000" />
+      <workItem from="1742891215877" duration="954000" />
+      <workItem from="1742894309427" duration="3508000" />
+      <workItem from="1742897855930" duration="2218000" />
+      <workItem from="1742906687657" duration="254000" />
+      <workItem from="1742907065337" duration="295000" />
+      <workItem from="1742907521482" duration="212000" />
+      <workItem from="1742908996642" duration="299000" />
+      <workItem from="1742922503572" duration="832000" />
+      <workItem from="1742977150182" duration="91000" />
+      <workItem from="1742981131543" duration="292000" />
+      <workItem from="1742981713468" duration="4408000" />
+      <workItem from="1743023076681" duration="1632000" />
+      <workItem from="1743062893798" duration="4868000" />
+      <workItem from="1743070138907" duration="696000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>

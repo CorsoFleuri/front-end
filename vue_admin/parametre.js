@@ -38,7 +38,8 @@ function saveChangesColor() {
   const newFooter = document.getElementById('pied-page-ticket').value;
 
   fetch(`http://api-corso-fleuri.local/app/edit/ticket-value/${newTitle}/${newSubtitle}/${newFooter}`, {
-      method: 'GET'
+      method: 'GET',
+      credentials: 'include',
   })
       .then(reponse => reponse.json())
       .then(data => {
@@ -60,6 +61,7 @@ function saveChangesImage() {
 
     fetch('http://api-corso-fleuri.local/app/edit/logo', {
         method: 'POST',
+        credentials: 'include',
         body: formData
     })
         .then(reponse => reponse.json())
@@ -73,7 +75,8 @@ function saveChangesImage() {
 }
 function saveColor() {
     fetch(`http://api-corso-fleuri.local/app/colors/${document.querySelector('#primaryColor').value}/${document.querySelector('#secondaryColor').value}`, {
-        method: 'GET'
+        method: 'GET',
+        credentials: 'include',
     })
         .then(reponse => reponse.json())
         .then(data => {
@@ -87,6 +90,7 @@ function saveColor() {
 function saveTicket() {
     fetch('http://api-corso-fleuri.local/app/edit/ticket', {
         method: 'POST',
+        credentials: 'include',
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded'
         },
@@ -103,7 +107,8 @@ function saveTicket() {
 }
 function setValue() {
     fetch('http://api-corso-fleuri.local/app', {
-        method: 'GET'
+        method: 'GET',
+        credentials: 'include',
     })
         .then(reponse => reponse.json())
         .then(data => {
