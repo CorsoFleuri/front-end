@@ -304,6 +304,8 @@ export default class Menu_manager {
             .then(response => response.json())
             .then(async (json) => {
                 console.log(json);
+                
+                window.location.href = './menu.html';
                 return;
                 const data = JSON.parse(json.body);
                 console.log(JSON.parse(data.articles));
