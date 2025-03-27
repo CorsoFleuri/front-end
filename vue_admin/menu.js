@@ -1,4 +1,6 @@
-class Produit {
+import MenuManager from './e/menu_manager.js';
+
+class Menu {
     constructor() {
         this.datas = [];
 
@@ -10,14 +12,13 @@ class Produit {
     }
 
     async run() {
-        this.datas = await this.fetchProductData();
-        this.content.innerHTML = await this.displayProduit(this.datas);
+        this.datas = await this.fetchMenuData();
+        this.content.innerHTML = await this.displayMenu(this.datas);
         this.createEvents();
-        this.category = await this.fetchCategoryData();
     }
 
-    async fetchProductData() {
-        const url = 'http://api-corso-fleuri.local/articles';
+    async fetchMenuData() {
+        const url = 'http://api-corso-fleuri.local/menus';
         const options = {
             method: 'GET',
             headers: {
@@ -26,49 +27,26 @@ class Produit {
         };
 
         let result = [];
-
         await fetch(url, options)
         .then((res) => res.json())
         .then((json) => {
             result = JSON.parse(json.body);
+            console.log(result);
         })
         .catch((err) => {
-            console.error("Erreur lors de la récupération des articles :", err);
+            console.error("Erreur lors de la récupération des menus :", err);
         });
         return result;
     }
 
-    async fetchCategoryData() {
-        const url = 'http://api-corso-fleuri.local/category';
-        const options = {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-            }
-        };
-
-        let result = [];
-
-        await fetch(url, options)
-        .then((res) => res.json())
-        .then((json) => {
-            result = JSON.parse(json.body);
-        })
-        .catch((err) => {
-            console.error("Erreur lors de la récupération des categories :", err);
-        });
-        return result;
-    }
-
-    async displayProduit(datas) {
+    async displayMenu(datas) {
         return datas.map(data => {
             return `
-            <div class="produit-card" data-id="${data.id}">
-                <img src="http://api-corso-fleuri.local/${data.product_image}" alt="${data.product_name}">
-                <h2>${data.product_name}</h2>
+            <div class="menu-card" data-id="${data.id}">
+                <img src="http://api-corso-fleuri.local/${data.menu_image}" alt="${data.menu_name}">
+                <h2>${data.menu_name}</h2>
                 <div class="details">
-                    <p>Stocks : ${data.product_quantity} ${data.unit}</p>
-                    <p>Prix : ${data.product_price}€</p>
+                    <p>Prix : ${data.menu_price}€</p>
                 </div>
                 <div>
                     <button type="button" class="btn modification">Modifier</button>
@@ -78,58 +56,28 @@ class Produit {
         }).join('');
     }
 
-    displayModal(action, produit = {}) {
-        this.modal.innerHTML = `
-            <div class="modal-content">
-                <span class="close">&times;</span>
-                <h2>${action === 'Ajouter' ? 'Ajouter un produit' : `Modifier le produit '${produit.product_name}'`}</h2>
-                <form id="form-produit" enctype="multipart/form-data" data-id="${produit.id}">
-                    <div class="input-group">
-                        <label for="image">Image (${!produit.product_image ? 'fichier à uploader' : 'Optionnelle'})</label>
-                        ${!produit.product_image ? '<input type="file" name="image" id="image" accept="image/*" required>' : '<input type="file" name="image" id="image" accept="image/*">'}
-                    </div>
-                    <div class="input-group">
-                        <label for="product_name">Nom du produit</label>
-                        <input type="text" name="product_name" id="product_name" required value="${produit.product_name || ''}">
-                    </div>
-                    <div class="input-group">
-                        <label for="product_price">Prix</label>
-                        <input type="number" name="product_price" id="product_price" step="0.01" required value="${produit.product_price || ''}">
-                    </div>
-                    <div class="input-group">
-                        <label for="product_quantity">Quantité</label>
-                        <input type="number" name="product_quantity" id="product_quantity" required value="${produit.product_quantity || ''}">
-                    </div>
-                    <div class="input-group">
-                        <label for="product_buy_price">Prix d'achat</label>
-                        <input type="number" name="product_buy_price" id="product_buy_price" step="0.01" required value="${produit.product_buy_price || ''}">
-                    </div>
-                    <div class="input-group">
-                        <label for="unit">Unité</label>
-                        <input type="text" name="unit" id="unit" required value="${produit.unit || ''}">
-                    </div>
-                    <div class="input-group" id="category">
-                        <label for="category_id">Catégorie</label>
-                        <select name="category_id" id="category_id" required>
-                        ${this.category.map(category => {
-                            return `
-                                <option value="${category.id}" ${produit.id == category.id ? 'selected' : ''}>${category.name}</option>
-                            `;
-                        })}
-                        </select>
-                    </div>
-                    <label>Produit chaud <input type="checkbox" id="is_hot" name="is_hot" ${produit.is_hot ? 'checked' : ''}></label>
-                    <button type="submit" id="submit-produit" class="btn btn-${action === 'Ajouter' ? 'ajouter' : 'modifier'}">${action}</button>
-                </form>
-            </div>
-        `;
-    }    
-
     createEvents() {
-        this.onClickOpenModal();
+        this.onClickAdd();
         this.updateEvents();
         
         this.research();
+    }
+
+    onClickAdd() {
+        this.btnAjouter.addEventListener("click", () => {
+            this.menuManager();
+        });
+    }
+
+    onClickModify() {
+        this.btnModifier.addEventListener("click", () => { //! get le menu_id
+            this.menuManager();
+        });
+    }
+
+    menuManager() {
+        new MenuManager().run();
+        return;
     }
 
     updateEvents(indice = false) {
@@ -155,22 +103,14 @@ class Produit {
     }
 
     onClickSubmit(eventTarget = null) {
-        document.getElementById("submit-produit").addEventListener('click', async (event) => {
+        document.getElementById("submit-menu").addEventListener('click', async (event) => {
             event.preventDefault();
-            const form = document.getElementById("form-produit");
+            const form = document.getElementById("form-menu");
             if (!form.checkValidity()) return form.reportValidity();
 
             const articleId = form.getAttribute('data-id');
 
             const formData = new FormData(form);
-            // const product_name = formData.get('product_name');
-            // const product_price = parseFloat(formData.get('product_price'));
-            // const product_quantity = parseInt(formData.get('product_quantity'));
-            // const product_buy_price = parseFloat(formData.get('product_buy_price'));
-            // const unit = formData.get('unit');
-            // const is_hot = document.querySelector('#is_hot').checked;
-            // const category_id = parseInt(formData.get('category_id'));
-
             this.modal.style.display = "none";
 
             if(articleId !== 'undefined') {
@@ -205,22 +145,22 @@ class Produit {
                         is_active: true,
                         category_id: data.category_id
                     });
-                    this.content.insertAdjacentHTML('beforeend', await this.displayProduit([this.datas[this.datas.length - 1]]));
+                    this.content.insertAdjacentHTML('beforeend', await this.displayMenu([this.datas[this.datas.length - 1]]));
                     this.updateEvents(this.datas.length - 1);
                 } else {
-                    const dataProduit = this.datas.find(data => data.id == articleId);
-                    dataProduit.id = data.id;
-                    dataProduit.product_name = data.product_name;
-                    dataProduit.product_price = data.product_price;
-                    dataProduit.product_quantity = data.product_quantity;
-                    dataProduit.product_buy_price = data.product_buy_price;
-                    dataProduit.unit = data.unit;
-                    dataProduit.product_image = data.product_image;
-                    dataProduit.is_hot = data.is_hot;
-                    dataProduit.is_active = data.is_active;
-                    dataProduit.category_id = data.category_id;
+                    const datamenu = this.datas.find(data => data.id == articleId);
+                    datamenu.id = data.id;
+                    datamenu.product_name = data.product_name;
+                    datamenu.product_price = data.product_price;
+                    datamenu.product_quantity = data.product_quantity;
+                    datamenu.product_buy_price = data.product_buy_price;
+                    datamenu.unit = data.unit;
+                    datamenu.product_image = data.product_image;
+                    datamenu.is_hot = data.is_hot;
+                    datamenu.is_active = data.is_active;
+                    datamenu.category_id = data.category_id;
 
-                    eventTarget.outerHTML = await this.displayProduit([data]);
+                    eventTarget.outerHTML = await this.displayMenu([data]);
                     this.updateEvents(this.datas.findIndex(data => data.id == data.id));
                 }
     
@@ -262,7 +202,7 @@ class Produit {
         input.addEventListener('input', async (e) => {
             const value = e.target.value;
             const result = this.datas.filter(data => data.product_name.toLowerCase().includes(value.toLowerCase()));
-            this.content.innerHTML = await this.displayProduit(result);
+            this.content.innerHTML = await this.displayMenu(result);
             this.updateEvents();
         });
     }
@@ -282,4 +222,4 @@ class Produit {
     }
 }
 
-new Produit();
+new Menu();

@@ -1,59 +1,77 @@
 <!DOCTYPE html>
 <html lang="fr">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Créer un Menu</title>
+    <title>Menus</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="create_menu.css">
+    <link rel="stylesheet" href="menu.css">
 </head>
-
 <body>
-    <div class="sidebar">
-        <div class="menu">
-            <a href="./menu.html"><i class="fas fa-home icon"></i>Menus</a>
-            <a href="./produit.html"><i class="fas fa-box-open icon"></i>Produits</a>
-            <a href="./category.html"><i class="fas fa-tags icon"></i>Catégories</a>
-            <a href="./user.html"><i class="fas fa-users icon"></i>Utilisateurs</a>
-            <a href="./parametre.html"><i class="fas fa-cogs icon"></i>Paramètres</a>
-            <a href="../caisse/caisse.html"><i class="fas fa-cash-register icon"></i>Caisse</a>
-            <a href="../vue_cuisine/vue_cuisine.html"><i class="fas fa-utensils icon"></i>Vue Cuisine</a>
-            <a href="./log.html"><i class="fas fa-file-alt icon"></i>Statistiques</a>
+    <div class="layout">
+        <div class="sidebar">
+            <div class="menu">
+                <a href="./create_menu.html"><i class="fas fa-home icon"></i>Menu</a>
+                <a href="./produit.html"><i class="fas fa-box-open icon"></i>Produit</a>
+                <a href="./category.html"><i class="fas fa-tags icon"></i>Catégories</a>
+                <a href="./user.html"><i class="fas fa-users icon"></i>Utilisateurs</a>
+                <a href="./parametre.html"><i class="fas fa-cogs icon"></i>Paramètres</a>
+                <a href="../caisse/caisse.html"><i class="fas fa-cash-register icon"></i>Caisse</a>
+                <a href="../vue_cuisine/vue_cuisine.html"><i class="fas fa-utensils icon"></i>Vue Cuisine</a>
+                <a href="./log.html"><i class="fas fa-file-alt icon"></i>Log</a>
+            </div>
         </div>
     </div>
 
     <div class="main-container">
         <div class="header">
-            <h1>Créer un Menu</h1>
+            <h1>Gestion des menus</h1>            
+            <div>
+                <input type="text" id="research" placeholder="Chercher un menu...">
+                <button type="button" class="btn btn-ajouter">Ajouter un menu</button>
+            </div>
         </div>
 
         <div class="content">
-            <div class="menu-section">
-                <h2>Nouveau Menu</h2>
-                <form class="menu-form">
-                    <div class="form-group">
-                        <label for="menu-name">Nom du Menu</label>
-                        <input type="text" id="menu-name" name="menu-name" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="menu-description">Description</label>
-                        <textarea id="menu-description" name="menu-description" rows="4" required></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="menu-items">Articles du Menu</label>
-                        <select id="menu-items" name="menu-items" multiple required>
-                            <option value="item1">Article 1</option>
-                            <option value="item2">Article 2</option>
-                            <option value="item3">Article 3</option>
-                            <!-- Plus d'articles ici -->
-                        </select>
-                    </div>
-                    <button type="submit">Créer le Menu</button>
-                </form>
+            <div class="menu-details-container">
+                <img src="menu1.jpg" alt="Menu Gourmand" class="menu-image">
+                <div class="menu-info">
+                    <h2>Menu Gourmand</h2>
+                    <p>Prix: 25.99€</p>
+                </div>
             </div>
+
+            <h2>Articles dans le menu</h2>
+            <div id="menu-articles">
+                <div class="category">
+                    <h3>Entrée :</h3>
+                    <ul id="category-entree">
+                        <li><img src="entree1.jpg" alt="Blabla"><span>Blabla</span><button class="btn-supprimer">Supprimer</button></li>
+                        <li><img src="entree2.jpg" alt="Blabla2"><span>Blabla2</span><button class="btn-supprimer">Supprimer</button></li>
+                    </ul>
+                </div>
+                <div class="category">
+                    <h3>Plat :</h3>
+                    <ul id="category-plat">
+                        <li><img src="plat1.jpg" alt="EEE"><span>EEE</span><button class="btn-supprimer">Supprimer</button></li>
+                        <li><img src="plat2.jpg" alt="EEE2"><span>EEE2</span><button class="btn-supprimer">Supprimer</button></li>
+                    </ul>
+                </div>
+                <div class="category">
+                    <h3>Dessert :</h3>
+                    <ul id="category-dessert">
+                        <li><img src="dessert1.jpg" alt="Tarte aux fraises"><span>Tarte aux fraises</span><button class="btn-supprimer">Supprimer</button></li>
+                        <li><img src="dessert2.jpg" alt="Mousse au chocolat"><span>Mousse au chocolat</span><button class="btn-supprimer">Supprimer</button></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <button class="btn btn-ajouter" onclick="openAddArticleModal()">Ajouter des articles</button>
         </div>
     </div>
-</body>
 
+    <div id="myModal" class="modal"> </div>
+    
+    <script type="module" src="menu.js"></script>
+</body>
 </html>
