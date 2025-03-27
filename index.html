@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>CorsoFleuri</title>
+</head>
+<body>
+<script>
+    fetch('http://api-corso-fleuri.local/info', {
+        method: 'GET'
+    })
+    .then(reponse => reponse.json())
+    .then(data => {
+        const parseData = JSON.parse(data.body)
+        if (parseData.authenticated === true && parseData.is_admin === true) {
+            window.location = 'http://corso-fleuri.local/vue_admin/create_menu.html'
+        } else if (parseData.authenticated === true && parseData.is_admin === false) {
+            window.location = 'http://corso-fleuri.local/caisse/caisse.html'
+        } else if (parseData.authenticated === false && parseData.is_admin === false) {
+            window.location = 'http://corso-fleuri.local/connexion/connexion.html'
+        }
+    })
+    .catch(error => console.error(error))
+</script>
+</body>
+</html>

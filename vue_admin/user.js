@@ -18,14 +18,16 @@ class PasswordToggle {
     }
 
     static fetchUserData() {
-        fetch('http://api-corso-fleuri.local/users')
+        fetch('http://api-corso-fleuri.local/users', {
+            method: 'GET',
+            credentials: 'include'
+        })
             .then(response => response.json())
             .then(data => {
                 const table = document.querySelector('.table');
                 table.innerHTML = `
                     <tr>
                         <th>Nom</th>
-                        <th>Password</th>
                         <th>Actions</th>
                     </tr>
                 `;
@@ -33,12 +35,6 @@ class PasswordToggle {
                     const row = document.createElement('tr');
                     row.innerHTML = `
                         <td>${user.name}</td>
-                        <td>
-                            <div class="password-container">
-                                <input type="password" value="${user.password}" readonly>
-                                <i class="fas fa-eye"></i>
-                            </div>
-                        </td>
                         <td>
                             <button class="btn modifier-btn" data-id="${user.id}">Modifier</button>
                             <button class="btn btn-danger supprimer-btn" data-id="${user.id}">Supprimer</button>
@@ -88,7 +84,6 @@ class PasswordToggle {
                     .then(response => response.json())
                     .then(user => {
                         document.getElementById('name').value = JSON.parse(user.body).name;
-                        document.getElementById('password').value = JSON.parse(user.body).password;
                         document.getElementById('is_admin').checked = JSON.parse(user.body).is_admin;
                         document.getElementById('user-form').setAttribute('data-id', userId);
                         document.querySelector('.modal h2').textContent = "Modifier un Utilisateur";
