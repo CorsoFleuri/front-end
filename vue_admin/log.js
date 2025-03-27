@@ -1,32 +1,83 @@
 class Log {
     constructor() {
-        this.fetchStats();
+        this.run();
     }
 
-    fetchStats() {
-        fetch('http://api-corso-fleuri.local/log')
-            .then(response => response.json())
-            .then(data => {
-                this.populateStats(data);
-            })
-            .catch(error => console.error('Error fetching stats data:', error));
+    async run() {
+        const data = this.getMockData();
+        console.log('Mock data:', data);
+        this.renderCharts(data);
     }
 
-    populateStats(data) {
-        const mostSoldProducts = document.querySelector('.stat ul');
-        const fastestCashiers = document.querySelectorAll('.stat ul')[1];
+    getMockData() {
+        return {
+            mostSoldProducts: [
+                { name: 'Produit A', sales: 150 },
+                { name: 'Produit B', sales: 120 },
+                { name: 'Produit C', sales: 100 },
+                { name: 'Produit D', sales: 80 },
+                { name: 'Produit E', sales: 60 }
+            ],
+            fastestCashiers: [
+                { name: 'Caisse 1', transactions: 50 },
+                { name: 'Caisse 2', transactions: 45 },
+                { name: 'Caisse 3', transactions: 40 },
+                { name: 'Caisse 4', transactions: 35 },
+                { name: 'Caisse 5', transactions: 30 }
+            ]
+        };
+    }
 
-        data.mostSoldProducts.forEach(product => {
-            const listItem = document.createElement('li');
-            listItem.textContent = `${product.name} - ${product.sales} ventes`;
-            mostSoldProducts.appendChild(listItem);
+    renderCharts(data) {
+        console.log('Rendering charts with data:', data);
+
+        const mostSoldProductsCtx = document.getElementById('mostSoldProductsChart').getContext('2d');
+        new Chart(mostSoldProductsCtx, {
+            type: 'bar',
+            data: {
+                labels: data.mostSoldProducts.map(product => product.name),
+                datasets: [{
+                    label: 'Ventes',
+                    data: data.mostSoldProducts.map(product => product.sales),
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
         });
 
-        data.fastestCashiers.forEach(cashier => {
-            const listItem = document.createElement('li');
-            listItem.textContent = `${cashier.name} - ${cashier.transactionsPerHour} transactions/hr`;
-            fastestCashiers.appendChild(listItem);
+        console.log('Most sold products chart rendered.');
+
+        const fastestCashiersCtx = document.getElementById('fastestCashiersChart').getContext('2d');
+        new Chart(fastestCashiersCtx, {
+            type: 'bar',
+            data: {
+                labels: data.fastestCashiers.map(cashier => cashier.name),
+                datasets: [{
+                    label: 'Transactions',
+                    data: data.fastestCashiers.map(cashier => cashier.transactions),
+                    backgroundColor: 'rgba(153, 102, 255, 0.2)',
+                    borderColor: 'rgba(153, 102, 255, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
         });
+
+        console.log('Fastest cashiers chart rendered.');
     }
 
     static initialize() {
