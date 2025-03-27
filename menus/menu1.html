@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="menu1.css">
 </head>
 <body>
-    <script src="panier.js"></script>
+    <script src="menu1.js"></script>
 
     <div class="header">
         <img src="../assets/logo.png" alt="Logo">
@@ -23,25 +23,29 @@
         <div class="menu-item">
             <img src="dessert.jpg" alt="Dessert">
             <p>Dessert</p>
+            <p id="dessert"></p>
         </div>
 
         <div class="menu-item">
             <img src="plat.jpg" alt="Plat">
             <p>Plat</p>
+            <p id="plat"></p>
         </div>
 
         <div class="menu-item">
             <img src="frite.jpg" alt="Frite">
             <p>Frite</p>
+            <p id="frite"></p>
         </div>
 
         <div class="menu-item">
             <img src="soft.jpg" alt="Soft">
             <p>Soft</p>
+            <p id="soft"></p>
         </div>
     </div>
 
-    <button class="validate-button">Ajouter au panier</button>
+    <button class="validate-button" onclick="validateCart()">Ajouter au panier</button>
 
     <div class="footer">
         <img src="../assets/panier.png" alt="Panier">
