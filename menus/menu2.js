@@ -1,4 +1,5 @@
 let articles = [];
+let artilesName = [];
 
 function showOptions(category, categoryName) {
     const optionsTitle = document.getElementById('options-title');
@@ -15,7 +16,6 @@ function showOptions(category, categoryName) {
     .then(articles => {
         let html = "";
         articles = JSON.parse(articles.body);
-        console.log(articles);
         articles.forEach(article => {
             if(category == article.category_id){
                 html += `
@@ -35,6 +35,7 @@ function showOptions(category, categoryName) {
 
 function addItem(itemName, itemID) {
     articles.push(itemID);
+    artilesName.push(itemName);
     const list = document.getElementById(itemID);
     if (!list) {
         const newList = document.createElement('ul');
@@ -42,7 +43,7 @@ function addItem(itemName, itemID) {
         document.getElementById('selected-items-list').appendChild(newList);
     }
     const listItem = document.createElement('li');
-    listItem.innerHTML = `${itemName} <button class="remove-button" onclick="removeItem(this, itemID)">Supprimer</button>`;
+    listItem.innerHTML = `${itemName} <button class="remove-button" onclick="removeItem(${itemID},'${itemName}')">Supprimer</button>`;
     document.getElementById(itemID).appendChild(listItem);
 
     const optionsList = document.getElementById('options-list');
@@ -50,28 +51,25 @@ function addItem(itemName, itemID) {
     const optionsTitle = document.getElementById('options-title');
     optionsTitle.textContent = '';
 
-    // Add item to cart in localStorage
-    const cart = JSON.parse(localStorage.getItem('cart')) || [];
-    cart.push({ name: itemName, listId: itemID });
-    localStorage.setItem('cart', JSON.stringify(cart));
-
-    updateCartDisplay();
 }
 
-function removeItem(button, itemID) {
+function removeItem(itemID, ItemName) {
+    document.getElementById('selected-items-list').innerHTML= '';
     articles = articles.filter(item => item !== itemID);
-
-    const listItem = button.parentElement;
-    const listId = listItem.parentElement.id;
-    const itemName = listItem.textContent.replace(' Supprimer', '');
-
-    // Remove item from cart in localStorage
-    let cart = JSON.parse(localStorage.getItem('cart')) || [];
-    cart = cart.filter(item => !(item.name === itemName && item.listId === listId));
-    localStorage.setItem('cart', JSON.stringify(cart));
-
-    listItem.remove();
-    updateCartDisplay();
+    artilesName = artilesName.filter(item => item !== ItemName);
+    for(let i = 0; i < articles.length; i++){
+        const id = articles[i];
+        const name = artilesName[i];
+        const list = document.getElementById(itemID);
+        if (!list) {
+            const newList = document.createElement('ul');
+            newList.id = itemID;
+            document.getElementById('selected-items-list').appendChild(newList);
+        }
+        const listItem = document.createElement('li');
+        listItem.innerHTML = `${name} <button class="remove-button" onclick="removeItem(${id}, '${name}')">Supprimer</button>`;
+        document.getElementById(itemID).appendChild(listItem);
+    }
 }
 
 function validateCart() {
@@ -81,6 +79,8 @@ function validateCart() {
     const params = new URLSearchParams();
     params.append("menus", menuId);
     params.append("articles", articles);
+    console.log(articles);
+    console.log(params.toString());
     
     fetch("http://api-corso-fleuri.local/addCommand", {
         method: "POST",
@@ -90,6 +90,9 @@ function validateCart() {
     .then(response => response.json())
     .then(result => {
         console.log("Succès:", result);
+        document.getElementById('selected-items-list').innerHTML= '';
+        articles = [];
+        artilesName = [];
     })
     .catch(error => console.error("Erreur:", error));
 }
@@ -117,24 +120,6 @@ function showCart() {
 function toggleCart() {
     const cart = document.getElementById('cart');
     cart.style.display = cart.style.display === 'none' ? 'block' : 'none';
-}
-
-function updateCartDisplay() {
-    const selectedItemsList = document.getElementById('selected-items-list');
-    const cart = JSON.parse(localStorage.getItem('cart')) || [];
-    selectedItemsList.innerHTML = '';
-
-    cart.forEach(item => {
-        const list = document.getElementById(item.listId);
-        if (!list) {
-            const newList = document.createElement('ul');
-            newList.id = item.listId;
-            selectedItemsList.appendChild(newList);
-        }
-        const listItem = document.createElement('li');
-        listItem.innerHTML = `${item.name} <button class="remove-button" onclick="removeItem(this)">Supprimer</button>`;
-        document.getElementById(item.listId).appendChild(listItem);
-    });
 }
 
 function initCategory(){
@@ -165,7 +150,6 @@ function initCategory(){
 
 function init(){
     initCategory();
-    updateCartDisplay();
 }
 
 document.addEventListener('DOMContentLoaded', init);
