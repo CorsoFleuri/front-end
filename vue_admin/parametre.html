@@ -8,97 +8,98 @@
     <link rel="stylesheet" href="parametre.css">
 </head>
 <body>
-    <script src="parametre.js"></script>
+<script src="../assets/js/accesControl.js"></script>
+<script src="parametre.js"></script>
 
-    <div class="sidebar">
-        <div class="menu">
-            <a href="./create_menu.html"><i class="fas fa-home icon"></i>Menu</a>
-            <a href="./produit.html"><i class="fas fa-box-open icon"></i>Produit</a>
-            <a href="./category.html"><i class="fas fa-tags icon"></i>Catégories</a>
-            <a href="./user.html"><i class="fas fa-users icon"></i>Utilisateurs</a>
-            <a href="./parametre.html"><i class="fas fa-cogs icon"></i>Paramètres</a>
-            <a href="../caisse/caisse.html"><i class="fas fa-cash-register icon"></i>Caisse</a>
-            <a href="../vue_cuisine/vue_cuisine.html"><i class="fas fa-utensils icon"></i>Vue Cuisine</a>
-            <a href="./log.html"><i class="fas fa-file-alt icon"></i>Log</a>
-        </div>
+<div class="sidebar">
+    <div class="menu">
+        <a href="./create_menu.html"><i class="fas fa-home icon"></i>Menu</a>
+        <a href="./produit.html"><i class="fas fa-box-open icon"></i>Produit</a>
+        <a href="./category.html"><i class="fas fa-tags icon"></i>Catégories</a>
+        <a href="./user.html"><i class="fas fa-users icon"></i>Utilisateurs</a>
+        <a href="./parametre.html"><i class="fas fa-cogs icon"></i>Paramètres</a>
+        <a href="../caisse/caisse.html"><i class="fas fa-cash-register icon"></i>Caisse</a>
+        <a href="../vue_cuisine/vue_cuisine.html"><i class="fas fa-utensils icon"></i>Vue Cuisine</a>
+        <a href="./log.html"><i class="fas fa-file-alt icon"></i>Log</a>
+    </div>
+</div>
+
+<div class="main-container">
+    <div class="header">
+        <h1>Paramètres</h1>
     </div>
 
-    <div class="main-container">
-        <div class="header">
-            <h1>Paramètres</h1>
+    <div class="content">
+        <div class="parametre-section">
+            <img src="http://api-corso-fleuri.local/uploads/logo.webp" alt="Logo actuel">
+            <div class="parametre-details">
+                <h2>Logo</h2>
+                <p>Logo actuel de l'application.</p>
+            </div>
+            <button onclick="openModal('logo')">Changer de logo</button>
         </div>
 
-        <div class="content">
-            <div class="parametre-section">
-                <img src="../assets/logo.png" alt="Logo actuel">
-                <div class="parametre-details">
-                    <h2>Logo</h2>
-                    <p>Logo actuel de l'application.</p>
-                </div>
-                <button onclick="openModal('logo')">Changer de logo</button>
+        <div class="parametre-section">
+            <div class="parametre-details">
+                <h2>Couleur principale</h2>
+                <p>Couleur actuelle : <span class="color-box" id="color-box">#EB1553</span></p>
             </div>
+            <button onclick="openModal('color')">Changer de couleur</button>
+        </div>
 
-            <div class="parametre-section">
-                <div class="parametre-details">
-                    <h2>Couleur principale</h2>
-                    <p>Couleur actuelle : <span class="color-box">#EB1553</span></p>
-                </div>
-                <button onclick="openModal('main-color')">Changer de couleur</button>
+        <div class="parametre-section">
+            <div class="parametre-details">
+                <h2>Couleur secondaire</h2>
+                <p>Couleur actuelle : <span class="color-box-secondary" id="color-box-secondary">#4060AD</span></p>
             </div>
+            <button onclick="openModal('color')">Changer de couleur</button>
+        </div>
 
-            <div class="parametre-section">
-                <div class="parametre-details">
-                    <h2>Couleur secondaire</h2>
-                    <p>Couleur actuelle : <span class="color-box-secondary">#4060AD</span></p>
-                </div>
-                <button onclick="openModal('secondary-color')">Changer de couleur</button>
+        <div class="parametre-section">
+            <p id="ticket"></p>
+            <div class="parametre-details">
+                <h2>Ticket de caisse</h2>
+                <p>Ticket de caisse actuel imprimé.</p>
             </div>
+            <button onclick="openModal('ticket')">Changer de ticket</button>
+        </div>
 
-            <div class="parametre-section">
-                <img src="ticket.png" alt="Ticket de caisse actuel">
-                <div class="parametre-details">
-                    <h2>Ticket de caisse</h2>
-                    <p>Ticket de caisse actuel imprimé.</p>
-                </div>
-                <button onclick="openModal('ticket')">Changer de ticket</button>
+        <div class="parametre-section">
+            <div class="parametre-details">
+                <h2>Modifier le ticket de caisse</h2>
+                <p id="current-titre"><strong>Titre :</strong> <span id="ticket-title">Titre de Ticket</span></p>
+                <p id="current-sous-titre"><strong>Sous-titre :</strong> <span id="ticket-sub-title">Sous-titre de Ticket</span></p>
+                <p id="current-pied-page"><strong>Pied de page :</strong> <span id="ticket-footer">Pied de Page de Ticket</span></p>
             </div>
-
-            <div class="parametre-section">
-                <div class="parametre-details">
-                    <h2>Modifier le ticket de caisse</h2>
-                    <p id="current-titre"><strong>Titre :</strong> <span>Titre de Ticket</span></p>
-                    <p id="current-sous-titre"><strong>Sous-titre :</strong> <span>Sous-titre de Ticket</span></p>
-                    <p id="current-pied-page"><strong>Pied de page :</strong> <span>Pied de Page de Ticket</span></p>
-                </div>
-                <button onclick="openModal('ticket-edit')">Modifier le ticket</button>
-            </div>
+            <button onclick="openModal('ticket-edit')">Modifier le ticket</button>
         </div>
     </div>
+</div>
 
-    <div id="ticketModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeModal('ticketModal')">&times;</span>
-            <h2>Modifier le ticket de caisse</h2>
-            <label for="titre-ticket"><strong>Titre:</strong></label>
-            <input type="text" id="titre-ticket" name="titre-ticket" placeholder="Titre du ticket">
-            <br><br>
-            <label for="sous-titre-ticket"><strong>Sous-titre:</strong></label>
-            <input type="text" id="sous-titre-ticket" name="sous-titre-ticket" placeholder="Sous-titre du ticket">
-            <br><br>
-            <label for="pied-page-ticket"><strong>Pied de page:</strong></label>
-            <input type="text" id="pied-page-ticket" name="pied-page-ticket" placeholder="Pied de page du ticket">
-            <br><br>
-            <button onclick="saveChanges()">Enregistrer les modifications</button>
+<div id="ticketModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal('ticketModal')">&times;</span>
+        <h2>Modifier le ticket de caisse</h2>
+        <label for="titre-ticket"><strong>Titre:</strong></label>
+        <input type="text" id="titre-ticket" name="titre-ticket" placeholder="Titre du ticket">
+        <br><br>
+        <label for="sous-titre-ticket"><strong>Sous-titre:</strong></label>
+        <input type="text" id="sous-titre-ticket" name="sous-titre-ticket" placeholder="Sous-titre du ticket">
+        <br><br>
+        <label for="pied-page-ticket"><strong>Pied de page:</strong></label>
+        <input type="text" id="pied-page-ticket" name="pied-page-ticket" placeholder="Pied de page du ticket">
+        <br><br>
+        <button onclick="saveChangesColor()">Enregistrer les modifications</button>
+    </div>
+</div>
+
+<div id="myModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal('myModal')">&times;</span>
+        <div id="modal-body">
         </div>
     </div>
-
-    <div id="myModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeModal('myModal')">&times;</span>
-            <div id="modal-body">
-            </div>
-        </div>
-    </div>
+</div>
 
 </body>
 </html>
