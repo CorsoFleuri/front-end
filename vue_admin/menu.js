@@ -1,4 +1,4 @@
-import MenuManager from './e/menu_manager.js';
+import MenuManager from './menu_manager.js';
 
 class Menu {
     constructor() {
