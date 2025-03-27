@@ -52,7 +52,21 @@
         </div>
         <div class="cart-total" id="cart-total">
         </div>
-        <button class="cart-checkout">Payer</button>
+        <button class="cart-checkout" onclick="showPaymentModal()">Payer</button>
+    </div>
+
+    <!-- Payment Modal -->
+    <div id="payment-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closePaymentModal()">&times;</span>
+            <h2>Choisissez votre mode de paiement</h2>
+            <div class="payment-buttons">
+                <button class="payment-button" onclick="choosePaymentMethod('cash')">Espèces</button>
+                <button class="payment-button" onclick="choosePaymentMethod('credit-card')">Carte Bancaire</button>
+                <button class="payment-button" onclick="closePaymentModal()">SumUp</button>
+                <button class="payment-button" onclick="closePaymentModal()">VIP</button>
+            </div>
+        </div>
     </div>
 </body>
 </html>
