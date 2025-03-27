@@ -17,13 +17,8 @@ function openModal(modalId) {
     } else if (modalId === 'color') {
         console.log('clicked')
         document.getElementById('myModal').style.display = 'flex'
-        document.getElementById('modal-body').innerHTML = '<label for="primaryColor">Primary Color</label>' +
-            '<input type="color" id="primaryColor">' +
-            '<label for="secondaryColor">Secondary Color</label><input type="color" id="secondaryColor">' +
-            '<button type="button" id="saveColor" onclick="saveColor()r()">Sauvgarder les couleurs</button>'
-
-        document.querySelector('#primaryColor').value = document.querySelector('#color-box').textContent
-        document.querySelector('#secondaryColor').value = document.querySelector('#color-box-secondary').textContent
+        document.getElementById('primaryColor').value = document.querySelector('#color-box').textContent
+        document.getElementById('secondaryColor').value = document.querySelector('#color-box-secondary').textContent
     } else if (modalId === 'logo') {
         console.log('clicked')
         document.getElementById('myModal').style.display = 'flex'
@@ -79,18 +74,24 @@ function saveChangesImage() {
     setValue()
 }
 function saveColor() {
-    fetch(`http://api-corso-fleuri.local/app/colors/${document.querySelector('#primaryColor').value}/${document.querySelector('#secondaryColor').value}`, {
+    const primaryColor = document.querySelector('#primaryColor').value;
+    const secondaryColor = document.querySelector('#secondaryColor').value;
+
+    fetch(`http://api-corso-fleuri.local/app/colors/${primaryColor}/${secondaryColor}`, {
         method: 'GET',
         credentials: 'include',
     })
         .then(reponse => reponse.json())
         .then(data => {
+            document.querySelector('#color-box').textContent = primaryColor;
+            document.querySelector('#color-box-secondary').textContent = secondaryColor;
 
+            document.querySelector(':root').style.setProperty('--principal', primaryColor);
+            document.querySelector(':root').style.setProperty('--secondaire', secondaryColor);
         })
-        .catch(error => console.error(error))
+        .catch(error => console.error(error));
 
-    closeModal('myModal')
-    setValue()
+    closeModal('myModal');
 }
 function saveTicket() {
     fetch('http://api-corso-fleuri.local/app/edit/ticket', {
