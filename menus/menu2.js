@@ -152,4 +152,43 @@ function init(){
     initCategory();
 }
 
+function showPaymentModal() {
+    const modal = document.getElementById('payment-modal');
+    const modalContent = document.querySelector('.modal-content');
+    modalContent.innerHTML = `
+        <span class="close-modal" onclick="closePaymentModal()">&times;</span>
+        <h2>Choisissez votre mode de paiement</h2>
+        <div class="payment-buttons">
+            <button class="payment-button Especes" onclick="choosePaymentMethod('cash')">Espèces</button>
+            <button class="payment-button" onclick="choosePaymentMethod('credit-card')">Carte Bancaire</button>
+            <button class="payment-button SumUp" onclick="closePaymentModal()">SumUp</button>
+            <button class="payment-button VIP" onclick="closePaymentModal()">VIP</button>
+        </div>
+    `;
+    modal.style.display = 'flex';
+}
+
+function closePaymentModal() {
+    const modal = document.getElementById('payment-modal');
+    modal.style.display = 'none';
+}
+
+function choosePaymentMethod(method) {
+    const modalContent = document.querySelector('.modal-content');
+    modalContent.innerHTML = `
+        <span class="close-modal" onclick="closePaymentModal()">&times;</span>
+        <h2>Vous avez choisi de payer par ${method === 'cash' ? 'Espèces' : 'Carte Bancaire'}</h2>
+        <div class="payment-buttons">
+            <button class="return-button" onclick="showPaymentModal()">Retour</button>
+            <button class="payment-button" onclick="finalizeOrder()">Finaliser la commande</button>
+        </div>
+    `;
+}
+
+function finalizeOrder() {
+    console.log('Commande finalisée');
+    // Implement order finalization logic here
+    closePaymentModal();
+}
+
 document.addEventListener('DOMContentLoaded', init);

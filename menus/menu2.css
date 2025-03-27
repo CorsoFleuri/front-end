@@ -352,7 +352,7 @@ body {
 }
 
 .payment-button {
-    background-color: #EB1553;
+    background-color: #28A745;
     color: white;
     padding: 10px 20px;
     border: none;
@@ -376,7 +376,7 @@ body {
 }
 
 .payment-button:hover {
-    background-color: #a51e2c;
+    background-color: #218838;
     transform: scale(1.05);
 }
 
