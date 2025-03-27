@@ -178,6 +178,7 @@ export default class Menu_manager {
     async createEvents() {
         this.onChangeImage();
         this.onClickAddProduct();
+        this.enregistrerArticle();
         this.datasProduct = await this.fetch('http://api-corso-fleuri.local/articles');
         this.category = await this.fetch('http://api-corso-fleuri.local/category');
         return;
@@ -213,7 +214,6 @@ export default class Menu_manager {
             this.modal.innerHTML = await this.displayAddProduct();
             this.onClickValidProduct();
             this.onClickCloseModal();
-            this.enregistrerArticle();
 
             this.modal.style.display = "flex";
         });
@@ -230,7 +230,8 @@ export default class Menu_manager {
                     id: data.id,
                     image: data.product_image,
                     name: data.product_name,
-                    category_id: data.category_id
+                    category_id: data.category_id,
+                    qu: 1
                 };
             });
 
@@ -262,8 +263,54 @@ export default class Menu_manager {
     enregistrerArticle() {
         document.getElementById("enregistrer-article").addEventListener('click', async (event) => {
             event.preventDefault();
-            const form = document.getElementById("form-menu");
-            if (!form.checkValidity()) return form.reportValidity();
+            const name = document.getElementById("product_name").value.trim();
+            const price = document.getElementById("product_price").value.trim();
+
+            const fileInput = document.getElementById("fileInput");
+            const image = fileInput.files.length > 0 ? fileInput.files[0] : null;
+
+            console.log("Nom:", name);
+            console.log("Prix:", price);
+            if (image) {
+                console.log("Image sélectionnée:", image.name);
+            }
+
+            if(!name || !price || !image) {
+                alert("Veuillez remplir tous les champs");
+                return;
+            }
+
+            if(!this.menu.articles.length) {
+                alert("Veuillez ajouter des articles au menu");
+                return;
+            }
+            this.menu.name = name;
+            this.menu.price = price;
+            this.menu.image = image;
+
+            const formData = new FormData();
+            formData.append("menu_name", name);
+            formData.append("menu_price", price);
+            formData.append("image", image);
+            formData.append("articles", JSON.stringify(this.menu.articles));
+            
+            const url = 'http://api-corso-fleuri.local/menus/add';
+            const options = {
+                method: 'POST',
+                body: formData
+            }
+
+            fetch(url, options)
+            .then(response => response.json())
+            .then(async (json) => {
+                console.log(json);
+                return;
+                const data = JSON.parse(json.body);
+                console.log(JSON.parse(data.articles));
+                console.log(data);
+            }).catch((err) => {
+                console.error("Erreur lors de la modification d'un article :", err);
+            });
         });
     }
 

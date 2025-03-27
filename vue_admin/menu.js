@@ -201,7 +201,7 @@ class Menu {
         const input = document.querySelector('#research');
         input.addEventListener('input', async (e) => {
             const value = e.target.value;
-            const result = this.datas.filter(data => data.product_name.toLowerCase().includes(value.toLowerCase()));
+            const result = this.datas.filter(data => data.menu_name.toLowerCase().includes(value.toLowerCase()));
             this.content.innerHTML = await this.displayMenu(result);
             this.updateEvents();
         });
