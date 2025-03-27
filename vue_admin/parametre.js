@@ -74,20 +74,22 @@ function saveChangesImage() {
     setValue()
 }
 function saveColor() {
-    const primaryColor = document.querySelector('#primaryColor').value;
-    const secondaryColor = document.querySelector('#secondaryColor').value;
+    const primaryColor = document.querySelector('#primaryColor').value.replace('#', '');
+    console.log(primaryColor);
+    const secondaryColor = document.querySelector('#secondaryColor').value.replace('#', '');
+    console.log(secondaryColor);
 
-    fetch(`http://api-corso-fleuri.local/app/colors/${primaryColor}/${secondaryColor}`, {
+    fetch(`http://api-corso-fleuri.local/app/edit/colors/${primaryColor}/${secondaryColor}`, {
         method: 'GET',
         credentials: 'include',
     })
         .then(reponse => reponse.json())
         .then(data => {
-            document.querySelector('#color-box').textContent = primaryColor;
-            document.querySelector('#color-box-secondary').textContent = secondaryColor;
+            document.querySelector('#color-box').textContent = `#${primaryColor}`;
+            document.querySelector('#color-box-secondary').textContent = `#${secondaryColor}`;
 
-            document.querySelector(':root').style.setProperty('--principal', primaryColor);
-            document.querySelector(':root').style.setProperty('--secondaire', secondaryColor);
+            document.querySelector(':root').style.setProperty('--principal', `#${primaryColor}`);
+            document.querySelector(':root').style.setProperty('--secondaire', `#${secondaryColor}`);
         })
         .catch(error => console.error(error));
 
@@ -123,7 +125,6 @@ function setValue() {
             document.querySelector(':root').style.setProperty('--secondaire', parseData.secondary_color)
             document.querySelector('#color-box').innerText = parseData.primary_color
             document.querySelector('#color-box-secondary').innerText = parseData.secondary_color
-            document.querySelector('#ticket').innerText = parseData.ticket_template
             document.querySelector('#ticket-title').innerText = parseData.title
             document.querySelector('#ticket-sub-title').innerText = parseData.sub_title
             document.querySelector('#ticket-footer').innerText = parseData.footer
