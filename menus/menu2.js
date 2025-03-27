@@ -1,7 +1,9 @@
+import {ThermalPrinter, Print} from "../assets/thermalPrinter/src/index.js";
+
 let articles = [];
 let artilesName = [];
 
-function showOptions(category, categoryName) {
+window.showOptions = function (category, categoryName) {
     const optionsTitle = document.getElementById('options-title');
     const optionsList = document.getElementById('options-list');
     optionsTitle.textContent = `Choisissez un ${categoryName}`;
@@ -33,7 +35,7 @@ function showOptions(category, categoryName) {
     .catch(error => console.error("Erreur:", error));
 }
 
-function addItem(itemName, itemID) {
+window.addItem = function (itemName, itemID) {
     articles.push(itemID);
     artilesName.push(itemName);
     const list = document.getElementById(itemID);
@@ -53,7 +55,7 @@ function addItem(itemName, itemID) {
 
 }
 
-function removeItem(itemID, ItemName) {
+window.removeItem = function (itemID, ItemName) {
     document.getElementById('selected-items-list').innerHTML= '';
     articles = articles.filter(item => item !== itemID);
     artilesName = artilesName.filter(item => item !== ItemName);
@@ -72,8 +74,7 @@ function removeItem(itemID, ItemName) {
     }
 }
 
-function validateCart() {
-
+window.validateCart = function () {
     const menuId = 2;
 
     const params = new URLSearchParams();
@@ -97,7 +98,7 @@ function validateCart() {
     .catch(error => console.error("Erreur:", error));
 }
 
-function showCart() {
+window.showCart = function () {
     const cart = JSON.parse(localStorage.getItem('cart')) || [];
     const cartItemsContainer = document.getElementById('cart-items');
     cartItemsContainer.innerHTML = '';
@@ -117,12 +118,12 @@ function showCart() {
     toggleCart();
 }
 
-function toggleCart() {
+window.toggleCart = function () {
     const cart = document.getElementById('cart');
     cart.style.display = cart.style.display === 'none' ? 'block' : 'none';
 }
 
-function initCategory(){
+window.initCategory = function (){
     fetch("http://api-corso-fleuri.local/category", {
         method: "GET",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
@@ -148,11 +149,11 @@ function initCategory(){
     .catch(error => console.error("Erreur:", error));
 }
 
-function init(){
+window.init = function (){
     initCategory();
 }
 
-function showPaymentModal() {
+window.showPaymentModal = function () {
     const modal = document.getElementById('payment-modal');
     const modalContent = document.querySelector('.modal-content');
     modalContent.innerHTML = `
@@ -168,12 +169,12 @@ function showPaymentModal() {
     modal.style.display = 'flex';
 }
 
-function closePaymentModal() {
+window.closePaymentModal = function () {
     const modal = document.getElementById('payment-modal');
     modal.style.display = 'none';
 }
 
-function choosePaymentMethod(method) {
+window.choosePaymentMethod = function (method) {
     const modalContent = document.querySelector('.modal-content');
     modalContent.innerHTML = `
         <span class="close-modal" onclick="closePaymentModal()">&times;</span>
@@ -185,10 +186,51 @@ function choosePaymentMethod(method) {
     `;
 }
 
-function finalizeOrder() {
-    console.log('Commande finalisée');
-    // Implement order finalization logic here
-    closePaymentModal();
+window.finalizeOrder = async function () {
+    const printer = new ThermalPrinter()
+    console.log(navigator.bluetooth)
+    await printer.conect()
+    //await prepareTicket(printer)
+}
+async function connectPrinter(printer) {
+    await printer.conect()
+}
+async function printTicket (printer, ticket) {
+    await printer.printText(null, null, ticket)
+}
+function createTicket (line, ticket)  {
+    if (line === "<<align: center>>") {
+        ticket.alignCenter()
+    } else if (line === "<<align: left>>") {
+        ticket.alignLeft()
+    } else if (line === "<<line>>")  {
+        const l = "-".repeat(32) + "\n";
+        ticket.addText(l)
+    } else {
+        ticket.addText(line + "\n")
+    }
+}
+
+async function prepareTicket(printer) {
+    fetch('http://api-corso-fleuri.local/app/ticket', {
+        method: 'GET'
+    })
+        .then(reponse => reponse.json())
+        .then(data => {
+            const ticket = new Print()
+            const body = data.body.split("\n")
+            body.forEach(function (line) {
+                createTicket(line, ticket)
+            })
+            ticket.newLine()
+            ticket.newLine()
+            ticket.newLine()
+            ticket.newLine()
+            ticket.fullCut()
+
+            printTicket(printer, ticket)
+        })
+        .catch(error => console.error(error))
 }
 
 document.addEventListener('DOMContentLoaded', init);
