@@ -5,12 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="53b7db6f-9fe3-472d-97c3-1cd3d450273b" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/assets/thermalPrinter/src/Print.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/thermalPrinter/src/ThermalPrinter.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/thermalPrinter/src/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/menus/menu2.html" beforeDir="false" afterPath="$PROJECT_DIR$/menus/menu2.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/menus/menu2.js" beforeDir="false" afterPath="$PROJECT_DIR$/menus/menu2.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue_admin/menu.html" beforeDir="false" afterPath="$PROJECT_DIR$/vue_admin/menu.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -33,20 +29,20 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "dev",
-    "last_opened_file_path": "/Applications/MAMP/htdocs/corsoFleuri/assets/thermalPrinter",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;dev&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Applications/MAMP/htdocs/corsoFleuri/assets/thermalPrinter&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/assets/thermalPrinter" />
@@ -69,7 +65,7 @@
       <option name="presentableId" value="Default" />
       <updated>1743088475608</updated>
       <workItem from="1743088477114" duration="183000" />
-      <workItem from="1743089333364" duration="5566000" />
+      <workItem from="1743089333364" duration="6896000" />
     </task>
     <servers />
   </component>
