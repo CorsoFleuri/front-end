@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Statistiques</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="log.css">
+</head>
+
+<body>
+    <div class="sidebar">
+        <div class="menu">
+            <a href="./menu.html"><i class="fas fa-home icon"></i>Menus</a>
+            <a href="./produit.html"><i class="fas fa-box-open icon"></i>Produits</a>
+            <a href="./category.html"><i class="fas fa-tags icon"></i>Catégories</a>
+            <a href="./user.html"><i class="fas fa-users icon"></i>Utilisateurs</a>
+            <a href="./parametre.html"><i class="fas fa-cogs icon"></i>Paramètres</a>
+            <a href="../borne/borne_panier.html"><i class="fas fa-cash-register icon"></i>Caisse</a>
+            <a href="../vue_cuisine/vue_cuisine.html"><i class="fas fa-utensils icon"></i>Vue Cuisine</a>
+            <a href="./log.html"><i class="fas fa-file-alt icon"></i>Statistiques</a>
+        </div>
+    </div>
+
+    <div class="main-container">
+        <div class="header">
+            <h1>Statistiques</h1>
+        </div>
+
+        <div class="content">
+            <div class="stats-section">
+                <div class="stats">
+                    <div class="stat">
+                        <h3>Produits les plus vendus</h3>
+                        <canvas id="mostSoldProductsChart"></canvas> 
+                    </div>
+                    <div class="stat">
+                        <h3>Vitesse des caisses</h3>
+                        <canvas id="fastestCashiersChart"></canvas> 
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> 
+    <script src="log.js"></script>
+</body>
+
+</html>

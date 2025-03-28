@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Borne</title>
+    <link rel="stylesheet" href="borne_panier.css">
+</head>
+<body>
+    <script src="borne_panier.js"></script>
+
+    <div class="header">
+        <img src="../assets/logo.png" alt="Logo">
+    </div>
+
+    <div class="buttons-container">
+        <button id="menu-button" onclick="showMenu()">Menu</button>
+        <button id="products-button" onclick="redirectToProductsPage()">Produits</button>
+    </div>
+
+    <div class="main" id="main-content">
+        <div class="menu">
+            <img src="menu1.png" alt="Menu 1">
+            <h2>Menu 1</h2>
+            <p>Description courte du Menu 1.</p>
+            <div class="price">10.00€</div>
+            <button onclick="redirectToMenuPage('../../menus/menu1.html')">Sélectionner</button>
+        </div>
+        
+        <div class="menu">
+            <img src="menu2.png" alt="Menu 2">
+            <h2>Menu 2</h2>
+            <p>Description courte du Menu 2.</p>
+            <div class="price">12.00€</div>
+            <button onclick="redirectToMenuPage('../../menus/menu2.html')">Sélectionner</button>
+        </div>
+    </div>
+
+    <div class="footer">
+        <img src="../assets/panier.png" alt="Panier" onclick="toggleCart()">
+    </div>
+
+    <div class="cart" id="cart">
+        <div class="cart-header">
+            <span>Panier</span>
+            <button onclick="toggleCart()">Fermer</button>
+        </div>
+        <div id="cart-items">
+            <div class="cart-item">
+                <span>Menu 1</span>
+                <span>10.00€</span>
+            </div>
+            <div class="cart-item">
+                <span>Menu 2</span>
+                <span>12.00€</span>
+            </div>
+        </div>
+        <div class="cart-total" id="cart-total">
+            Total: 22.00€
+        </div>
+        <button class="cart-checkout">Payer</button>
+    </div>
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu Petite Faim</title>
+    <link rel="stylesheet" href="menu1.css">
+</head>
+<body>
+    <script src="menu1.js"></script>
+
+    <div class="header">
+        <img src="../assets/logo.png" alt="Logo">
+    </div>
+
+    <div class="back-button-container">
+        <a href="/borne/borne_panier.html" class="back-button">Retour</a>
+    </div>
+
+    <div class="main">
+        <h1>Menu Petite Faim</h1>
+
+        <div class="menu-item">
+            <img src="dessert.jpg" alt="Dessert">
+            <p>Dessert</p>
+            <p id="dessert"></p>
+        </div>
+
+        <div class="menu-item">
+            <img src="plat.jpg" alt="Plat">
+            <p>Plat</p>
+            <p id="plat"></p>
+        </div>
+
+        <div class="menu-item">
+            <img src="frite.jpg" alt="Frite">
+            <p>Frite</p>
+            <p id="frite"></p>
+        </div>
+
+        <div class="menu-item">
+            <img src="soft.jpg" alt="Soft">
+            <p>Soft</p>
+            <p id="soft"></p>
+        </div>
+    </div>
+
+    <button class="validate-button" onclick="validateCart()">Ajouter au panier</button>
+
+    <div class="footer">
+        <img src="../assets/panier.png" alt="Panier">
+    </div>
+</body>
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu Gourmand</title>
+    <link rel="stylesheet" href="menu2.css">
+</head>
+<body>
+    <script src="menu2.js" type="module"></script>
+
+    <div class="header">
+        <img src="../assets/logo.png" alt="Logo">
+    </div>
+
+    <div class="back-button-container">
+        <a href="/borne/borne_panier.html" class="back-button">Retour</a>
+    </div>
+
+    <div class="main">
+        <div class="choices">
+            <h2>Choisissez vos options</h2>
+            <ul id="showOptionsList"></ul>
+        </div>
+
+        <div class="content">
+            <div class="section" id="options-section">
+                <h2 id="options-title">Choisissez un Dessert</h2>
+                <ul id="options-list">
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="section fixed-section" id="selected-items-section">
+        <h2>Éléments ajoutés</h2>
+        <ul id="selected-items-list">
+        </ul>
+        <button class="validate-button" onclick="validateCart()">Ajouter au panier</button>
+    </div>
+
+    <div class="footer">
+        <img src="../assets/panier.png" alt="Panier" onclick="showCart()">
+    </div>
+
+    <div class="cart" id="cart">
+        <div class="cart-header">
+            <span>Panier</span>
+            <button class="close-cart" onclick="toggleCart()">Fermer</button>
+        </div>
+        <div id="cart-items" class="cart-items">
+        </div>
+        <div class="cart-total" id="cart-total">
+        </div>
+        <button class="cart-checkout" onclick="showPaymentModal()">Payer</button>
+    </div>
+
+    <div id="payment-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closePaymentModal()">&times;</span>
+            <h2>Choisissez votre mode de paiement</h2>
+            <div class="payment-buttons">
+                <button class="payment-button" onclick="choosePaymentMethod('cash')">Espèces</button>
+                <button class="payment-button" onclick="choosePaymentMethod('credit-card')">Carte Bancaire</button>
+                <button class="payment-button" onclick="closePaymentModal()">SumUp</button>
+                <button class="payment-button" onclick="closePaymentModal()">VIP</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
