@@ -1,26 +1,25 @@
 function openModal(modalId) {
-    console.log('clicked')
     if (modalId === 'ticket-edit') {
-        console.log('clicked')
+
         document.getElementById('ticketModal').style.display = 'flex';
 
         document.querySelector('#titre-ticket').value = document.getElementById('ticket-title').textContent
         document.querySelector('#sous-titre-ticket').value = document.getElementById('ticket-sub-title').textContent
         document.querySelector('#pied-page-ticket').value = document.getElementById('ticket-footer').textContent
     } else if (modalId === 'ticket') {
-        console.log('clicked')
+
         document.getElementById('myModal').style.display = 'flex'
         document.getElementById('modal-body').innerHTML = '<textarea id="ticketTemplate"></textarea>' +
             '<button type="button" id="saveTicket" onclick="saveTicket()">Sauvgarder le Ticket</button>'
 
         document.querySelector('#ticketTemplate').value = document.getElementById('ticket').textContent
     } else if (modalId === 'color') {
-        console.log('clicked')
+
         document.getElementById('myModal').style.display = 'flex'
         document.getElementById('primaryColor').value = document.querySelector('#color-box').textContent
         document.getElementById('secondaryColor').value = document.querySelector('#color-box-secondary').textContent
     } else if (modalId === 'logo') {
-        console.log('clicked')
+
         document.getElementById('myModal').style.display = 'flex'
         document.getElementById('modal-body').innerHTML = '<label for="">Logo</label>' +
             '<input type="file" id="imageInput">' +
@@ -75,9 +74,7 @@ function saveChangesImage() {
 }
 function saveColor() {
     const primaryColor = document.querySelector('#primaryColor').value.replace('#', '');
-    console.log(primaryColor);
     const secondaryColor = document.querySelector('#secondaryColor').value.replace('#', '');
-    console.log(secondaryColor);
 
     fetch(`http://api-corso-fleuri.local/app/edit/colors/${primaryColor}/${secondaryColor}`, {
         method: 'GET',

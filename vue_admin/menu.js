@@ -31,7 +31,6 @@ class Menu {
         .then((res) => res.json())
         .then((json) => {
             result = JSON.parse(json.body);
-            console.log(result);
         })
         .catch((err) => {
             console.error("Erreur lors de la récupération des menus :", err);
@@ -70,7 +69,7 @@ class Menu {
     }
 
     onClickModify() {
-        this.btnModifier.addEventListener("click", () => { //! get le menu_id
+        this.btnModifier.addEventListener("click", () => {
             this.menuManager();
         });
     }
@@ -128,9 +127,7 @@ class Menu {
             fetch(url, options)
             .then(response => response.json())
             .then(async (json) => {
-                console.log(json);
                 const data = JSON.parse(json.body);
-                console.log(data);
 
                 if (articleId === 'undefined' ) {
                     this.datas.push({

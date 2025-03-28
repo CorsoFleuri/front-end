@@ -163,13 +163,6 @@ class Produit {
             const articleId = form.getAttribute('data-id');
 
             const formData = new FormData(form);
-            // const product_name = formData.get('product_name');
-            // const product_price = parseFloat(formData.get('product_price'));
-            // const product_quantity = parseInt(formData.get('product_quantity'));
-            // const product_buy_price = parseFloat(formData.get('product_buy_price'));
-            // const unit = formData.get('unit');
-            // const is_hot = document.querySelector('#is_hot').checked;
-            // const category_id = parseInt(formData.get('category_id'));
 
             this.modal.style.display = "none";
 
@@ -188,9 +181,7 @@ class Produit {
             fetch(url, options)
             .then(response => response.json())
             .then(async (json) => {
-                console.log(json);
                 const data = JSON.parse(json.body);
-                console.log(data);
 
                 if (articleId === 'undefined' ) {
                     this.datas.push({

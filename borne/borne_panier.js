@@ -7,13 +7,11 @@ function addToCart(product, price) {
     const cartTotal = document.getElementById('cart-total');
     let total = parseFloat(cartTotal.innerText.replace('Total: ', '').replace('€', ''));
 
-    // Ajouter le produit au panier
     const cartItem = document.createElement('div');
     cartItem.className = 'cart-item';
     cartItem.innerHTML = `<span>${product}</span><span>${price.toFixed(2)}€</span>`;
     cartItems.appendChild(cartItem);
 
-    // Mettre à jour le total du panier
     total += price;
     cartTotal.innerText = `Total: ${total.toFixed(2)}€`;
 }

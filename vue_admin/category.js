@@ -17,7 +17,6 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             const response = await fetch('http://api-corso-fleuri.local/category');
             categories = JSON.parse((await response.json()).body);
-            console.log('Categories:', categories);
             updateCategoryTable();
         } catch (error) {
             console.error('Error fetching categories:', error);
@@ -41,12 +40,6 @@ document.addEventListener('DOMContentLoaded', () => {
     validBtn.onclick = async function() {
         const name = categoryForm.name.value.trim();
         const color = categoryForm.color.value.trim().replace("#", '');
-        console.log("??????????", color);
-        // const color = categoryForm.color.value.trim();  avant
-
-
-        console.log('Category name:', name);
-        console.log('Category color:', color);
 
         if (name !== '' && color !== '') {
             try {

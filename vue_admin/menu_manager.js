@@ -7,11 +7,8 @@ export default class Menu_manager {
         this.category = [];
 
         this.mainContainer = document.querySelector('.main-container');
-        // this.content = document.querySelector('.content');
         this.modal = document.querySelector('.modal');
-        // this.btnAjouter = document.querySelector('.btn-ajouter');
 
-        // this.run();
     }
 
     async run() {
@@ -21,7 +18,6 @@ export default class Menu_manager {
     }
 
     async fetch(url) {
-        // const url = 'http://api-corso-fleuri.local/articles';
         const options = {
             method: 'GET',
             headers: {
@@ -269,12 +265,6 @@ export default class Menu_manager {
             const fileInput = document.getElementById("fileInput");
             const image = fileInput.files.length > 0 ? fileInput.files[0] : null;
 
-            console.log("Nom:", name);
-            console.log("Prix:", price);
-            if (image) {
-                console.log("Image sélectionnée:", image.name);
-            }
-
             if(!name || !price || !image) {
                 alert("Veuillez remplir tous les champs");
                 return;
@@ -303,13 +293,9 @@ export default class Menu_manager {
             fetch(url, options)
             .then(response => response.json())
             .then(async (json) => {
-                console.log(json);
                 
                 window.location.href = './menu.html';
                 return;
-                const data = JSON.parse(json.body);
-                console.log(JSON.parse(data.articles));
-                console.log(data);
             }).catch((err) => {
                 console.error("Erreur lors de la modification d'un article :", err);
             });
@@ -325,13 +311,6 @@ export default class Menu_manager {
             const articleId = form.getAttribute('data-id');
 
             const formData = new FormData(form);
-            // const product_name = formData.get('product_name');
-            // const product_price = parseFloat(formData.get('product_price'));
-            // const product_quantity = parseInt(formData.get('product_quantity'));
-            // const product_buy_price = parseFloat(formData.get('product_buy_price'));
-            // const unit = formData.get('unit');
-            // const is_hot = document.querySelector('#is_hot').checked;
-            // const category_id = parseInt(formData.get('category_id'));
 
             this.modal.style.display = "none";
 
@@ -345,10 +324,6 @@ export default class Menu_manager {
             const options = {
                 method: 'POST',
                 body: formData
-                // headers: {
-                //     'Content-Type': 'application/x-www-form-urlencoded'
-                // },
-                // body: `product_name=${product_name}&&product_price=${product_price}&&product_quantity=${product_quantity}&&product_buy_price=${product_buy_price}&&unit=${unit}&&product_image=${product_image}&&is_hot=${is_hot}&&category_id=${category_id}`
             }
 
             fetch(url, options)

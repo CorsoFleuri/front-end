@@ -109,7 +109,7 @@ window.showCart = function () {
         itemElement.className = 'cart-item';
         itemElement.innerHTML = `<span>${item.name}</span>`;
         cartItemsContainer.appendChild(itemElement);
-        total += 1; // Assuming each item is 1 unit for simplicity
+        total += 1;
     });
 
     const cartTotalElement = document.getElementById('cart-total');
@@ -190,7 +190,6 @@ window.finalizeOrder = async function () {
     const printer = new ThermalPrinter()
     console.log(navigator.bluetooth)
     await printer.conect()
-    //await prepareTicket(printer)
 }
 async function connectPrinter(printer) {
     await printer.conect()
