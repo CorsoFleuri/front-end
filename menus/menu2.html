@@ -7,8 +7,6 @@
     <link rel="stylesheet" href="menu2.css">
 </head>
 <body>
-    <script src="menu2.js" type="module"></script>
-
     <div class="header">
         <img src="../assets/logo.png" alt="Logo">
     </div>
@@ -36,36 +34,35 @@
         <h2>Éléments ajoutés</h2>
         <ul id="selected-items-list">
         </ul>
-        <button class="validate-button" onclick="validateCart()">Ajouter au panier</button>
-    </div>
-
-    <div class="footer">
-        <img src="../assets/panier.png" alt="Panier" onclick="showCart()">
-    </div>
-
-    <div class="cart" id="cart">
-        <div class="cart-header">
-            <span>Panier</span>
-            <button class="close-cart" onclick="toggleCart()">Fermer</button>
+        <button class="validate-button" id="add-to-cart">Ajouter au panier</button>
         </div>
-        <div id="cart-items" class="cart-items">
-        </div>
-        <div class="cart-total" id="cart-total">
-        </div>
-        <button class="cart-checkout" onclick="showPaymentModal()">Payer</button>
-    </div>
 
-    <div id="payment-modal" class="modal">
-        <div class="modal-content">
-            <span class="close-modal" onclick="closePaymentModal()">&times;</span>
-            <h2>Choisissez votre mode de paiement</h2>
-            <div class="payment-buttons">
-                <button class="payment-button" onclick="choosePaymentMethod('cash')">Espèces</button>
-                <button class="payment-button" onclick="choosePaymentMethod('credit-card')">Carte Bancaire</button>
-                <button class="payment-button" onclick="closePaymentModal()">SumUp</button>
-                <button class="payment-button" onclick="closePaymentModal()">VIP</button>
+        <div class="footer">
+            <img src="../assets/panier.png" alt="Panier" id="show-cart">
+        </div>
+
+        <div class="cart" id="cart">
+            <div class="cart-header">
+                <span>Panier</span>
+                <button class="close-cart" id="close-cart">Fermer</button>
+            </div>
+            <div id="cart-items" class="cart-items"></div>
+            <div class="cart-total" id="cart-total"></div>
+            <button class="cart-checkout" id="checkout">Payer</button>
+        </div>
+
+        <div id="payment-modal" class="modal">
+            <div class="modal-content">
+                <span class="close-modal" id="close-modal">&times;</span>
+                <h2>Choisissez votre mode de paiement</h2>
+                <div class="payment-buttons">
+                    <button class="payment-button" data-method="cash">Espèces</button>
+                    <button class="payment-button" data-method="credit-card">Carte Bancaire</button>
+                    <button class="payment-button" data-method="sumup">SumUp</button>
+                    <button class="payment-button" data-method="vip">VIP</button>
+                </div>
             </div>
         </div>
-    </div>
+    <script src="menu2.js" type="module"></script>
 </body>
 </html>

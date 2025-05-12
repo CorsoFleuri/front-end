@@ -3,6 +3,10 @@ import {ThermalPrinter, Print} from "../assets/thermalPrinter/src/index.js";
 let articles = [];
 let artilesName = [];
 
+let articleSave = [];
+
+let defaultPaymentModalContent = "";
+
 window.showOptions = function (category, categoryName) {
     const optionsTitle = document.getElementById('options-title');
     const optionsList = document.getElementById('options-list');
@@ -98,29 +102,36 @@ window.validateCart = function () {
     .catch(error => console.error("Erreur:", error));
 }
 
-window.showCart = function () {
-    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+window.addCard = function () {
+    artilesName.forEach(item => {
+        articleSave.push(item);
+    });
+    artilesName = [];
+    document.getElementById('selected-items-list').innerHTML= '';
+}
+
+window.showCard = function () {
+    const cart = document.getElementById('cart');
+    cart.style.display = 'block';
     const cartItemsContainer = document.getElementById('cart-items');
     cartItemsContainer.innerHTML = '';
 
     let total = 0;
-    cart.forEach(item => {
+    articleSave.forEach(item => {
         const itemElement = document.createElement('div');
         itemElement.className = 'cart-item';
-        itemElement.innerHTML = `<span>${item.name}</span>`;
+        itemElement.innerHTML = `<span>${item}</span>`;
         cartItemsContainer.appendChild(itemElement);
         total += 1;
     });
 
     const cartTotalElement = document.getElementById('cart-total');
     cartTotalElement.innerHTML = `Total: ${total} items`;
-
-    toggleCart();
 }
 
-window.toggleCart = function () {
+window.closeCard = function () {
     const cart = document.getElementById('cart');
-    cart.style.display = cart.style.display === 'none' ? 'block' : 'none';
+    cart.style.display = 'none';
 }
 
 window.initCategory = function (){
@@ -149,25 +160,41 @@ window.initCategory = function (){
     .catch(error => console.error("Erreur:", error));
 }
 
-window.init = function (){
+window.init = function () {
     initCategory();
+    defaultPaymentModalContent = document.querySelector('.modal-content').innerHTML;
+
+    document.getElementById('add-to-cart').addEventListener('click', addCard);
+    document.getElementById('show-cart').addEventListener('click', showCard);
+    document.getElementById('close-cart').addEventListener('click', closeCard);
+    document.getElementById('checkout').addEventListener('click', showPaymentModal);
+    
+    const paymentButtons = document.querySelectorAll('.payment-button');
+    paymentButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const method = button.dataset.method;
+            choosePaymentMethod(method);
+        });
+    });
 }
 
 window.showPaymentModal = function () {
     const modal = document.getElementById('payment-modal');
     const modalContent = document.querySelector('.modal-content');
-    modalContent.innerHTML = `
-        <span class="close-modal" onclick="closePaymentModal()">&times;</span>
-        <h2>Choisissez votre mode de paiement</h2>
-        <div class="payment-buttons">
-            <button class="payment-button Especes" onclick="choosePaymentMethod('cash')">Espèces</button>
-            <button class="payment-button" onclick="choosePaymentMethod('credit-card')">Carte Bancaire</button>
-            <button class="payment-button SumUp" onclick="closePaymentModal()">SumUp</button>
-            <button class="payment-button VIP" onclick="closePaymentModal()">VIP</button>
-        </div>
-    `;
     modal.style.display = 'flex';
+    modalContent.innerHTML = defaultPaymentModalContent;
+
+    const paymentButtons = document.querySelectorAll('.payment-button');
+    paymentButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const method = button.dataset.method;
+            choosePaymentMethod(method);
+        });
+    });
+
+    document.getElementById('close-modal').addEventListener('click', closePaymentModal);
 }
+
 
 window.closePaymentModal = function () {
     const modal = document.getElementById('payment-modal');
@@ -176,17 +203,27 @@ window.closePaymentModal = function () {
 
 window.choosePaymentMethod = function (method) {
     const modalContent = document.querySelector('.modal-content');
+    const methodText = method === 'cash' ? 'Espèces' :
+                       method === 'credit-card' ? 'Carte Bancaire' :
+                       method === 'sumup' ? 'SumUp' :
+                       method === 'vip' ? 'VIP' : 'Méthode inconnue';
+
     modalContent.innerHTML = `
-        <span class="close-modal" onclick="closePaymentModal()">&times;</span>
-        <h2>Vous avez choisi de payer par ${method === 'cash' ? 'Espèces' : 'Carte Bancaire'}</h2>
+        <span class="close-modal" id="close-modal-2">&times;</span>
+        <h2 id="chosen-method-text">Vous avez choisi de payer par ${methodText}</h2>
         <div class="payment-buttons">
-            <button class="return-button" onclick="showPaymentModal()">Retour</button>
-            <button class="payment-button" onclick="finalizeOrder()">Finaliser la commande</button>
+            <button class="return-button" id="return-button">Retour</button>
+            <button class="payment-button" id="finalize-order">Finaliser la commande</button>
         </div>
     `;
+
+    document.getElementById('close-modal-2').addEventListener('click', closePaymentModal);
+    document.getElementById('return-button').addEventListener('click', showPaymentModal);
+    document.getElementById('finalize-order').addEventListener('click', finalizeOrder);
 }
 
 window.finalizeOrder = async function () {
+    validateCart();
     const printer = new ThermalPrinter()
     console.log(navigator.bluetooth)
     await printer.conect()
