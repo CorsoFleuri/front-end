@@ -6,6 +6,41 @@
     <title>Borne</title>
     <link rel="stylesheet" href="borne_panier.css">
 </head>
+<style>
+        .selected-products {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 220px;
+      background-color: #f8f8f8;
+      padding: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+      text-align: center;
+      border-radius: 10px;
+      font-size: 16px;
+    }
+    .selected-products h2 {
+      font-size: 18px;
+      margin: 0 0 10px 0;
+    }
+    .selected-products ul {
+      list-style: none;
+      padding: 0;
+      margin: 10px 0;
+      font-size: 16px;
+      max-height: 150px;
+      overflow-y: auto;
+    }
+    .validate-button {
+      font-size: 16px;
+      padding: 8px 16px;
+      border: none;
+      border-radius: 10px;
+      background-color: #009933;
+      color: #fff;
+      cursor: pointer;
+    }
+</style>
 <body>
     <script src="borne_panier.js"></script>
 
@@ -18,8 +53,27 @@
         <button id="products-button" onclick="redirectToProductsPage()">Produits</button>
     </div>
 
+    <div class="selected-products">
+        <h2>Votre commande</h2>
+        <ul id="selected-items-list">
+        </ul>
+        <button class="validate-button" id="add-to-cart">Valider</button>
+    </div>
+
     <div class="main" id="main-content">
     </div>
+
+    <div id="payment-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" id="close-modal">&times;</span>
+            <h2>Choisissez votre mode de paiement</h2>
+            <div class="payment-buttons">
+                <button class="payment-button" data-method="cash">Espèces</button>
+                <button class="payment-button" data-method="credit-card">Carte Bancaire</button>
+                <button class="payment-button" data-method="sumup">SumUp</button>
+                <button class="payment-button" data-method="vip">VIP</button>
+            </div>
+        </div>
     </div>
 </body>
 </html>

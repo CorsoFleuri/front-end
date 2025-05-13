@@ -21,7 +21,6 @@ window.showOptions = function () {
     .then(results => {
         results = JSON.parse(results.body);
         const container = document.getElementById('category-container');
-        console.log(results);
 
         const productsDiv = document.createElement('div');
         productsDiv.className = 'products';
@@ -30,7 +29,7 @@ window.showOptions = function () {
             if(product.category_id == currentCategoryIndex){
                 const btn = document.createElement('button');
                 btn.className = 'product-button';
-                btn.onclick = function() { selectItem(product.product_name); };
+                btn.onclick = function() { selectItem(product.product_name, product.id); };
 
                 const img = document.createElement('img');
                 img.src = `http://api-corso-fleuri.local/${product.product_image}`;
@@ -38,7 +37,7 @@ window.showOptions = function () {
                 btn.appendChild(img);
 
                 const span = document.createElement('span');
-                span.textContent = product.name;
+                span.textContent = product.product_name;
                 btn.appendChild(span);
 
                 productsDiv.appendChild(btn);
@@ -49,7 +48,8 @@ window.showOptions = function () {
     .catch(error => console.error("Erreur:", error));
 }
 
-function selectItem(item) {
+window.selectItem = function (item, id) {
+    articles.push(id);
     selectedItems.push(item);
     const list = document.getElementById("selected-items-list");
     const newItem = document.createElement("li");
@@ -79,7 +79,6 @@ window.validateCart = function () {
         console.log("Succès:", result);
         document.getElementById('selected-items-list').innerHTML= '';
         articles = [];
-        artilesName = [];
     })
     .catch(error => console.error("Erreur:", error));
 }
@@ -89,7 +88,7 @@ window.closeCard = function () {
     cart.style.display = 'none';
 }
 
-window.initCategory = function (){
+window.initCategory = function () {
     fetch("http://api-corso-fleuri.local/category", {
         method: "GET",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
@@ -105,7 +104,6 @@ window.initCategory = function (){
 
         if (currentCategoryIndex < categories.length) {
             let category = categories[currentCategoryIndex - 1];
-            console.log(category);
             const title = document.createElement('h2');
             title.className = 'category-title';
             title.textContent = category.name;
@@ -113,15 +111,23 @@ window.initCategory = function (){
 
             showOptions();
         } else {
-            currentCategoryIndex = 1;
-            initCategory();
-
+            localStorage.setItem("articles", JSON.stringify(articles));
+            localStorage.setItem("articlesName", JSON.stringify(selectedItems));
+            window.location.href = "/borne/borne_panier.html";
         }
     })
     .catch(error => console.error("Erreur:", error));
 }
 
 window.init = function () {
+    articles = JSON.parse(localStorage.getItem("articles")) || [];
+    selectedItems = JSON.parse(localStorage.getItem("articlesName")) || [];
+    for(let i = 0; i < selectedItems.length; i++){
+        const list = document.getElementById("selected-items-list");
+        const newItem = document.createElement("li");
+        newItem.textContent = selectedItems[i];
+        list.appendChild(newItem);
+    }
     initCategory();
     defaultPaymentModalContent = document.querySelector('.modal-content').innerHTML;
 
