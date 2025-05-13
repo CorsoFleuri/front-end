@@ -1,113 +1,12 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Menu Gourmand - Commande Express</title>
-  <link rel="stylesheet" href="menu2.css">
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #fff;
-      margin: 0;
-      padding-bottom: 240px; 
-    }
-    .header {
-      text-align: center;
-      padding: 10px;
-    }
-    .header img {
-      width: 200px;
-      height: auto;
-    }
-    .back-button-container {
-      margin: 10px;
-      text-align: left;
-    }
-    .back-button {
-      font-size: 22px;
-      padding: 12px;
-      background-color: #eee;
-      border: none;
-      border-radius: 5px;
-      text-decoration: none;
-      color: #333;
-      margin: 10px;
-      display: inline-block;
-    }
-    .category-container {
-      text-align: center;
-      margin: 20px;
-    }
-    .category-title {
-      font-size: 32px;
-      margin-top: 20px;
-    }
-    .products {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 20px;
-      padding: 20px;
-    }
-    .product-button {
-      width: 150px;
-      height: 170px;
-      border: none;
-      background-color: #fff;
-      cursor: pointer;
-      border-radius: 10px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      font-size: 24px;
-    }
-    .product-button img {
-      width: 100px;
-      height: 100px;
-      object-fit: cover;
-    }
-
-    .selected-products {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      width: 220px;
-      background-color: #f8f8f8;
-      padding: 10px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.3);
-      text-align: center;
-      border-radius: 10px;
-      font-size: 16px;
-    }
-    .selected-products h2 {
-      font-size: 18px;
-      margin: 0 0 10px 0;
-    }
-    .selected-products ul {
-      list-style: none;
-      padding: 0;
-      margin: 10px 0;
-      font-size: 16px;
-      max-height: 150px;
-      overflow-y: auto;
-    }
-    .validate-button {
-      font-size: 16px;
-      padding: 8px 16px;
-      border: none;
-      border-radius: 10px;
-      background-color: #009933;
-      color: #fff;
-      cursor: pointer;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu Gourmand</title>
+    <link rel="stylesheet" href="menu2.css">
 </head>
 <body>
-    <script src="menu2.js" type="module"></script>
-
     <div class="header">
         <img src="../assets/logo.png" alt="Logo">
     </div>
@@ -116,8 +15,11 @@
         <a href="/borne/borne_panier.html" class="back-button">Retour</a>
     </div>
 
-  <div id="category-container" class="category-container">
-  </div>
+    <div class="main">
+        <div class="choices">
+            <h2>Choisissez vos options</h2>
+            <ul id="showOptionsList"></ul>
+        </div>
 
         <div class="content">
             <div class="section" id="options-section">
@@ -132,36 +34,35 @@
         <h2>Éléments ajoutés</h2>
         <ul id="selected-items-list">
         </ul>
-        <button class="validate-button" onclick="validateCart()">Ajouter au panier</button>
-    </div>
-
-    <div class="footer">
-        <img src="../assets/panier.png" alt="Panier" onclick="showCart()">
-    </div>
-
-    <div class="cart" id="cart">
-        <div class="cart-header">
-            <span>Panier</span>
-            <button class="close-cart" onclick="toggleCart()">Fermer</button>
+        <button class="validate-button" id="add-to-cart">Ajouter au panier</button>
         </div>
-        <div id="cart-items" class="cart-items">
-        </div>
-        <div class="cart-total" id="cart-total">
-        </div>
-        <button class="cart-checkout" onclick="showPaymentModal()">Payer</button>
-    </div>
 
-    <div id="payment-modal" class="modal">
-        <div class="modal-content">
-            <span class="close-modal" onclick="closePaymentModal()">&times;</span>
-            <h2>Choisissez votre mode de paiement</h2>
-            <div class="payment-buttons">
-                <button class="payment-button" onclick="choosePaymentMethod('cash')">Espèces</button>
-                <button class="payment-button" onclick="choosePaymentMethod('credit-card')">Carte Bancaire</button>
-                <button class="payment-button" onclick="closePaymentModal()">SumUp</button>
-                <button class="payment-button" onclick="closePaymentModal()">VIP</button>
+        <div class="footer">
+            <img src="../assets/panier.png" alt="Panier" id="show-cart">
+        </div>
+
+        <div class="cart" id="cart">
+            <div class="cart-header">
+                <span>Panier</span>
+                <button class="close-cart" id="close-cart">Fermer</button>
+            </div>
+            <div id="cart-items" class="cart-items"></div>
+            <div class="cart-total" id="cart-total"></div>
+            <button class="cart-checkout" id="checkout">Payer</button>
+        </div>
+
+        <div id="payment-modal" class="modal">
+            <div class="modal-content">
+                <span class="close-modal" id="close-modal">&times;</span>
+                <h2>Choisissez votre mode de paiement</h2>
+                <div class="payment-buttons">
+                    <button class="payment-button" data-method="cash">Espèces</button>
+                    <button class="payment-button" data-method="credit-card">Carte Bancaire</button>
+                    <button class="payment-button" data-method="sumup">SumUp</button>
+                    <button class="payment-button" data-method="vip">VIP</button>
+                </div>
             </div>
         </div>
-    </div>
+    <script src="menu2.js" type="module"></script>
 </body>
 </html>
