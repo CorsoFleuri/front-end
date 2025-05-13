@@ -1,17 +1,16 @@
 import {ThermalPrinter, Print} from "../assets/thermalPrinter/src/index.js";
 
 let articles = [];
-let artilesName = [];
-
-let articleSave = [];
 
 let defaultPaymentModalContent = "";
 
-window.showOptions = function (category, categoryName) {
-    const optionsTitle = document.getElementById('options-title');
-    const optionsList = document.getElementById('options-list');
-    optionsTitle.textContent = `Choisissez un ${categoryName}`;
+let categories = [];
 
+let currentCategoryIndex = 1;
+
+let selectedItems = [];
+
+window.showOptions = function () {
     fetch("http://api-corso-fleuri.local/articles", {
         method: "GET",
         headers: {
@@ -19,63 +18,46 @@ window.showOptions = function (category, categoryName) {
         },
     })
     .then(response => response.json())
-    .then(articles => {
-        let html = "";
-        articles = JSON.parse(articles.body);
-        articles.forEach(article => {
-            if(category == article.category_id){
-                html += `
-                <button class="article" onclick="addItem('${article.product_name}', ${article.id})">
-                    <img src="http://api-corso-fleuri.local/${article.product_image}" alt="${article.product_name}" width="100">
-                    <h3>${article.product_name}</h3>
-                    <p>Prix : ${article.product_price} €</p>
-                    <p>Stock : ${article.product_quantity}</p>
-                </button>
-            `;
+    .then(results => {
+        results = JSON.parse(results.body);
+        const container = document.getElementById('category-container');
+        console.log(results);
+
+        const productsDiv = document.createElement('div');
+        productsDiv.className = 'products';
+
+        results.forEach(product => {
+            if(product.category_id == currentCategoryIndex){
+                const btn = document.createElement('button');
+                btn.className = 'product-button';
+                btn.onclick = function() { selectItem(product.product_name); };
+
+                const img = document.createElement('img');
+                img.src = `http://api-corso-fleuri.local/${product.product_image}`;
+                img.alt = product.product_name;
+                btn.appendChild(img);
+
+                const span = document.createElement('span');
+                span.textContent = product.name;
+                btn.appendChild(span);
+
+                productsDiv.appendChild(btn);
             }
         });
-        optionsList.innerHTML = html;
+        container.appendChild(productsDiv);
     })
     .catch(error => console.error("Erreur:", error));
 }
 
-window.addItem = function (itemName, itemID) {
-    articles.push(itemID);
-    artilesName.push(itemName);
-    const list = document.getElementById(itemID);
-    if (!list) {
-        const newList = document.createElement('ul');
-        newList.id = itemID;
-        document.getElementById('selected-items-list').appendChild(newList);
-    }
-    const listItem = document.createElement('li');
-    listItem.innerHTML = `${itemName} <button class="remove-button" onclick="removeItem(${itemID},'${itemName}')">Supprimer</button>`;
-    document.getElementById(itemID).appendChild(listItem);
+function selectItem(item) {
+    selectedItems.push(item);
+    const list = document.getElementById("selected-items-list");
+    const newItem = document.createElement("li");
+    newItem.textContent = item;
+    list.appendChild(newItem);
 
-    const optionsList = document.getElementById('options-list');
-    optionsList.innerHTML = '';
-    const optionsTitle = document.getElementById('options-title');
-    optionsTitle.textContent = '';
-
-}
-
-window.removeItem = function (itemID, ItemName) {
-    document.getElementById('selected-items-list').innerHTML= '';
-    articles = articles.filter(item => item !== itemID);
-    artilesName = artilesName.filter(item => item !== ItemName);
-    for(let i = 0; i < articles.length; i++){
-        const id = articles[i];
-        const name = artilesName[i];
-        const list = document.getElementById(itemID);
-        if (!list) {
-            const newList = document.createElement('ul');
-            newList.id = itemID;
-            document.getElementById('selected-items-list').appendChild(newList);
-        }
-        const listItem = document.createElement('li');
-        listItem.innerHTML = `${name} <button class="remove-button" onclick="removeItem(${id}, '${name}')">Supprimer</button>`;
-        document.getElementById(itemID).appendChild(listItem);
-    }
+    currentCategoryIndex++;
+    initCategory();
 }
 
 window.validateCart = function () {
@@ -102,33 +84,6 @@ window.validateCart = function () {
     .catch(error => console.error("Erreur:", error));
 }
 
-window.addCard = function () {
-    artilesName.forEach(item => {
-        articleSave.push(item);
-    });
-    artilesName = [];
-    document.getElementById('selected-items-list').innerHTML= '';
-}
-
-window.showCard = function () {
-    const cart = document.getElementById('cart');
-    cart.style.display = 'block';
-    const cartItemsContainer = document.getElementById('cart-items');
-    cartItemsContainer.innerHTML = '';
-
-    let total = 0;
-    articleSave.forEach(item => {
-        const itemElement = document.createElement('div');
-        itemElement.className = 'cart-item';
-        itemElement.innerHTML = `<span>${item}</span>`;
-        cartItemsContainer.appendChild(itemElement);
-        total += 1;
-    });
-
-    const cartTotalElement = document.getElementById('cart-total');
-    cartTotalElement.innerHTML = `Total: ${total} items`;
-}
-
 window.closeCard = function () {
     const cart = document.getElementById('cart');
     cart.style.display = 'none';
@@ -142,20 +97,26 @@ window.initCategory = function (){
     .then(response => response.json())
     .then(results => {
         results = JSON.parse(results.body);
-        const listElement = document.getElementById("showOptionsList");
-        if (!listElement) {
-            console.error("L'élément showOptionsList est introuvable.");
-            return;
-        }
 
-        results.forEach(result => {
-            let listItem = document.createElement("li");
-            let button = document.createElement("button");
-            button.textContent = result.name;
-            button.onclick = () => showOptions(result.id, result.name);
-            listItem.appendChild(button);
-            listElement.appendChild(listItem);
-        });
+        categories = results;
+
+        const container = document.getElementById('category-container');
+        container.innerHTML = '';
+
+        if (currentCategoryIndex < categories.length) {
+            let category = categories[currentCategoryIndex - 1];
+            console.log(category);
+            const title = document.createElement('h2');
+            title.className = 'category-title';
+            title.textContent = category.name;
+            container.appendChild(title);
+
+            showOptions();
+        } else {
+            currentCategoryIndex = 1;
+            initCategory();
+
+        }
     })
     .catch(error => console.error("Erreur:", error));
 }
@@ -164,10 +125,7 @@ window.init = function () {
     initCategory();
     defaultPaymentModalContent = document.querySelector('.modal-content').innerHTML;
 
-    document.getElementById('add-to-cart').addEventListener('click', addCard);
-    document.getElementById('show-cart').addEventListener('click', showCard);
-    document.getElementById('close-cart').addEventListener('click', closeCard);
-    document.getElementById('checkout').addEventListener('click', showPaymentModal);
+    document.getElementById('add-to-cart').addEventListener('click', showPaymentModal);
     
     const paymentButtons = document.querySelectorAll('.payment-button');
     paymentButtons.forEach(button => {
@@ -194,7 +152,6 @@ window.showPaymentModal = function () {
 
     document.getElementById('close-modal').addEventListener('click', closePaymentModal);
 }
-
 
 window.closePaymentModal = function () {
     const modal = document.getElementById('payment-modal');
@@ -228,12 +185,15 @@ window.finalizeOrder = async function () {
     console.log(navigator.bluetooth)
     await printer.conect()
 }
+
 async function connectPrinter(printer) {
     await printer.conect()
 }
+
 async function printTicket (printer, ticket) {
     await printer.printText(null, null, ticket)
 }
+
 function createTicket (line, ticket)  {
     if (line === "<<align: center>>") {
         ticket.alignCenter()

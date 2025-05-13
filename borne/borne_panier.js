@@ -22,26 +22,33 @@ function toggleCart() {
 }
 
 function showMenu() {
-    const mainContent = document.getElementById('main-content');
-    mainContent.innerHTML = `
-        <div class="menu">
-            <img src="menu1.png" alt="Menu 1">
-            <h2>Menu 1</h2>
-            <p>Description courte du Menu 1.</p>
-            <div class="price">10.00€</div>
-            <button onclick="redirectToMenuPage('../../menus/menu1.html')">Sélectionner</button>
-        </div>
-        
-        <div class="menu">
-            <img src="menu2.png" alt="Menu 2">
-            <h2>Menu 2</h2>
-            <p>Description courte du Menu 2.</p>
-            <div class="price">12.00€</div>
-            <button onclick="redirectToMenuPage('../../menus/menu2.html')">Sélectionner</button>
-        </div>
-    `;
+    fetch("http://api-corso-fleuri.local/menus", {
+        method: "GET",
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+    })
+    .then(response => response.json())
+    .then(results => {
+        results = JSON.parse(results.body);
+        console.log(results);
+        const mainContent = document.getElementById('main-content');
+        results.forEach(article => {
+            mainContent.innerHTML += `
+                <div class="menu">
+                    <img src="http://api-corso-fleuri.local/${article.menu_image}" alt="Image menu">
+                    <h2>${article.menu_name}</h2>
+                    <div class="price">${article.menu_price}€</div>
+                    <button onclick="redirectToMenuPage('../../menus/menu2.html')">Sélectionner</button>
+                </div>
+            `;
+        });
+    })
+    .catch(error => console.error("Erreur:", error));
 }
 
 function redirectToProductsPage() {
     window.location.href = 'borne_produit.html';
 }
+
+document.addEventListener('DOMContentLoaded', showMenu);

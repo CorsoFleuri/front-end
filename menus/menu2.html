@@ -6,6 +6,105 @@
     <title>Menu Gourmand</title>
     <link rel="stylesheet" href="menu2.css">
 </head>
+<style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #fff;
+      margin: 0;
+      padding-bottom: 240px; /* Espace pour la zone fixe en bas */
+    }
+    .header {
+      text-align: center;
+      padding: 10px;
+    }
+    .header img {
+      width: 200px;
+      height: auto;
+    }
+    .back-button-container {
+      margin: 10px;
+      text-align: left;
+    }
+    .back-button {
+      font-size: 22px;
+      padding: 12px;
+      background-color: #eee;
+      border: none;
+      border-radius: 5px;
+      text-decoration: none;
+      color: #333;
+      margin: 10px;
+      display: inline-block;
+    }
+    .category-container {
+      text-align: center;
+      margin: 20px;
+    }
+    .category-title {
+      font-size: 32px;
+      margin-top: 20px;
+    }
+    .products {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      padding: 20px;
+    }
+    .product-button {
+      width: 150px;
+      height: 170px;
+      border: none;
+      background-color: #fff;
+      cursor: pointer;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+    }
+    .product-button img {
+      width: 100px;
+      height: 100px;
+      object-fit: cover;
+    }
+    /* Onglet "Votre commande" en petit et positionné en bas à droite */
+    .selected-products {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 220px;
+      background-color: #f8f8f8;
+      padding: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+      text-align: center;
+      border-radius: 10px;
+      font-size: 16px;
+    }
+    .selected-products h2 {
+      font-size: 18px;
+      margin: 0 0 10px 0;
+    }
+    .selected-products ul {
+      list-style: none;
+      padding: 0;
+      margin: 10px 0;
+      font-size: 16px;
+      max-height: 150px;
+      overflow-y: auto;
+    }
+    .validate-button {
+      font-size: 16px;
+      padding: 8px 16px;
+      border: none;
+      border-radius: 10px;
+      background-color: #009933;
+      color: #fff;
+      cursor: pointer;
+    }
+  </style>
 <body>
     <div class="header">
         <img src="../assets/logo.png" alt="Logo">
@@ -15,7 +114,20 @@
         <a href="/borne/borne_panier.html" class="back-button">Retour</a>
     </div>
 
-    <div class="main">
+    <div id="category-container" class="category-container">
+    <!-- Le contenu est généré via JavaScript -->
+    </div>
+
+    <!-- Onglet "Votre commande" réduit, affiché en bas à droite -->
+    <div class="selected-products">
+        <h2>Votre commande</h2>
+        <ul id="selected-items-list">
+        <!-- Les articles sélectionnés apparaissent ici -->
+        </ul>
+        <button class="validate-button" id="add-to-cart">Valider</button>
+    </div>
+
+    <!-- <div class="main">
         <div class="choices">
             <h2>Choisissez vos options</h2>
             <ul id="showOptionsList"></ul>
@@ -49,7 +161,7 @@
             <div id="cart-items" class="cart-items"></div>
             <div class="cart-total" id="cart-total"></div>
             <button class="cart-checkout" id="checkout">Payer</button>
-        </div>
+        </div> -->
 
         <div id="payment-modal" class="modal">
             <div class="modal-content">
