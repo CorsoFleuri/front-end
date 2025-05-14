@@ -24,50 +24,50 @@ window.showOptions = function () {
     .then(response => response.json())
     .then(results => {
         menu = JSON.parse(results.body);
-    })
-    .catch(error => console.error("Erreur:", error));
 
-    fetch("http://api-corso-fleuri.local/articles", {
-        method: "GET",
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded'
-        },
-    })
-    .then(response => response.json())
-    .then(results => {
-        results = JSON.parse(results.body);
-        const container = document.getElementById('category-container');
+            fetch("http://api-corso-fleuri.local/articles", {
+                method: "GET",
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+            })
+            .then(response => response.json())
+            .then(results => {
+                results = JSON.parse(results.body);
+                const container = document.getElementById('category-container');
 
-        const productsDiv = document.createElement('div');
-        productsDiv.className = 'products';
+                const productsDiv = document.createElement('div');
+                productsDiv.className = 'products';
 
-        results.forEach(product => {
-            if(product.category_id == currentCategoryIndex){
-                let isFind = false;
-                menu.articles.forEach(article => {
-                    if(article.articles_id == product.id){
-                        isFind = true;
+                results.forEach(product => {
+                    if(product.category_id == currentCategoryIndex){
+                        let isFind = false;
+                        menu.articles.forEach(article => {
+                            if(article.articles_id == product.id){
+                                isFind = true;
+                            }
+                        });
+                        if(isFind){
+                            const btn = document.createElement('button');
+                            btn.className = 'product-button';
+                            btn.onclick = function() { selectItem(product.product_name, product.id); };
+
+                            const img = document.createElement('img');
+                            img.src = `http://api-corso-fleuri.local/${product.product_image}`;
+                            img.alt = product.product_name;
+                            btn.appendChild(img);
+
+                            const span = document.createElement('span');
+                            span.textContent = product.product_name;
+                            btn.appendChild(span);
+
+                            productsDiv.appendChild(btn);
+                        }
                     }
                 });
-                if(isFind){
-                    const btn = document.createElement('button');
-                    btn.className = 'product-button';
-                    btn.onclick = function() { selectItem(product.product_name, product.id); };
-
-                    const img = document.createElement('img');
-                    img.src = `http://api-corso-fleuri.local/${product.product_image}`;
-                    img.alt = product.product_name;
-                    btn.appendChild(img);
-
-                    const span = document.createElement('span');
-                    span.textContent = product.product_name;
-                    btn.appendChild(span);
-
-                    productsDiv.appendChild(btn);
-                }
-            }
-        });
-        container.appendChild(productsDiv);
+                container.appendChild(productsDiv);
+            })
+            .catch(error => console.error("Erreur:", error));
     })
     .catch(error => console.error("Erreur:", error));
 }
