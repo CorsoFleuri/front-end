@@ -176,7 +176,9 @@ body {
 
 .desactivation {
     background-color: #EE6F5C;
+    border: 1px solid white; /* Contour blanc de 2 pixels */
 }
+
 
 .desactivation:hover {
     background-color: #C82333;
