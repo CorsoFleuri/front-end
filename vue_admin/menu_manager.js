@@ -156,7 +156,7 @@ export default class Menu_manager {
                         <div class="li-group">
                             <label for="product_price">Quantité</label>
                             <div class="input-unit-wrapper">
-                                <input type="number" name="product_price" id="product_price" required value="12">
+                                <input type="number" name="product_price" class="article_input" required value="12">
                                 <span class="unit">p</span>
                                 <button class="btn desactivation">Supprimer</button>
                             </div>
@@ -263,10 +263,13 @@ export default class Menu_manager {
             const name = document.getElementById("product_name").value.trim();
             const price = document.getElementById("product_price").value.trim();
 
-            const fileInput = document.getElementById("fileInput");
-            const image = fileInput.files.length > 0 ? fileInput.files[0] : null;
+            const fileInput = document.getElementById("fileInput");;
+            const image = fileInput.files.length > 0 ? fileInput.files[0] 
+                : this.id ? document.querySelector("#preview").src.replace('http://api-corso-fleuri.local/', '') 
+                : null;
 
-            if(!name || !price || !image) {
+            if(!name || !price || (!image && !this.id)) {
+                console.log(name, price, image);
                 alert("Veuillez remplir tous les champs");
                 return;
             }
@@ -284,15 +287,15 @@ export default class Menu_manager {
             formData.append("menu_price", price);
             formData.append("image", image);
             formData.append("articles", JSON.stringify(this.menu.articles));
-            
-            const url = 'http://api-corso-fleuri.local/menus/add';
+
+            const url = !this.id ? 'http://api-corso-fleuri.local/menus/add' : `http://api-corso-fleuri.local/menus/edit/${this.id}`;
             const options = {
                 method: 'POST',
                 body: formData
             }
 
             fetch(url, options)
-            window.location.href = './menu.html';
+            // window.location.href = './menu.html';
         });
     }
 
@@ -317,16 +320,21 @@ export default class Menu_manager {
     }
 
     onClickInput() {
-        const input = document.getElementById('product_price');
+        const input = document.querySelectorAll('.article_input');
+        console.log(input);
+        for (let i = 0; i < input.length; i += 1) {
+            input[i].addEventListener('input',(e) => {
+                const value = e.target.value;
 
-        input.addEventListener('input', function (e) {
-            const value = e.target.value;
-
-            if (isNaN(value) && value.trim() === '') alert('Veuillez entrer un nombre valide');
-            const { id } = e.target.parentElement.parentElement.dataset;
-            const data = this.menu.articles.find(data => data.id == id);
-            console.log(id, data);
-        });
+                if (isNaN(value) || value.trim() === '') {
+                    alert('Veuillez entrer un nombre valide');
+                    return;
+                }
+                const { id } = e.target.parentElement.parentElement.parentElement.dataset;
+                const data = this.menu.articles.find(data => data.id == id);
+                data.quantity = value;
+            });
+        }
     }
 
     onClickSubmit(eventTarget = null) {
