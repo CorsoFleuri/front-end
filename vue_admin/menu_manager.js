@@ -1,5 +1,6 @@
 export default class Menu_manager {
-    constructor() {
+    constructor(id = false) {
+        this.id = id;
         this.menu = {
             articles: []
         };
@@ -8,10 +9,15 @@ export default class Menu_manager {
 
         this.mainContainer = document.querySelector('.main-container');
         this.modal = document.querySelector('.modal');
-
     }
 
     async run() {
+        if(this.id) {
+            this.menu = await this.fetch(`http://api-corso-fleuri.local/menus/${this.id}`);
+            console.log(this.menu);
+            console.log(this.id);
+            // return;
+        }
         this.mainContainer.innerHTML = await this.displayPageAdd();
 
         this.createEvents();
@@ -49,7 +55,8 @@ export default class Menu_manager {
         </div>`;
     }
 
-    displayPageAdd() {
+    async displayPageAdd() {
+        console.log(this.menu.menu_name);
         return `
         ${this.displayHeader()}
 
@@ -57,65 +64,45 @@ export default class Menu_manager {
             <div class="menu-details-container">
                 <label class="upload-box">
                     <span id="upload-text">Mettre une image ici</span>
-                    <img id="preview" style="display: none;">
-                    <input type="file" id="fileInput" accept="image/*">
+                    <img id="preview" src="${this.menu.menu_image ? `http://api-corso-fleuri.local/${this.menu.menu_image}` : ''}" style="display: ${this.menu.menu_image ? 'block' : 'none'};" >
+                    <input type="file" id="fileInput" accept="image/*" >
                 </label>
                 <input type="file" id="fileInput" accept="image/*">
                 <div class="menu-info">
                     <div class="input-group">
-                        <label for="product_name">Nom du menu</label>
-                        <input type="text" name="product_name" id="product_name" required>
+                        <label for="product_name" >Nom du menu</label>
+                        <input type="text" name="product_name" id="product_name" required value="${this.menu.menu_name || ''}">
                     </div>
                     <div class="input-group">
                         <label for="product_price">Prix du menu</label>
-                        <input type="text" name="product_price" id="product_price" required>
+                        <input type="number" name="product_price" id="product_price" required value="${this.menu.menu_price || ''}">
                     </div>
                 </div>
             </div>
-
             <h2 id="article-title">Articles dans le menu</h2>
-            <div id="menu-articles"> </div>
+            <div id="menu-articles"></div>
         </div>`;
     }
 
-    displayPageAdd2() {
-        return `
-        ${this.displayHeader()}
+    async putArticles() {
+        this.menu.articles = this.menu.articles.map(article => {
+            const data = this.datasProduct.find(data => data.id == article.articles_id);
+            if(data) {
+                return {
+                    id: data.id,
+                    image: data.product_image,
+                    name: data.product_name,
+                    category_id: data.category_id,
+                    quantity: article.quantity,
+                    unit: data.unit
+                };
+            }
+        });
 
-        <div class="content-change">
-            <div class="menu-details-container">
-                <img src="menu1.jpg" alt="Menu Gourmand" class="menu-image">
-                <div class="menu-info">
-                    <h2>Menu Gourmand</h2>
-                    <p>Prix: 25.99€</p>
-                </div>
-            </div>
-
-            <h2>Articles dans le menu</h2>
-            <div id="menu-articles">
-                <div class="category">
-                    <h3>Entrée :</h3>
-                    <ul id="category-entree">
-                        <li><img src="entree1.jpg" alt="Blabla"><span>Blabla</span><button class="btn-supprimer">Supprimer</button></li>
-                        <li><img src="entree2.jpg" alt="Blabla2"><span>Blabla2</span><button class="btn-supprimer">Supprimer</button></li>
-                    </ul>
-                </div>
-                <div class="category">
-                    <h3>Plat :</h3>
-                    <ul id="category-plat">
-                        <li><img src="plat1.jpg" alt="EEE"><span>EEE</span><button class="btn-supprimer">Supprimer</button></li>
-                        <li><img src="plat2.jpg" alt="EEE2"><span>EEE2</span><button class="btn-supprimer">Supprimer</button></li>
-                    </ul>
-                </div>
-                <div class="category">
-                    <h3>Dessert :</h3>
-                    <ul id="category-dessert">
-                        <li><img src="dessert1.jpg" alt="Tarte aux fraises"><span>Tarte aux fraises</span><button class="btn-supprimer">Supprimer</button></li>
-                        <li><img src="dessert2.jpg" alt="Mousse au chocolat"><span>Mousse au chocolat</span><button class="btn-supprimer">Supprimer</button></li>
-                    </ul>
-                </div>
-            </div>
-        </div>`;
+        const menuArticles = document.querySelector("#menu-articles");
+        menuArticles.innerHTML = await this.displayMenuArticle();
+        this.onClickDelete();
+        this.onClickInput();
     }
 
     async displayMenu(datas) {
@@ -164,7 +151,17 @@ export default class Menu_manager {
                 <h3>${this.category.find(x => x.id == data).name} :</h3>
                 <ul id="category-plat">
                 ${this.menu.articles.filter(article => article.category_id === data).map(article => {
-                    return `<li><img src="http://api-corso-fleuri.local/${article.image}" alt="${article.name}"><span>${article.name}</span><button class="btn desactivation">Supprimer</button></li>`;
+                    return `
+                    <li data-id="${article.id}"><img src="http://api-corso-fleuri.local/${article.image}" alt="${article.name}"><span>${article.name}</span>
+                        <div class="li-group">
+                            <label for="product_price">Quantité</label>
+                            <div class="input-unit-wrapper">
+                                <input type="number" name="product_price" id="product_price" required value="12">
+                                <span class="unit">p</span>
+                                <button class="btn desactivation">Supprimer</button>
+                            </div>
+                        </div>
+                    </li>`;
                 }).join('')}
                 </ul>
             </div>`
@@ -177,6 +174,9 @@ export default class Menu_manager {
         this.enregistrerArticle();
         this.datasProduct = await this.fetch('http://api-corso-fleuri.local/articles');
         this.category = await this.fetch('http://api-corso-fleuri.local/category');
+        if(this.id) this.putArticles();
+
+        this.onClickDelete();
         return;
         this.onClickOpenModal();
         this.updateEvents();
@@ -188,18 +188,18 @@ export default class Menu_manager {
         this.onClickActive(document.querySelectorAll('.is_active'), indice);
         this.onClickModification(document.querySelectorAll('.modification'), indice);
     }
-    
+
     onChangeImage() {
         document.getElementById("fileInput").addEventListener("change", function(event) {
             const file = event.target.files[0];
             if (file) {
-              const reader = new FileReader();
-              reader.onload = function(e) {
-                const img = document.getElementById("preview");
-                img.src = e.target.result;
-                img.style.display = "block";
-                document.getElementById("upload-text").style.display = "none";
-              };
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const img = document.getElementById("preview");
+                    img.src = e.target.result;
+                    img.style.display = "block";
+                    document.getElementById("upload-text").style.display = "none";
+                };
               reader.readAsDataURL(file);
             }
         });
@@ -222,12 +222,13 @@ export default class Menu_manager {
             
             const selectedValues = Array.from(select.selectedOptions).map(option => {
                 const data = this.datasProduct.find(data => data.id == option.value);
+                console.log(data);
                 return {
                     id: data.id,
                     image: data.product_image,
                     name: data.product_name,
                     category_id: data.category_id,
-                    qu: 1
+                    qu: data.product_quantity
                 };
             });
 
@@ -291,14 +292,40 @@ export default class Menu_manager {
             }
 
             fetch(url, options)
-            .then(response => response.json())
-            .then(async (json) => {
-                
-                window.location.href = './menu.html';
-                return;
-            }).catch((err) => {
-                console.error("Erreur lors de la modification d'un article :", err);
+            window.location.href = './menu.html';
+        });
+    }
+
+    onClickDelete() {
+        const elsDelete = document.querySelectorAll('.desactivation');
+        for (let i = 0; i < elsDelete.length; i += 1) {
+            elsDelete[i].addEventListener('click', (e) => {
+                e.preventDefault();
+                const target = e.target.parentElement;
+                const { id } = target.dataset;
+
+                this.menu.articles = this.menu.articles.filter(article => article.id != id);
+
+                const Lis = target.parentElement.querySelectorAll('li').length;
+                if(Lis === 1) {
+                    target.parentElement.parentElement.remove();
+                } else {
+                    target.remove();
+                }
             });
+        }
+    }
+
+    onClickInput() {
+        const input = document.getElementById('product_price');
+
+        input.addEventListener('input', function (e) {
+            const value = e.target.value;
+
+            if (isNaN(value) && value.trim() === '') alert('Veuillez entrer un nombre valide');
+            const { id } = e.target.parentElement.parentElement.dataset;
+            const data = this.menu.articles.find(data => data.id == id);
+            console.log(id, data);
         });
     }
 
