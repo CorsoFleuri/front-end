@@ -2,6 +2,8 @@ import {ThermalPrinter, Print} from "../assets/thermalPrinter/src/index.js";
 
 let articles = [];
 
+let menuID;
+
 let defaultPaymentModalContent = "";
 
 let categories = [];
@@ -11,6 +13,20 @@ let currentCategoryIndex = 1;
 let selectedItems = [];
 
 window.showOptions = function () {
+    let menu;
+
+    fetch(`http://api-corso-fleuri.local/menus/${menuID}`, {
+        method: "GET",
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+    })
+    .then(response => response.json())
+    .then(results => {
+        menu = JSON.parse(results.body);
+    })
+    .catch(error => console.error("Erreur:", error));
+
     fetch("http://api-corso-fleuri.local/articles", {
         method: "GET",
         headers: {
@@ -27,20 +43,28 @@ window.showOptions = function () {
 
         results.forEach(product => {
             if(product.category_id == currentCategoryIndex){
-                const btn = document.createElement('button');
-                btn.className = 'product-button';
-                btn.onclick = function() { selectItem(product.product_name, product.id); };
+                let isFind = false;
+                menu.articles.forEach(article => {
+                    if(article.articles_id == product.id){
+                        isFind = true;
+                    }
+                });
+                if(isFind){
+                    const btn = document.createElement('button');
+                    btn.className = 'product-button';
+                    btn.onclick = function() { selectItem(product.product_name, product.id); };
 
-                const img = document.createElement('img');
-                img.src = `http://api-corso-fleuri.local/${product.product_image}`;
-                img.alt = product.product_name;
-                btn.appendChild(img);
+                    const img = document.createElement('img');
+                    img.src = `http://api-corso-fleuri.local/${product.product_image}`;
+                    img.alt = product.product_name;
+                    btn.appendChild(img);
 
-                const span = document.createElement('span');
-                span.textContent = product.product_name;
-                btn.appendChild(span);
+                    const span = document.createElement('span');
+                    span.textContent = product.product_name;
+                    btn.appendChild(span);
 
-                productsDiv.appendChild(btn);
+                    productsDiv.appendChild(btn);
+                }
             }
         });
         container.appendChild(productsDiv);
@@ -120,6 +144,7 @@ window.initCategory = function () {
 }
 
 window.init = function () {
+    menuID = JSON.parse(localStorage.getItem("menuID")) || 0;
     articles = JSON.parse(localStorage.getItem("articles")) || [];
     selectedItems = JSON.parse(localStorage.getItem("articlesName")) || [];
     for(let i = 0; i < selectedItems.length; i++){

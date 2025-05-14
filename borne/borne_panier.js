@@ -23,6 +23,12 @@ function toggleCart() {
     cart.style.display = cart.style.display === 'none' ? 'flex' : 'none';
 }
 
+function switchMenu(id) {
+    console.log(id);
+    localStorage.setItem("menuID", JSON.stringify(id));
+    window.location.href = "../../menus/menu2.html";
+}
+
 function showMenu() {
     fetch("http://api-corso-fleuri.local/menus", {
         method: "GET",
@@ -40,7 +46,7 @@ function showMenu() {
                     <img src="http://api-corso-fleuri.local/${article.menu_image}" alt="Image menu">
                     <h2>${article.menu_name}</h2>
                     <div class="price">${article.menu_price}€</div>
-                    <button onclick="redirectToMenuPage('../../menus/menu2.html')">Sélectionner</button>
+                    <button onclick="switchMenu(${article.id})">Sélectionner</button>
                 </div>
             `;
         });
