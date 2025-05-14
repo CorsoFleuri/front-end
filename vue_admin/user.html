@@ -35,7 +35,6 @@
                 <table class="table">
                     <tr>
                         <th>Nom</th>
-                        <th>Password</th>
                         <th>Actions</th>
                     </tr>
                 </table>
@@ -43,21 +42,27 @@
         </div>
     </div>
 
-    <div id="modal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2>Ajouter un Utilisateur</h2>
-            <form id="user-form">
-                <label for="name">Nom:</label>
-                <input type="text" id="name" name="name" required><br><br>
-                <label for="password">Mot de passe:</label>
-                <input type="password" id="password" name="password" required><br><br>
-                <label for="is_admin">Administrateur:</label>
-                <input type="checkbox" id="is_admin" name="is_admin"><br><br>
-                <button type="button" class="btn btn-primary" id="validBtn">Valider</button>
-            </form>
-        </div>
+<div id="modal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Ajouter un Utilisateur</h2>
+        <form id="user-form">
+            <label for="name">Nom:</label>
+            <input type="text" id="name" name="name" required>
+            
+            <label for="password">Mot de passe:</label>
+            <input type="password" id="password" name="password" required>
+            
+            <div class="admin-field">
+              <label for="is_admin">Administrateur:</label>
+              <input type="checkbox" id="is_admin" name="is_admin">
+            </div>
+            
+            <button type="button" class="btn btn-primary" id="validBtn">Valider</button>
+        </form>
     </div>
+</div>
+
 
     <div id="confirm-modal" class="modal">
         <div class="modal-content">

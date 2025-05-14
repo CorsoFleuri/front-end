@@ -12,6 +12,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let categories = [];
     let categoryIdToDelete = null;
+    
+    let isEditing = false;
+    let editCategoryIndex = null;
+    let categoryIdToModify = null;
 
     async function fetchCategories() {
         try {
@@ -24,6 +28,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     btnAjouter.onclick = function() {
+        isEditing = false;
+        categoryForm.reset();
         modal.style.display = 'block';
     }
 
@@ -32,8 +38,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     window.onclick = function(event) {
-        if (event.target == modal) {
+        if (event.target === modal) {
             modal.style.display = 'none';
+        }
+        if (event.target === confirmModal) {
+            confirmModal.style.display = 'none';
         }
     }
 
@@ -42,20 +51,42 @@ document.addEventListener('DOMContentLoaded', () => {
         const color = categoryForm.color.value.trim().replace("#", '');
 
         if (name !== '' && color !== '') {
-            try {
-                const response = await fetch(`http://api-corso-fleuri.local/category/add/${name}/${color}`, {
-                    method: 'GET'
-                });
-                if (response.ok) {
-                    categories.push({ name, color: `#${color}` });
-                    updateCategoryTable();
-                    categoryForm.reset();
-                    modal.style.display = 'none';
-                } else {
-                    console.error('Failed to add category:', response.statusText);
+            if (isEditing) {
+                try {
+                    const response = await fetch(`http://api-corso-fleuri.local/category/edit/${categoryIdToModify}/${name}/${color}`, {
+                        method: 'GET'
+                    });
+                    if (response.ok) {
+                        categories[editCategoryIndex].name = name;
+                        categories[editCategoryIndex].color = `#${color}`;
+                        updateCategoryTable();
+                        categoryForm.reset();
+                        modal.style.display = 'none';
+                        isEditing = false;
+                        editCategoryIndex = null;
+                        categoryIdToModify = null;
+                    } else {
+                        console.error('Failed to update category:', response.statusText);
+                    }
+                } catch (error) {
+                    console.error('Error updating category:', error);
                 }
-            } catch (error) {
-                console.error('Error adding category:', error);
+            } else {
+                try {
+                    const response = await fetch(`http://api-corso-fleuri.local/category/add/${name}/${color}`, {
+                        method: 'GET'
+                    });
+                    if (response.ok) {
+                        categories.push({ name, color: `#${color}` });
+                        updateCategoryTable();
+                        categoryForm.reset();
+                        modal.style.display = 'none';
+                    } else {
+                        console.error('Failed to add category:', response.statusText);
+                    }
+                } catch (error) {
+                    console.error('Error adding category:', error);
+                }
             }
         } else {
             console.error('Category name or color is empty');
@@ -66,14 +97,27 @@ document.addEventListener('DOMContentLoaded', () => {
         const rows = categories.map((category, index) => `
             <tr>
                 <td>${category.name}</td>
-                <td><div class="color-square" style="background-color: ${category.color};"></div>${category.color}</td>
                 <td>
+                    <div class="color-square" style="background-color: ${category.color};"></div>
+                    ${category.color}
+                </td>
+                <td>
+                    <button class="btn btn-warning" onclick="modifierCategory(${index}, ${category.id})">Modifier</button>
                     <button class="btn btn-danger" onclick="showDeleteConfirm(${index}, ${category.id})">Supprimer</button>
                 </td>
             </tr>
         `).join('');
         
         table.innerHTML = rows;
+    }
+
+    window.modifierCategory = function(index, id) {
+        isEditing = true;
+        editCategoryIndex = index;
+        categoryIdToModify = id;
+        modal.style.display = 'block';
+        categoryForm.name.value = categories[index].name;
+        categoryForm.color.value = categories[index].color;
     }
 
     window.showDeleteConfirm = function(index, id) {
@@ -99,11 +143,7 @@ document.addEventListener('DOMContentLoaded', () => {
         confirmModal.style.display = 'none';
     }
 
-    window.onclick = function(event) {
-        if (event.target == confirmModal) {
-            confirmModal.style.display = 'none';
-        }
-    }
+    
 
     fetchCategories();
 });

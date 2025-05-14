@@ -1,16 +1,17 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Menu Gourmand - Commande Express</title>
-  <link rel="stylesheet" href="menu2.css">
-  <style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu Gourmand</title>
+    <link rel="stylesheet" href="menu2.css">
+</head>
+<style>
     body {
       font-family: Arial, sans-serif;
       background-color: #fff;
       margin: 0;
-      padding-bottom: 240px; 
+      padding-bottom: 240px; /* Espace pour la zone fixe en bas */
     }
     .header {
       text-align: center;
@@ -69,7 +70,7 @@
       height: 100px;
       object-fit: cover;
     }
-
+    /* Onglet "Votre commande" en petit et positionné en bas à droite */
     .selected-products {
       position: fixed;
       bottom: 20px;
@@ -104,109 +105,36 @@
       cursor: pointer;
     }
   </style>
-</head>
 <body>
-  <div class="header">
-    <img src="../assets/logo.png" alt="Logo">
-  </div>
-  <div class="back-button-container">
-    <a href="/borne/borne_panier.html" class="back-button">Retour</a>
-  </div>
+    <div class="header">
+        <img src="../assets/logo.png" alt="Logo">
+    </div>
 
-  <div id="category-container" class="category-container">
-  </div>
+    <div class="back-button-container">
+        <a href="/borne/borne_panier.html" class="back-button">Retour</a>
+    </div>
 
-  <div class="selected-products">
-    <h2>Votre commande</h2>
-    <ul id="selected-items-list">
-    </ul>
-    <button class="validate-button" onclick="validateCart()">Valider</button>
-  </div>
+    <div id="category-container" class="category-container"></div>
 
-  <script>
-    const categories = [
-      {
-        name: 'Plats',
-        products: [
-          { name: 'Pâtes', image: '../assets/pate.png' },
-          { name: 'Frites', image: '../assets/frite.png' }
-        ]
-      },
-      {
-        name: 'Desserts',
-        products: [
-          { name: 'Glace', image: '../assets/glace.png' },
-          { name: 'Fraise', image: '../assets/fraise.png' }
-        ]
-      },
-      {
-        name: 'Boissons',
-        products: [
-          { name: 'Eau', image: '../assets/eau.png' },
-          { name: 'Jus', image: '../assets/jus.png' }
-        ]
-      }
-    ];
+    <div class="selected-products">
+        <h2>Votre commande</h2>
+        <ul id="selected-items-list">
+        </ul>
+        <button class="validate-button" id="add-to-cart">Valider</button>
+    </div>
 
-    let currentCategoryIndex = 0;
-    const selectedItems = [];
-
-    function loadCategory() {
-      const container = document.getElementById('category-container');
-      container.innerHTML = '';
-
-      if (currentCategoryIndex < categories.length) {
-        const category = categories[currentCategoryIndex];
-
-        const title = document.createElement('h2');
-        title.className = 'category-title';
-        title.textContent = category.name;
-        container.appendChild(title);
-
-        const productsDiv = document.createElement('div');
-        productsDiv.className = 'products';
-
-        category.products.forEach(product => {
-          const btn = document.createElement('button');
-          btn.className = 'product-button';
-          btn.onclick = function() { selectItem(product.name); };
-
-          const img = document.createElement('img');
-          img.src = product.image;
-          img.alt = product.name;
-          btn.appendChild(img);
-
-          const span = document.createElement('span');
-          span.textContent = product.name;
-          btn.appendChild(span);
-
-          productsDiv.appendChild(btn);
-        });
-        container.appendChild(productsDiv);
-      } else {
-        const message = document.createElement('h2');
-        message.className = 'category-title';
-        message.textContent = "Merci pour votre commande !";
-        container.appendChild(message);
-      }
-    }
-
-    function selectItem(item) {
-      selectedItems.push(item);
-      const list = document.getElementById("selected-items-list");
-      const newItem = document.createElement("li");
-      newItem.textContent = item;
-      list.appendChild(newItem);
-
-      currentCategoryIndex++;
-      loadCategory();
-    }
-
-    function validateCart() {
-      alert("Commande validée : " + selectedItems.join(", "));
-    }
-
-    loadCategory();
-  </script>
+    <div id="payment-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" id="close-modal">&times;</span>
+            <h2>Choisissez votre mode de paiement</h2>
+            <div class="payment-buttons">
+                <button class="payment-button" data-method="cash">Espèces</button>
+                <button class="payment-button" data-method="credit-card">Carte Bancaire</button>
+                <button class="payment-button" data-method="sumup">SumUp</button>
+                <button class="payment-button" data-method="vip">VIP</button>
+            </div>
+        </div>
+    </div>
+    <script src="menu2.js" type="module"></script>
 </body>
 </html>
