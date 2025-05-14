@@ -32,9 +32,7 @@ function switchMenu(id) {
 function showMenu() {
     fetch("http://api-corso-fleuri.local/menus", {
         method: "GET",
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded'
-        },
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
     })
     .then(response => response.json())
     .then(results => {
@@ -71,21 +69,22 @@ window.showPaymentModal = function () {
             choosePaymentMethod(method);
         });
     });
-
+    
     document.getElementById('close-modal').addEventListener('click', closePaymentModal);
-}
+};
 
 window.closePaymentModal = function () {
     const modal = document.getElementById('payment-modal');
     modal.style.display = 'none';
-}
+};
 
 window.choosePaymentMethod = function (method) {
     const modalContent = document.querySelector('.modal-content');
-    const methodText = method === 'cash' ? 'Espèces' :
-                       method === 'credit-card' ? 'Carte Bancaire' :
-                       method === 'sumup' ? 'SumUp' :
-                       method === 'vip' ? 'VIP' : 'Méthode inconnue';
+    const methodText =
+          method === 'cash' ? 'Espèces' :
+          method === 'credit-card' ? 'Carte Bancaire' :
+          method === 'sumup' ? 'SumUp' :
+          method === 'vip' ? 'VIP' : 'Méthode inconnue';
 
     modalContent.innerHTML = `
         <span class="close-modal" id="close-modal-2">&times;</span>
@@ -99,23 +98,28 @@ window.choosePaymentMethod = function (method) {
     document.getElementById('close-modal-2').addEventListener('click', closePaymentModal);
     document.getElementById('return-button').addEventListener('click', showPaymentModal);
     document.getElementById('finalize-order').addEventListener('click', finalizeOrder);
+};
+
+function finalizeOrder() {
+    console.log("Commande finalisée");
 }
 
-
-function init(){
+function init() {
     showMenu();
+
     let selectedItems = JSON.parse(localStorage.getItem("articlesName")) || [];
-    for(let i = 0; i < selectedItems.length; i++){
+    for (let i = 0; i < selectedItems.length; i++) {
         const list = document.getElementById("selected-items-list");
         const newItem = document.createElement("li");
         newItem.textContent = selectedItems[i];
         list.appendChild(newItem);
     }
 
-    defaultPaymentModalContent = document.querySelector('.modal-content').innerHTML;
+    const modalContentElement = document.querySelector('.modal-content');
+    defaultPaymentModalContent = modalContentElement ? modalContentElement.innerHTML : "";
 
     document.getElementById('add-to-cart').addEventListener('click', showPaymentModal);
-    
+
     const paymentButtons = document.querySelectorAll('.payment-button');
     paymentButtons.forEach(button => {
         button.addEventListener('click', () => {
