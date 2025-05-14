@@ -68,14 +68,8 @@ class Menu {
         });
     }
 
-    onClickModify() {
-        this.btnModifier.addEventListener("click", () => {
-            this.menuManager();
-        });
-    }
-
-    menuManager() {
-        new MenuManager().run();
+    menuManager(id= false) {
+        new MenuManager(id).run();
         return;
     }
 
@@ -210,10 +204,7 @@ class Menu {
                 const targetParent = e.target.parentElement.parentElement;
                 const { id } = targetParent.dataset;
 
-                this.displayModal('Modifier', this.datas.find(data => data.id == id));
-                this.modal.style.display = 'flex';
-                this.onClickCloseModal();
-                this.onClickSubmit(targetParent);
+                this.menuManager(id);
             });
         }
     }

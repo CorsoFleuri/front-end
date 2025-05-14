@@ -277,6 +277,44 @@ body {
     padding: 0 5px;
 }
 
+.li-group {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.li-group input {
+    width: 30%;
+    padding: 10px 8px;
+    font-size: 15px;
+    border: 1px solid #000000;
+    border-radius: 10px;
+    outline: none;
+}
+
+.li-group label {
+    position: absolute;
+    left: 12px;
+    transform: translateY(-50%);
+    color: #000000;
+    font-size: 15px;
+    pointer-events: none;
+    background: white;
+    padding: 0 5px;
+}
+
+.input-unit-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.unit {
+  font-size: 15px;
+  color: #444;
+}
+
 .modal-content .btn {
     padding: 12px;
     margin-top: 10px;
