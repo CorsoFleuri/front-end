@@ -170,7 +170,7 @@ class PasswordToggle {
             .then(data => {
                 console.log('Success:', data);
                 modal.style.display = "none";
-                PasswordToggle.fetchUserData();
+                // PasswordToggle.fetchUserData();
             })
             .catch(error => console.error('Error:', error));
         });
