@@ -1,3 +1,7 @@
+import BluetoothPrinter from "./BluetoothPrinter";
+
+let bluetooth = new BluetoothPrinter();
+
 let articles = [];
 
 let menuID;
@@ -97,10 +101,14 @@ window.validateCart = function () {
         body: params.toString()
     })
     .then(response => response.json())
-    .then(result => {
-        console.log("Succès:", result);
+    .then(results => {
+        results = JSON.parse(results.body);
+        
+        bluetooth.printOrderTicket();
+
         document.getElementById('selected-items-list').innerHTML= '';
         articles = [];
+        
     })
     .catch(error => console.error("Erreur:", error));
 }
