@@ -18,9 +18,13 @@ class PasswordToggle {
     }
 
     static fetchUserData() {
-        fetch('http://api-corso-fleuri.local/users')
+            fetch("http://api-corso-fleuri.local/users", {
+                method: "GET",
+                headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            })
             .then(response => response.json())
-            .then(data => {
+            .then(results => {
+                results = JSON.parse(results.body);
                 const table = document.querySelector('.table');
                 // Reconstruire l'en-tête du tableau sans la colonne "Password"
                 table.innerHTML = `
@@ -29,7 +33,7 @@ class PasswordToggle {
                         <th>Actions</th>
                     </tr>
                 `;
-                JSON.parse(data.body).forEach(user => {
+                results.forEach(user => {
                     const row = document.createElement('tr');
                     row.innerHTML = `
                         <td>${user.name}</td>
