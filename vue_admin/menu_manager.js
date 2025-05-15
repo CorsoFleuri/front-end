@@ -156,7 +156,7 @@ export default class Menu_manager {
                         <div class="li-group">
                             <label for="product_price">Quantité</label>
                             <div class="input-unit-wrapper">
-                                <input type="number" name="product_price" class="article_input" required value="12">
+                                <input type="number" name="product_price" class="article_input" required value="${article.quantity || ''}">
                                 <span class="unit">p</span>
                                 <button class="btn desactivation">Supprimer</button>
                             </div>
@@ -284,6 +284,7 @@ export default class Menu_manager {
 
             const formData = new FormData();
             formData.append("menu_name", name);
+            if(this.id) formData.append("menu_id", this.id);
             formData.append("menu_price", price);
             formData.append("image", image);
             formData.append("articles", JSON.stringify(this.menu.articles));
