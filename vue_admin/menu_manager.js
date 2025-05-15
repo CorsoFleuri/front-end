@@ -295,8 +295,8 @@ export default class Menu_manager {
                 body: formData
             }
 
-            fetch(url, options)
-            // window.location.href = './menu.html';
+            fetch(url, options);
+            window.location.href = './menu.html';
         });
     }
 
