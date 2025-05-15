@@ -1,5 +1,3 @@
-import {ThermalPrinter, Print} from "../assets/thermalPrinter/src/index.js";
-
 let articles = [];
 
 let menuID;
@@ -212,52 +210,6 @@ window.choosePaymentMethod = function (method) {
 
 window.finalizeOrder = async function () {
     validateCart();
-    const printer = new ThermalPrinter()
-    console.log(navigator.bluetooth)
-    await printer.conect()
-}
-
-async function connectPrinter(printer) {
-    await printer.conect()
-}
-
-async function printTicket (printer, ticket) {
-    await printer.printText(null, null, ticket)
-}
-
-function createTicket (line, ticket)  {
-    if (line === "<<align: center>>") {
-        ticket.alignCenter()
-    } else if (line === "<<align: left>>") {
-        ticket.alignLeft()
-    } else if (line === "<<line>>")  {
-        const l = "-".repeat(32) + "\n";
-        ticket.addText(l)
-    } else {
-        ticket.addText(line + "\n")
-    }
-}
-
-async function prepareTicket(printer) {
-    fetch('http://api-corso-fleuri.local/app/ticket', {
-        method: 'GET'
-    })
-        .then(reponse => reponse.json())
-        .then(data => {
-            const ticket = new Print()
-            const body = data.body.split("\n")
-            body.forEach(function (line) {
-                createTicket(line, ticket)
-            })
-            ticket.newLine()
-            ticket.newLine()
-            ticket.newLine()
-            ticket.newLine()
-            ticket.fullCut()
-
-            printTicket(printer, ticket)
-        })
-        .catch(error => console.error(error))
 }
 
 document.addEventListener('DOMContentLoaded', init);
