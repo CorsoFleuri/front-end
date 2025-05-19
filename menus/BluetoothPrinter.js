@@ -1,9 +1,11 @@
 class BluetoothPrinter {
-  constructor() {
+  constructor(order) {
     this.device = null;
     this.server = null;
     this.service = null;
     this.characteristic = null;
+
+    this.printOrderTicket(order);
   }
 
   
@@ -116,7 +118,7 @@ class BluetoothPrinter {
       console.log('Total de la commande ajouté : ', order.total_price);
       console.log('Ticket à imprimer : \n', orderText);
 
-      await this.bluetoothPrinter.printText(orderText);
+      await this.printText(orderText);
       console.log(`Ticket pour la commande ${order.id} imprimé avec succès.`);
     } catch (error) {
       console.error('Erreur lors de l\'impression de la commande :', error);
