@@ -2,7 +2,9 @@ import bluetooth from './BluetoothPrinter.js';
 
 class Borne {
     constructor() {
-        this.dateCreated = new Date();
+        this.dateCreated = null;
+        this.userId = null; //! à faire attente leo
+        this.commandId = null;
         this.category = [];
         this.datasProduct = [];
 
@@ -195,6 +197,7 @@ class Borne {
         const menuButtons = document.querySelectorAll('.menu button');
         menuButtons.forEach(button => {
             button.addEventListener('click', async (e) => {
+                if(!this.dateCreated) this.dateCreated = new Date();
                 console.log("e.tagrer, ligne 150");
                 console.log(e.target);
                 
@@ -262,7 +265,8 @@ class Borne {
         });
     }
 
-    addProductEvents() {
+    addPr
+    oductEvents() {
         const productButtons = document.querySelectorAll('.product-button');
         productButtons.forEach(button => {
             button.addEventListener('click', async (e) => {
@@ -305,9 +309,13 @@ class Borne {
 
             const formData = new FormData();
 
-            formData.append('pannier', this.pannier);
-            
+            // Supposons que this.pannier soit un tableau que vous souhaitez envoyer
+            this.pannier.forEach((item, index) => {
+                formData.append(`pannier[${index}]`, JSON.stringify(item));
+            });
+
             console.log(formData);
+
             fetch("http://api-corso-fleuri.local/addCommand", {
                 method: "POST",
                 body: formData
@@ -315,7 +323,9 @@ class Borne {
             .then(response => response.json())
             .then(results => {
                 results = JSON.parse(results.body);
+                console.log("ici");
                 console.log(results);
+                console.log("ici");
                 // new bluetooth(results);
 
                 // document.getElementById('selected-items-list').innerHTML= '';
