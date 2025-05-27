@@ -265,8 +265,7 @@ class Borne {
         });
     }
 
-    addPr
-    oductEvents() {
+    addProductEvents() {
         const productButtons = document.querySelectorAll('.product-button');
         productButtons.forEach(button => {
             button.addEventListener('click', async (e) => {
